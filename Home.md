@@ -93,7 +93,7 @@ end
 
 1. waffle:provision - specify number of machines / and OS, along with the mechanism eg azure / docker / vmpooler
 2. waffle:install_agent 
-3. install_module 
+3. waffle:install_module 
 4. acceptance:all
 
 ### To clean up **all** machines
