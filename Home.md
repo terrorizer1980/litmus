@@ -5,6 +5,8 @@ This will help you through using solid-waffle
 ## How-to
 ### Example of using solid-waffle in a module
 
+To use solid waffle in a module you first need to update the following files:
+
 .fixtures.yml
 
 ```
@@ -99,26 +101,48 @@ end
 
 ### Provisioning
 
-Provisioning is accomplished using https://github.com/puppetlabs/waffle_provision. We can spin up a VM or use docker containers, or run against the testing machine. Example command 
+Provisioning is accomplished using https://github.com/puppetlabs/waffle_provision. We can spin up a VM with vmpooler, use docker containers, or run against the testing machine. Example commands:
 
 ```
-bundle bla 
+bundle exec rake 'waffle:provision[vmpooler, redhat-6-x86_64]'
+bundle exec rake 'waffle:provision[docker, ubuntu:18.04]'
 ```
 
 The command creates an inventory.yml file that is used by solid waffle. You can manually add entries have a look here for examples https://puppet.com/docs/bolt/1.x/inventory_file.html
 
 ```
-inventory file here
+---
+groups:
+- name: ssh_nodes
+  nodes:
+  - name: c985f9svvvu95nv.delivery.puppetlabs.net
+    config:
+      transport: ssh
+      ssh:
+        host-key-check: false
+        user: root
+    facts:
+      provisioner: vmpooler
+  - name: e0qmdc9v5opg1tq.delivery.puppetlabs.net
+    config:
+      transport: ssh
+      ssh:
+        host-key-check: false
+        user: root
+    facts:
+      provisioner: vmpooler
+- name: winrm_nodes
+  nodes: []
 ```
 
 If testing against localhost, you can jump to running tests.
 
 ### install agent
 
-Uses https://github.com/puppetlabs/puppetlabs-puppet_agent. Using these tasks we can install different versions of the agent on many oses. Specifically puppet 5 and 6  and ..... You can specify a single target or run against all machines in the inventory file.
+Uses https://github.com/puppetlabs/puppetlabs-puppet_agent. Using these tasks we can install different versions of the agent on many OSes. Specifically puppet 5 and 6  and ..... You can specify a single target or run against all machines in the inventory file.
  
 ```
-bundle bla 
+bundle exec rake "waffle:install_agent"
 ```
 
 ### install module
@@ -126,9 +150,10 @@ bundle bla
 Uses the pdk to build the module and transfer it to the target systems. You can specify a single target or run against all machines in the inventory file.
  
 ```
-bundle bla 
+bundle exec rake "waffle:install_module"
 ```
-### run tests
+
+### Running Tests
 
 primarily using serverspec though we can using other testing tools.
 run all tests against a single machine
