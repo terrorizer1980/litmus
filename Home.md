@@ -1,11 +1,12 @@
 # Welcome to the solid-waffle wiki!
 
-This will help you through using solid-waffle
+Solid Waffle is a tool that will help with acceptance testing by enabling you to set up an environment on which to test on. This tool helps set up the environment by enabling you to provision, install the Puppet agent, install a module and test on a machine with minimal effort.
+Each of these steps are currently broken down into a series of rake tasks. In this Wiki we will touch upon how to get an existing module up and running with solid waffle, alongside describing the workflow and how to clean up after a successful test run.
 
 ## How-to
 ### Example of using solid-waffle in a module
 
-To use solid waffle in a module you first need to update the following files:
+To use solid waffle in a module you first need to update the following files to include the specified code:
 
 .fixtures.yml
 
@@ -162,11 +163,25 @@ run all tests against a single machine
 run all tests in parallel
 run a single test from a file
 
+Solid Waffle allows you to specify a target to run tests against, like so:
+
+```
+TARGET_HOST=lk8g530gzpjxogh.delivery.puppetlabs.net bundle exec rspec ./spec/acceptance
+TARGET_HOST=localhost:2223 bundle exec rspec ./spec/acceptance
+```
+
 This command runs all tests in parallel against all provisioned machines present inside inventory.yaml.
  
 ```
 bundle exec rake acceptance:all -j10 -m 
 ```
+
+You can even use Solid Waffle to run tests against your local machine by using the following command. Please note that this is only recommended if you are familiar with the code base as tests may have unexpected side effects.
+
+```
+TARGET_HOST=localhost bundle exec rspec ./spec/acceptance
+```
+
 
 ### Tearing Down Provisioned Systems
 
