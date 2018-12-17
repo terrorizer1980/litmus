@@ -137,7 +137,7 @@ groups:
 
 If testing against localhost, you can jump to running tests.
 
-### install agent
+### Installing the Agent
 
 Uses https://github.com/puppetlabs/puppetlabs-puppet_agent. Using these tasks we can install different versions of the agent on many OSes. Specifically puppet 5 and 6  and ..... You can specify a single target or run against all machines in the inventory file.
  
@@ -145,7 +145,7 @@ Uses https://github.com/puppetlabs/puppetlabs-puppet_agent. Using these tasks we
 bundle exec rake "waffle:install_agent"
 ```
 
-### install module
+### Installing the Module
 
 Uses the pdk to build the module and transfer it to the target systems. You can specify a single target or run against all machines in the inventory file.
  
@@ -154,22 +154,28 @@ bundle exec rake "waffle:install_module"
 ```
 
 ### Running Tests
+There are several options when it comes to running your tests at this point.
+
 
 primarily using serverspec though we can using other testing tools.
 run all tests against a single machine
 run all tests in parallel
 run a single test from a file
+
+This command runs all tests in parallel against all provisioned machines present inside inventory.yaml.
  
 ```
-bundle bla 
+bundle exec rake acceptance:all -j10 -m 
 ```
 
-### tear down
+### Tearing Down Provisioned Systems
 
-used to clean up any provisioned systems. 
+This command is used to clean up any provisioned systems, either an individual target that has been specified or if none are specified it will tear down and clean up all machines present in inventory.yaml.
  
 ```
-bundle bla 
+bundle exec rake "waffle:tear_down"
+bundle exec rake "waffle:tear_down[c985f9svvvu95nv.delivery.puppetlabs.net]"
+bundle exec rake "waffle:tear_down[localhost:2222]"
 ```
 
 ## How to add solid waffle to a module
