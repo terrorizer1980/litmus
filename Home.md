@@ -3,8 +3,6 @@
 Solid Waffle is a tool that will help with acceptance testing by enabling you to set up an environment on which to test on. This tool helps set up the environment by enabling you to provision, install the Puppet agent, install a module and test on a machine with minimal effort.
 Each of these steps are currently broken down into a series of rake tasks. In this Wiki we will touch upon how to get an existing module up and running with solid waffle, alongside describing the workflow and how to clean up after a successful test run.
 
-## How-to
-
 ## Using solid-waffle for the first time for testing
 ### Steps (Each step is optional, Solid waffle allows you to run acceptance tests against a machine.)
 
