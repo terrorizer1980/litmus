@@ -2,10 +2,13 @@
 
 Solid Waffle is a tool that helps you acceptance test your puppet content. Allowing you to test your module against a variety of OSes, and scenarios. This tool helps provision containers/images, install the Puppet agent, install a module and run tests with minimal effort.
 These steps are are a reflected in a series of rake tasks. This Wiki explains different workflows for different users and uses cases. 
-* Use solid-waffle with MoTD ( test drive )
-* Using solid waffle for the first time ( basic workflow  & concepts )
-* Converting a module to use solid waffle
-* Architecture of solid-waffle
+
+* [Use solid-waffle with MoTD](#motd)
+* [Using solid waffle for the first time ( basic workflow  & concepts )](#first)
+* [Converting a module to use solid waffle](#convert)
+* [Architecture of solid-waffle](#architecture)
+
+<a name="motd"/>
 
 ## Use solid-waffle with MoTD
 
@@ -31,6 +34,8 @@ bundle exec rake acceptance:all -j10 -m
 # return images to pool
 bundle exec rake waffle:tear_down
 ```
+
+<a name="first"/>
 
 ## Using solid-waffle for the first time
 ### Steps (Each step is optional, Solid waffle allows you to run acceptance tests against a machine.)
@@ -136,6 +141,8 @@ bundle exec rake "waffle:tear_down[c985f9svvvu95nv.delivery.puppetlabs.net]"
 bundle exec rake "waffle:tear_down[localhost:2222]"
 ```
 
+<a name="convert"/>
+
 ## How to add solid waffle to a module
 
 To use solid waffle in a module you first need to update the following files to include the specified code:
@@ -220,5 +227,6 @@ else
   end
 end
 ```
+<a name="architecture"/>
 
 ## Architecture of solid-waffle
