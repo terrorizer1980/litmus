@@ -2,11 +2,11 @@
 
 solid-waffle has at its core, 5 commands: 
 
-1. [waffle:provision](#provision) - specify number of machines / and OS, along with the mechanism eg azure / docker / vmpooler
-2. [waffle:install_agent](#agent)
-3. [waffle:install_module](#module)
-4. [waffle:parallel](#test)
-5. [waffle:tear_down](#teardown)
+1. [Provision: 'rake waffle:provision'](#provision)
+2. [Install the agent: 'rake waffle:install_agent](#agent)
+3. [Install the module: 'waffle:install_module'](#module)
+4. [Run the tests: 'rake waffle:parallel'](#test)
+5. [Remove the provisioned machines: 'rake waffle:tear_down'](#teardown)
 
 Not all these steps need to be run every time. The three likely scenarios are 
 run against localhost
