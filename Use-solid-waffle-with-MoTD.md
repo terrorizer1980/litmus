@@ -1,6 +1,8 @@
 # Goal: 
 
-1. At the end of this you will have checked out MoTD module. 
+At the end of this you will have:
+
+1.  checked out MoTD module. 
 1. Provisioned a centos docker image. 
 1. Installed puppet 6 agent on the centos image. 
 1. Installed the MoTD module on the centos image. 
