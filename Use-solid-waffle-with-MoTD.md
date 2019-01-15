@@ -2,7 +2,7 @@
 
 At the end of this you will have:
 
-1.  checked out MoTD module. 
+1. Checked out MoTD module from git. 
 1. Provisioned a centos docker image. 
 1. Installed puppet 6 agent on the centos image. 
 1. Installed the MoTD module on the centos image. 
@@ -65,6 +65,6 @@ bundle exec rake waffle:tear_down
 
 ## Next steps
 
-* Try provisioning multiple systems. 
+* Try provisioning more than one system. EG, 'bundle exec rake 'waffle:provision[docker, ubuntu:16.04]''
 * Look at the inventory file. inventory.yaml
 * ssh into the centos box 'ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no root@localhost -p 2222'
