@@ -1,6 +1,4 @@
-# Use solid-waffle with the MoTD module
-
-## Goal: 
+# Goal: 
 
 1. At the end of this you will have checked out MoTD module. 
 1. Provisioned a centos docker image. 
