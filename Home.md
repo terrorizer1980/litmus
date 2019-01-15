@@ -4,9 +4,10 @@ Solid Waffle is a tool that helps you acceptance test your puppet content. Allow
 These steps are are a reflected in a series of rake tasks. This Wiki explains different workflows for different users and uses cases. 
 * Use solid_waffle with MoTD ( test drive )
 * Using solid waffle for the first time ( basic workflow  & concepts )
-* Converting a module to use solid waffle 
+* Converting a module to use solid waffle
+* Architecture of solid-waffle
 
-## Using solid-waffle for the first time for testing
+## Using solid-waffle for the first time
 ### Steps (Each step is optional, Solid waffle allows you to run acceptance tests against a machine.)
 
 1. waffle:provision - specify number of machines / and OS, along with the mechanism eg azure / docker / vmpooler
@@ -195,4 +196,4 @@ else
 end
 ```
 
-## How solid waffle is put together
+## Architecture of solid-waffle
