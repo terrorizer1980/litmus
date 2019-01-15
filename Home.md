@@ -2,10 +2,35 @@
 
 Solid Waffle is a tool that helps you acceptance test your puppet content. Allowing you to test your module against a variety of OSes, and scenarios. This tool helps provision containers/images, install the Puppet agent, install a module and run tests with minimal effort.
 These steps are are a reflected in a series of rake tasks. This Wiki explains different workflows for different users and uses cases. 
-* Use solid_waffle with MoTD ( test drive )
+* Use solid-waffle with MoTD ( test drive )
 * Using solid waffle for the first time ( basic workflow  & concepts )
 * Converting a module to use solid waffle
 * Architecture of solid-waffle
+
+## Use solid-waffle with MoTD
+
+Goal: At the end of this you will have checked out MoTD module. Provisioned a centos docker image. Installed puppet 6 agent on the centos image. Installed the MoTD module on the centos image. Ran the MoTD acceptance tests.
+
+Pre-requisites: A ruby environment 2.3 preferably. Docker installed and working. Git installed.
+
+```
+git clone git@github.com:puppetlabs/puppetlabs-motd.git
+cd puppetlabs-motd
+git remote add tphoney git@github.com:tphoney/puppetlabs-motd.git
+git rebase tphoney/solid-waffle
+bundle install --path .bundle/gems/
+bundle exec rake 'waffle:provision[vmpooler, centos-7-x86_64]'
+bundle exec rake 'waffle:provision[vmpooler, win-2012r2-x86_64]'
+
+bundle exec rake waffle:install_agent
+bundle exec rake waffle:install_module
+
+# run tests in parallel
+bundle exec rake acceptance:all -j10 -m 
+
+# return images to pool
+bundle exec rake waffle:tear_down
+```
 
 ## Using solid-waffle for the first time
 ### Steps (Each step is optional, Solid waffle allows you to run acceptance tests against a machine.)
