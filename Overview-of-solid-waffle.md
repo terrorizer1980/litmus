@@ -1,15 +1,24 @@
-## solid-waffle for the first time
-### Steps (Each step is optional, Solid waffle allows you to run acceptance tests against a machine.)
+# Commands and structure
 
-1. waffle:provision - specify number of machines / and OS, along with the mechanism eg azure / docker / vmpooler
-2. waffle:install_agent 
-3. waffle:install_module 
-4. acceptance:all
+solid-waffle has at its core, 5 commands: 
 
-### To clean up **all** machines
-1. waffle:tear_down
+1. [waffle:provision](#provision) - specify number of machines / and OS, along with the mechanism eg azure / docker / vmpooler
+2. [waffle:install_agent](#agent)
+3. [waffle:install_module](#module)
+4. [waffle:parallel](#test)
+5. [waffle:tear_down](#teardown)
 
-### Provisioning
+Not all these steps need to be run every time. The three likely scenarios are 
+run against localhost
+run against a machine that has puppet installed
+provision a fresh system 
+Once you have ran your tests you can repeat workflows
+edit code -> install module -> run test
+if there is a target system that is already running you can manually edit the [bolt inventory file](https://puppet.com/docs/bolt/1.x/inventory_file.html) 
+
+<a name="provision"/>
+
+## Provisioning
 
 Provisioning is accomplished using https://github.com/puppetlabs/waffle_provision. We can spin up a VM with vmpooler, use docker containers, or run against the testing machine. Example commands:
 
@@ -47,6 +56,8 @@ groups:
 
 If testing against localhost, you can jump to running tests.
 
+<a name="agent"/>
+
 ### Installing the Agent
 
 Uses https://github.com/puppetlabs/puppetlabs-puppet_agent. Using these tasks we can install different versions of the agent on many OSes. Specifically puppet 5 and 6  and ..... You can specify a single target or run against all machines in the inventory file.
@@ -55,6 +66,8 @@ Uses https://github.com/puppetlabs/puppetlabs-puppet_agent. Using these tasks we
 bundle exec rake "waffle:install_agent"
 ```
 
+<a name="module"/>
+
 ### Installing the Module
 
 Uses the pdk to build the module and transfer it to the target systems. You can specify a single target or run against all machines in the inventory file.
@@ -62,6 +75,8 @@ Uses the pdk to build the module and transfer it to the target systems. You can 
 ```
 bundle exec rake "waffle:install_module"
 ```
+
+<a name="test"/>
 
 ### Running Tests
 There are several options when it comes to running your tests at this point.
@@ -90,7 +105,7 @@ You can even use Solid Waffle to run tests against your local machine by using t
 ```
 TARGET_HOST=localhost bundle exec rspec ./spec/acceptance
 ```
-
+<a name="teardown"/>
 
 ### Tearing Down Provisioned Systems
 
