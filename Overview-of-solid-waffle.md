@@ -60,7 +60,7 @@ Some modules can be testing against localhost, Ie the machine you are running yo
 
 ### Installing the Agent
 
-Uses https://github.com/puppetlabs/puppetlabs-puppet_agent. Using the tasks we can install different versions of the puppet agent on many different OSes. This command can install the agent on a single target or on all targets in the inventory file
+Uses https://github.com/puppetlabs/puppetlabs-puppet_agent. Using the tasks we can install different versions of the puppet agent on many different OSes. This command can install the agent on a single target or on all targets in the inventory file (installation against multiple targets happen in parallel).
  
 ```
 # installs the latest puppet agent on all targets
@@ -75,7 +75,7 @@ bundle exec rake 'waffle:tear_down[gn55owqktvej9fp.delivery.puppetlabs.net]'
 
 ### Installing the Module
 
-Uses the pdk to build the module and transfer it to the target systems. You can specify a single target or run against all machines in the inventory file.
+Uses the pdk to build the module and transfer it to the target systems. You can specify a single target or run against all machines in the inventory file. (installation of the module on multiple targets happen in parallel)
  
 ```
 bundle exec rake "waffle:install_module"
@@ -86,7 +86,7 @@ bundle exec rake "waffle:install_module"
 ### Running Tests
 There are several options when it comes to running your tests at this point.
 
-
+use the rake task
 primarily using serverspec though we can using other testing tools.
 run all tests against a single machine
 run all tests in parallel
