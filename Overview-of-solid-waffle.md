@@ -20,14 +20,14 @@ if there is a target system that is already running you can manually edit the [b
 
 ## Provisioning
 
-Provisioning is accomplished using https://github.com/puppetlabs/waffle_provision. We can spin up a VM with vmpooler, use docker containers, or run against the testing machine. Example commands:
+Provisioning is accomplished using https://github.com/puppetlabs/waffle_provision. We can spin up docker containers, or machines in private clouds EG vmpooler. Example commands:
 
 ```
 bundle exec rake 'waffle:provision[vmpooler, redhat-6-x86_64]'
 bundle exec rake 'waffle:provision[docker, ubuntu:18.04]'
 ```
 
-The command creates an inventory.yml file that is used by solid waffle. You can manually add entries have a look here for examples https://puppet.com/docs/bolt/1.x/inventory_file.html
+The command creates an inventory.yml file that is used by solid waffle. You can manually add machines to this file. Look here for examples https://puppet.com/docs/bolt/1.x/inventory_file.html
 
 ```
 ---
@@ -54,16 +54,20 @@ groups:
   nodes: []
 ```
 
-If testing against localhost, you can jump to running tests.
+Some modules can be testing against localhost, Ie the machine you are running your test from. This can be dangerous. If you are running against localhost you can go to [Run the tests: 'rake waffle:parallel'](#test)
 
 <a name="agent"/>
 
 ### Installing the Agent
 
-Uses https://github.com/puppetlabs/puppetlabs-puppet_agent. Using these tasks we can install different versions of the agent on many OSes. Specifically puppet 5 and 6  and ..... You can specify a single target or run against all machines in the inventory file.
+Uses https://github.com/puppetlabs/puppetlabs-puppet_agent. Using the tasks we can install different versions of the puppet agent on many different OSes. This command can install the agent on a single target or on all targets in the inventory file
  
 ```
-bundle exec rake "waffle:install_agent"
+bundle exec rake "waffle:install_agent" # installs the latest puppet agent on all targets
+#
+bundle exec rake 'waffle:install_agent[puppet5]' # installs puppet 5 on all targets
+#
+bundle exec rake 'waffle:tear_down[gn55owqktvej9fp.delivery.puppetlabs.net]' # install the latest agent on a specific target
 ```
 
 <a name="module"/>
