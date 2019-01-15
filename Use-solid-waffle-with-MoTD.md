@@ -1,6 +1,7 @@
-## Use solid-waffle with MoTD
+# Use solid-waffle with the MoTD module
 
-Goal: 
+## Goal: 
+
 1. At the end of this you will have checked out MoTD module. 
 1. Provisioned a centos docker image. 
 1. Installed puppet 6 agent on the centos image. 
@@ -8,11 +9,14 @@ Goal:
 1. Ran the MoTD acceptance tests.
 1. Remove the docker image.
 
-Pre-requisites: 
+## Pre-requisites: 
+
 1. A ruby environment 2.3 preferably. 
 1. Docker installed and working. (ie 'docker run centos:7 ls' runs without error)
 1. Git installed and working.
 1. A Github api token for checking out the repository.
+
+## Instructions
 
 Checkout the solid-waffle branch of MoTD and install the gems
 
@@ -59,7 +63,7 @@ remove the docker container
 bundle exec rake waffle:tear_down
 ```
 
-### Next steps
+## Next steps
 
 * Try provisioning multiple systems. 
 * Look at the inventory file. inventory.yaml
