@@ -63,11 +63,12 @@ Some modules can be testing against localhost, Ie the machine you are running yo
 Uses https://github.com/puppetlabs/puppetlabs-puppet_agent. Using the tasks we can install different versions of the puppet agent on many different OSes. This command can install the agent on a single target or on all targets in the inventory file
  
 ```
-bundle exec rake "waffle:install_agent" # installs the latest puppet agent on all targets
-#
-bundle exec rake 'waffle:install_agent[puppet5]' # installs puppet 5 on all targets
-#
-bundle exec rake 'waffle:tear_down[gn55owqktvej9fp.delivery.puppetlabs.net]' # install the latest agent on a specific target
+# installs the latest puppet agent on all targets
+bundle exec rake "waffle:install_agent" 
+# installs puppet 5 on all targets
+bundle exec rake 'waffle:install_agent[puppet5]' 
+# install the latest agent on a specific target
+bundle exec rake 'waffle:tear_down[gn55owqktvej9fp.delivery.puppetlabs.net]' 
 ```
 
 <a name="module"/>
