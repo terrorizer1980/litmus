@@ -14,7 +14,7 @@ At the end of this you will have:
 1. A ruby environment 2.3 preferably. 
 1. Docker installed and working. (ie 'docker run centos:7 ls' runs without error)
 1. Git installed and working.
-1. A Github api token for checking out the repository.
+1. A Github api token for checking out the solid-waffle repository (this is temporary, until we open the repo).
 
 ## Instructions
 
@@ -39,13 +39,13 @@ Provision the centos 7 image
 bundle exec rake 'waffle:provision[docker, centos-7-x86_64]'
 ```
 
-Install the puppet 6 agent on our centos image
+The next step installs the latest puppet 6 agent on to the centos docker image
 
 ```
 bundle exec rake waffle:install_agent
 ```
 
-Build the MoTD module and install it on the centos image.
+Next build the MoTD module using the PDK and install it on the centos image.
 
 ```
 bundle exec rake waffle:install_module
@@ -54,7 +54,7 @@ bundle exec rake waffle:install_module
 run the tests
 
 ```
-bundle exec rake acceptance:all -j10 -m 
+bundle exec rake acceptance:parallel
 ```
 
 remove the docker container
@@ -65,6 +65,8 @@ bundle exec rake waffle:tear_down
 
 ## Next steps
 
-* Try provisioning more than one system. EG, 'bundle exec rake 'waffle:provision[docker, ubuntu:16.04]''
-* Look at the inventory file. inventory.yaml
+* Try provisioning more than one system. EG, 'bundle exec rake 'waffle:provision[docker, ubuntu:16.04]'' (you will need to re-run the install_agent and install_module command if you want to run tests. 
+* Look at the inventory file. inventory.yaml, note the ssh connection information
 * ssh into the centos box 'ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no root@localhost -p 2222'
+* Compare the current released version of MoTD to the solid waffle version. https://github.com/puppetlabs/puppetlabs-motd/compare/solid-waffle
+* Look at our bigger PR testing matrix on appveyor (tests win2016 and 2012) and travis (puppet5/6, oracle, scientific linux, debian, ubuntu, centos) https://github.com/puppetlabs/puppetlabs-motd/pull/180 
