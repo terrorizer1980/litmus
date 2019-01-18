@@ -26,7 +26,7 @@ cd puppetlabs-motd
 git rebase origin/solid-waffle
 ```
 
-Setting the GITHUB_TOKEN step is temporary, until we make the repository open. (setup a token)[https://github.blog/2013-05-16-personal-api-tokens/] Then install the gems.
+Setting the GITHUB_TOKEN step is temporary, until we make the repository open. [how to setup a token](https://github.blog/2013-05-16-personal-api-tokens/) Then install the gems.
 
 ```
 export GITHUB_TOKEN=<MAGIC HERE>
