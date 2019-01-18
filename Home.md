@@ -1,8 +1,8 @@
 # Welcome to the solid-waffle wiki!
 
-Solid Waffle is a tool that helps you acceptance test your puppet content. Allowing you to test your module against a variety of OSes, and scenarios. This tool helps provision containers/images, install the Puppet agent, install a module and run tests with minimal effort. These steps have corresponding commands, empowering the user to run different workflows and scenarios dependant on their needs
+Solid Waffle is a tool that helps you acceptance test your puppet content. Allowing you to test your module against a variety of OSes, and scenarios. This tool helps provision containers/images, install the Puppet agent, install a module and run tests with minimal effort. These commands, empower the user to run different workflows quickly and interactively.
 
-This Wiki explains different workflows for different users and uses cases. 
+The following topics explains different user workflows and a high level overview. 
 
 * [Use solid-waffle with MoTD](https://github.com/puppetlabs/solid-waffle/wiki/Use-solid-waffle-with-MoTD) a quick start guide, to try solid waffle on a module that has already been converted. It allows me to try the different commands and get used to the workflow.
 * [Overview of using solid waffle( basic workflow  & concepts )](https://github.com/puppetlabs/solid-waffle/wiki/Overview-of-solid-waffle) an indepth look into the solid-waffle commands, along with what options are available. eg how to install puppet 5, or how to run against localhost
