@@ -38,3 +38,7 @@ rake task -> serverspec -> rspec
 rake task -> bolt -> waffle-provision -> waffle-image -> docker
                                       -> abs (internal)
                                       -> vmpooler
+
+## Protocols used
+
+Solid-waffle is built on top of bolt, so it natively handles SSH and winrm. The inventory file specifies what protocol to use, along with connection specific information. We are planning on adding docker as a protocol soon based on this work https://tickets.puppetlabs.com/browse/BOLT-962
