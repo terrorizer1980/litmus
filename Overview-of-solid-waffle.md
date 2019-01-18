@@ -8,13 +8,17 @@ solid-waffle has at its core, 5 commands:
 4. [Run the tests: 'rake waffle:parallel'](#test)
 5. [Remove the provisioned machines: 'rake waffle:tear_down'](#teardown)
 
-Not all these steps need to be run every time. The three likely scenarios are 
-run against localhost
-run against a machine that has puppet installed
-provision a fresh system 
-Once you have ran your tests you can repeat workflows
+These commands allow user to create a test environment and run tests against those systems. Not all these steps are needed for every scenario.
+
+3 likely test setups are:
+* run against localhost
+* run against an existing machine that has puppet installed
+* provision a fresh system and install puppet 
+
+Once you have your environment, solid waffle is designed to speed up the following workflow
 edit code -> install module -> run test
-if there is a target system that is already running you can manually edit the [bolt inventory file](https://puppet.com/docs/bolt/1.x/inventory_file.html) 
+
+At any point you can re-run tests, or provision new systems and add them to your test environment.
 
 <a name="provision"/>
 
