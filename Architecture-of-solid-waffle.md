@@ -9,7 +9,9 @@ At its core we use bolt to execute module tasks. To provisions systems we use th
 waffle_image is a group of docker build files. They are specifically designed to setup systemd/upstart on various nix images. This is a prerequisite for testing services with puppet in docker images.
 
 https://github.com/puppetlabs/bolt
+
 https://github.com/puppetlabs/waffle_provision
+
 https://github.com/puppetlabs/waffle_image
 
 ## Technologies / workflow for solid waffle commands
