@@ -1,6 +1,6 @@
 # Welcome to the solid-waffle wiki!
 
-Solid Waffle is a tool that helps you acceptance test your puppet content. Allowing you to test your module against a variety of OSes, and scenarios. This tool helps provision containers/images, install the Puppet agent, install a module and run tests with minimal effort. These commands, empower the user to run different workflows quickly and interactively.
+Solid Waffle is a tool that helps you acceptance test puppet content. Testing a module against a variety of OSes, and deployment scenarios. This tool helps provision containers/images, install the Puppet agent, install a module and run tests with minimal effort. These commands, empower the user to run different workflows quickly and interactively.
 
 The following topics explains different user workflows and a high level overview. 
 
