@@ -54,7 +54,7 @@ bundle exec rake waffle:install_module
 run the tests
 
 ```
-bundle exec rake acceptance:parallel
+bundle exec rake waffle:acceptance:parallel
 ```
 
 remove the docker container
