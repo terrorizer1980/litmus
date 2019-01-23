@@ -36,7 +36,7 @@ bundle install --path .bundle/gems/
 Provision the centos 7 image
 
 ```
-bundle exec rake 'waffle:provision[docker, centos-7-x86_64]'
+bundle exec rake 'waffle:provision[docker, ubuntu:16.04]'
 ```
 
 The next step installs the latest puppet 6 agent on to the centos docker image
@@ -65,7 +65,7 @@ bundle exec rake waffle:tear_down
 
 ## Next steps
 
-* Try provisioning more than one system. EG, 'bundle exec rake 'waffle:provision[docker, ubuntu:16.04]'' (you will need to re-run the install_agent and install_module command if you want to run tests. 
+* Try provisioning more than one system. EG, 'bundle exec rake 'waffle:provision[docker, centos:6]'' (you will need to re-run the install_agent and install_module command if you want to run tests. 
 * Look at the inventory file. inventory.yaml, note the ssh connection information
 * ssh into the centos box 'ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no root@localhost -p 2222'
 * Compare the current released version of MoTD to the solid waffle version. https://github.com/puppetlabs/puppetlabs-motd/compare/solid-waffle
