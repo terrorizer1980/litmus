@@ -5,7 +5,7 @@ solid-waffle has at its core, 5 commands:
 1. [Provision: 'rake waffle:provision'](#provision)
 2. [Install the agent: 'rake waffle:install_agent](#agent)
 3. [Install the module: 'waffle:install_module'](#module)
-4. [Run the tests: 'rake waffle:parallel'](#test)
+4. [Run the tests: 'rake waffle:acceptance:parallel'](#test)
 5. [Remove the provisioned machines: 'rake waffle:tear_down'](#teardown)
 
 These commands allow user to create a test environment and run tests against those systems. Not all these steps are needed for every scenario.
@@ -106,7 +106,7 @@ TARGET_HOST=localhost:2223 bundle exec rspec ./spec/acceptance
 This command runs all tests in parallel against all provisioned machines present inside inventory.yaml.
  
 ```
-bundle exec rake acceptance:all -j10 -m 
+bundle exec rake waffle:acceptance:parallel 
 ```
 
 You can even use Solid Waffle to run tests against your local machine by using the following command. Please note that this is only recommended if you are familiar with the code base as tests may have unexpected side effects.
