@@ -14,16 +14,16 @@ At the end of this you will have:
 1. A ruby environment 2.3 preferably. 
 1. Docker installed and working. (ie 'docker run centos:7 ls' runs without error)
 1. Git installed and working.
-1. A Github api token for checking out the solid-waffle repository (this is temporary, until we open the repo).
+1. A Github api token for checking out the puppet_litmus repository (this is temporary, until we open the repo).
 
 ## Instructions
 
-Checkout the solid-waffle branch of MoTD and install the gems
+Checkout the puppet_litmus branch of MoTD and install the gems
 
 ```
 git clone git@github.com:puppetlabs/puppetlabs-motd.git
 cd puppetlabs-motd
-git rebase origin/solid-waffle
+git rebase origin/puppet_litmus
 ```
 
 Setting the GITHUB_TOKEN step is temporary, until we make the repository open. [how to setup a token](https://github.blog/2013-05-16-personal-api-tokens/) Then install the gems.
@@ -36,37 +36,37 @@ bundle install --path .bundle/gems/
 Provision the centos 7 image
 
 ```
-bundle exec rake 'waffle:provision[docker, ubuntu:16.04]'
+bundle exec rake 'litmus:provision[docker, ubuntu:16.04]'
 ```
 
 The next step installs the latest puppet 6 agent on to the centos docker image
 
 ```
-bundle exec rake waffle:install_agent
+bundle exec rake litmus:install_agent
 ```
 
 Next build the MoTD module using the PDK and install it on the centos image.
 
 ```
-bundle exec rake waffle:install_module
+bundle exec rake litmus:install_module
 ```
 
 run the tests
 
 ```
-bundle exec rake waffle:acceptance:parallel
+bundle exec rake litmus:acceptance:parallel
 ```
 
 remove the docker container
 
 ```
-bundle exec rake waffle:tear_down
+bundle exec rake litmus:tear_down
 ```
 
 ## Next steps
 
-* Try provisioning more than one system. EG, 'bundle exec rake 'waffle:provision[docker, centos:6]'' (you will need to re-run the install_agent and install_module command if you want to run tests. 
+* Try provisioning more than one system. EG, 'bundle exec rake 'litmus:provision[docker, centos:6]'' (you will need to re-run the install_agent and install_module command if you want to run tests. 
 * Look at the inventory file. inventory.yaml, note the ssh connection information
 * ssh into the centos box 'ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no root@localhost -p 2222'
-* Compare the current released version of MoTD to the solid waffle version. https://github.com/puppetlabs/puppetlabs-motd/compare/solid-waffle
+* Compare the current released version of MoTD to the puppet_litmus version. https://github.com/puppetlabs/puppetlabs-motd/compare/puppet_litmus
 * Look at our bigger PR testing matrix on appveyor (tests win2016 and 2012) and travis (puppet5/6, oracle, scientific linux, debian, ubuntu, centos) https://github.com/puppetlabs/puppetlabs-motd/pull/180 
