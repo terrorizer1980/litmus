@@ -1,6 +1,6 @@
-## Converting a module to use solid waffle
+## Converting a module to use puppet_litmus
 
-To use solid waffle in a module you first need to update the following files to include the specified code:
+To use puppet_litmus in a module you first need to update the following files to include the specified code:
 
 .fixtures.yml
 
@@ -10,20 +10,20 @@ fixtures:
   repositories:
     facts: 'git://github.com/puppetlabs/puppetlabs-facts.git'
     puppet_agent: 'git://github.com/puppetlabs/puppetlabs-puppet_agent.git'
-    waffle_provision: 'git@github.com:puppetlabs/waffle_provision.git'
+    provision: 'git@github.com:puppetlabs/provision.git'
 ```
 
 Gemfile
 
 ```
-gem 'solid_waffle', git: 'git@github.com:puppetlabs/solid-waffle.git'
+gem 'puppet_litmus', git: 'git@github.com:puppetlabs/puppet_litmus.git'
 gem 'pdk', git: 'https://github.com/tphoney/pdk.git', branch: 'pin_cri'
 ```
 
 Rakefile
 
 ```
-require 'solid_waffle/rake_tasks'
+require 'puppet_litmus/rake_tasks'
 ```
 
 spec/spec_helper_acceptance.rb
@@ -32,8 +32,8 @@ spec/spec_helper_acceptance.rb
 # frozen_string_literal: true
 
 require 'serverspec'
-require 'solid_waffle'
-include SolidWaffle
+require 'puppet_litmus'
+include PuppetLitmus
 
 if ENV['TARGET_HOST'].nil? || ENV['TARGET_HOST'] == 'localhost'
   puts 'Running tests against this machine !'
