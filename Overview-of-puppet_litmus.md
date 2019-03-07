@@ -72,7 +72,7 @@ bundle exec rake "litmus:install_agent"
 # installs puppet 5 on all targets
 bundle exec rake 'litmus:install_agent[puppet5]' 
 # install the latest agent on a specific target
-bundle exec rake 'litmus:tear_down[gn55owqktvej9fp.delivery.puppetlabs.net]' 
+bundle exec rake 'litmus:install_agent[gn55owqktvej9fp.delivery.puppetlabs.net]' 
 ```
 
 <a name="module"/>
