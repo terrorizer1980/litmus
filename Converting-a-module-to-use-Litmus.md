@@ -1,9 +1,17 @@
-## Converting a module to use puppet_litmus
+# Converting a module to use Litmus
 
-To use puppet_litmus in a module you first need to update the following files to include the specified code:
+This tutorial will walk you through how to convert a module to use Litmus for acceptance testing.
 
-.fixtures.yml
+## Pre-requisites
+Ensure that the module is compatible with the [Puppet Development Kit](https://puppet.com/docs/pdk/1.x/pdk.html). This means it was either created with the PDK, or has been converted to use the PDK - by using the `pdk convert` command.
 
+To check if an existing module is compatible with the PDK, look in the modules `metadata.json` file and check that there is an entry which states the PDK version. It should read something like: `"pdk-version": "1.9.0"`
+
+## Update files
+To use Litmus in a module you first need to update the following files to include the specified code.
+
+### .fixtures.yml
+Add the following lines to your `.fixtures.yml` file in the root directory of your module.
 ```
 ---
 fixtures:
@@ -13,21 +21,21 @@ fixtures:
     provision: 'git@github.com:puppetlabs/provision.git'
 ```
 
-Gemfile
-
+### Gemfile
+Add the following lines to your `Gemfile` in the `group :development` section. You will find this file in the root directory of your module.
 ```
 gem 'puppet_litmus', git: 'git@github.com:puppetlabs/puppet_litmus.git'
 gem 'pdk', git: 'https://github.com/tphoney/pdk.git', branch: 'pin_cri'
 ```
 
-Rakefile
-
+### Rakefile
+Add the following line to the top of your `Rakefile`. You will find this file in the root directory of your module.
 ```
 require 'puppet_litmus/rake_tasks'
 ```
 
-spec/spec_helper_acceptance.rb
-
+### spec/spec_helper_acceptance.rb
+Add the following to the `spec_helper_acceptance.rb` file. This is an acceptance testing file that you will find in the `spec` folder of your module. If it doesn't exist then it means your module doesn't have any acceptance tests, and you will need to add some. However, for the purposes of this tutorial, simply create the file with the following content. We will add a tutorial on how to write acceptance tests and link from here when it's ready.
 ```
 # frozen_string_literal: true
 
