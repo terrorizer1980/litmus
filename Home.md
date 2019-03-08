@@ -1,10 +1,10 @@
-# Welcome to the puppet_litmus wiki!
+# Welcome to the Litmus wiki!
 
-puppet_litmus is a tool that helps you acceptance test puppet content. Testing a module against a variety of OSes, and deployment scenarios. This tool helps provision containers/images, install the Puppet agent, install a module and run tests with minimal effort. These commands, empower the user to run different workflows quickly and interactively.
+Litmus is a tool that helps you acceptance test Puppet modules. It facilitates testing a module against a variety of OSes, and deployment scenarios. This tool helps provision test platforms such as containers/images, install the Puppet agent, install a module and run tests with minimal effort. These commands empower the user to run different workflows quickly and interactively.
 
 The following topics explains different user workflows and a high level overview. 
 
-* [Use puppet_litmus with MoTD](https://github.com/puppetlabs/puppet_litmus/wiki/Use-puppet_litmus-with-MoTD) a quick start guide, to try puppet_litmus on a module that has already been converted. It allows me to try the different commands and get used to the workflow.
-* [Overview of using puppet_litmus( basic workflow  & concepts )](https://github.com/puppetlabs/puppet_litmus/wiki/Overview-of-puppet_litmus) an indepth look into the puppet_litmus commands, along with what options are available. eg how to install puppet 5, or how to run against localhost
-* [Converting a module to use puppet_litmus](https://github.com/puppetlabs/puppet_litmus/wiki/Converting-a-module-to-use-puppet_litmus) a walkthrough of the steps necessary to convert an existing module that uses beaker, to use puppet_litmus as the test runner. showing what files need to be changed, and how to modify the rspec files.
-* [Architecture of puppet_litmus](https://github.com/puppetlabs/puppet_litmus/wiki/Architecture-of-puppet-litmus) An explanation of the technologies involved and what projects are used.
+* [Overview of using Litmus (basic workflow  & concepts)](https://github.com/puppetlabs/puppet_litmus/wiki/Overview-of-puppet_litmus) an in-depth look into the Litmus commands, along with what options are available, e.g. how to install Puppet 5, or how to run against localhost.
+* [Use Litmus with MoTD](https://github.com/puppetlabs/puppet_litmus/wiki/Use-puppet_litmus-with-MoTD). This is a quick start guide, to try Litmus on a module that has already been converted. It allows you to try the different commands and get used to the workflow.
+* [Converting a module to use Litmus](https://github.com/puppetlabs/puppet_litmus/wiki/Converting-a-module-to-use-puppet_litmus). Provides a walkthrough of the steps necessary to convert an existing module that uses [Beaker](https://github.com/puppetlabs/beaker), to use Litmus as the test runner. This shows what files need to be changed, and how to modify the rspec files.
+* [Architecture of Litmus](https://github.com/puppetlabs/puppet_litmus/wiki/Architecture-of-puppet-litmus). An explanation of the technologies involved and what projects are used.
