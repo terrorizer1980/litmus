@@ -21,8 +21,8 @@ Below is an outline of the underlying technology that supports each of Litmus' c
 
 ### Provision
 rake task -> bolt -> puppet_litmus -> litmus_image -> docker
-                                   -> abs (internal)
-                                   -> vmpooler
+                                                   -> abs (internal)
+                                                   -> vmpooler
 
 ### Install an agent
 
@@ -39,8 +39,8 @@ rake task -> serverspec -> rspec
 ### Tear down
 
 rake task -> bolt -> puppet_litmus -> litmus_image -> docker
-                                   -> abs (internal)
-                                   -> vmpooler
+                                                   -> abs (internal)
+                                                   -> vmpooler
 
 ## Protocols used
 
