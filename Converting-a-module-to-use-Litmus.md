@@ -33,7 +33,6 @@ Gemfile:
     ':development':
       - gem: 'net-ssh'
         version: '< 5.0.0'
-      - gem: puppet-lint-i18n
       - gem: 'puppet_litmus'
         git: 'git@github.com:puppetlabs/puppet_litmus.git'
       - gem: 'pdk'
@@ -101,7 +100,7 @@ else
 end
 ```
 
-# Converting a module to use Litmus manual file changes
+# Converting a module to use Litmus by making manual file changes
 
 This tutorial will give you a step by step guide on how to manually convert a module to use litmus.
 
