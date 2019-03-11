@@ -44,8 +44,6 @@ Gemfile:
 
 When you run `pdk update` the changes made in your `.sync.yml` file will be applied to your `Rakefile` and `Gemfile`.
 
-You will also need to manually make the following changes to your spec_helper_acceptance as it is not created dynamically via `pdk-templates`.
-
 ### spec/spec_helper_acceptance.rb
 Add the following to the `spec_helper_acceptance.rb` file. This is an acceptance testing file that you will find in the `spec` folder of your module. If it doesn't exist then it means your module doesn't have any acceptance tests, and you will need to add some. However, for the purposes of this tutorial, simply create the file with the following content. We will add a tutorial on how to write acceptance tests and link from here when it's ready.
 ```
