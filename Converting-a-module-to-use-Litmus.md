@@ -1,4 +1,4 @@
-# Converting a module to use Litmus using `.sync.yml`
+# Converting a module to use Litmus using .sync.yml
 
 This tutorial will walk you through how to convert a module to use Litmus for acceptance testing.
 
