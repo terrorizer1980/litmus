@@ -8,4 +8,4 @@ The following topics explains different user workflows and a high level overview
 * [Tutorial: use Litmus with MoTD](https://github.com/puppetlabs/puppet_litmus/wiki/Tutorial:-use-Litmus-to-execute-acceptance-tests-with-a-sample-module-(MoTD)). This is a quick start guide, to try Litmus on a module that has already been converted. It allows you to try the different commands and get used to the workflow.
 * [Converting a module to use Litmus](https://github.com/puppetlabs/puppet_litmus/wiki/Converting-a-module-to-use-Litmus). Provides a walkthrough of the steps necessary to convert an existing module that uses [Beaker](https://github.com/puppetlabs/beaker), to use Litmus as the test runner. This shows what files need to be changed, and how to modify the rspec files.
 * [Architecture of Litmus](https://github.com/puppetlabs/puppet_litmus/wiki/Architecture-of-puppet-litmus). An explanation of the technologies involved and what projects are used.
-* A wiki listing functions that are now available when using Litmus.
+* [Helper Functions](https://github.com/puppetlabs/puppet_litmus/wiki/Helper-Functions-for-Litmus) that are now available when using Litmus.
