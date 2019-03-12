@@ -20,7 +20,7 @@ At the end of this you will have:
 
 ## Instructions
 
-### Checkout the Litmus branch of MoTD and install the gems
+### Checkout the Litmus branch of MoTD
 Run the following command in a terminal to get a local copy of the module.
 
 ```
@@ -34,6 +34,9 @@ This will bring a local copy of the module to your machine. Now you will rebase 
 # Rebase to the Litmus branch
 > git rebase origin/puppet_litmus
 ```
+
+### Install the necessary gems for the module.
+
 The module relies on a number of gems. To bring those to your machine type the following command from your terminal
 ```
 > bundle install --path .bundle/gems/
