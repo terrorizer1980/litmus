@@ -34,7 +34,7 @@ Gemfile:
       - gem: 'net-ssh'
         version: '< 5.0.0'
       - gem: 'puppet_litmus'
-        git: 'git@github.com:puppetlabs/puppet_litmus.git'
+        git: 'https://github.com/puppetlabs/puppet_litmus.git'
       - gem: 'pdk'
         git: 'https://github.com/tphoney/pdk.git'
         branch: 'pin_cri'
@@ -107,7 +107,7 @@ This tutorial will give you a step by step guide on how to manually convert a mo
 ### Gemfile
 Add the following lines to your `Gemfile` in the `group :development` section. You will find this file in the root directory of your module.
 ```
-gem 'puppet_litmus', git: 'git@github.com:puppetlabs/puppet_litmus.git'
+gem 'puppet_litmus', git: 'https://github.com/puppetlabs/puppet_litmus.git'
 gem 'pdk', git: 'https://github.com/tphoney/pdk.git', branch: 'pin_cri'
 ```
 
