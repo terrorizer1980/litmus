@@ -173,3 +173,9 @@ else
   end
 end
 ```
+
+## Converting tests
+
+There are a number of helper functions that litmus provides, that can be used in your tests. [helper functions for tests](https://github.com/puppetlabs/puppet_litmus/wiki/Helper-Functions-for-Litmus#helper-functions-for-testing-your-modules) these are similar to the functions provided previously by the beaker language. 
+
+For example the apply_manifest function is a like for like replacement. 
