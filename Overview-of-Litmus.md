@@ -108,6 +108,13 @@ TARGET_HOST=lk8g530gzpjxogh.delivery.puppetlabs.net bundle exec rspec ./spec/acc
 TARGET_HOST=localhost:2223 bundle exec rspec ./spec/acceptance
 ```
 
+The example below shows how to run a specific test against a single target:
+
+```
+TARGET_HOST=lk8g530gzpjxogh.delivery.puppetlabs.net bundle exec rspec ./spec/acceptance/test_spec.rb:21
+TARGET_HOST=localhost:2223 bundle exec rspec ./spec/acceptance/test_spec.rb:21
+```
+
 This example below shows how to run all tests against all targets, as specified in the inventory.yml file.
  
 ```
