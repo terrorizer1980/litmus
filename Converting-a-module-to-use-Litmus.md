@@ -24,21 +24,27 @@ Make the following changes to your `.sync.yml` file
 ### .sync.yml
 
 ```
- Rakefile:
-   requires:
-   use_litmus_tasks: true
-
 Gemfile:
   required:
-    ':development':
-      - gem: 'net-ssh'
-        version: '< 5.0.0'
+    ':system_tests':
+      - gem: 'puppet-module-posix-system-r#{minor_version}'
+        platforms: ruby
+      - gem: 'puppet-module-win-system-r#{minor_version}'
+        platforms:
+          - mswin
+          - mingw
+          - x64_mingw
       - gem: 'puppet_litmus'
-        git: 'https://github.com/puppetlabs/puppet_litmus.git'
-      - gem: 'pdk'
-        git: 'https://github.com/tphoney/pdk.git'
-        branch: 'pin_cri'
-      - gem: 'serverspec'
+        platforms:
+          - ruby
+          - mswin
+          - mingw
+          - x64_mingw
+        condition: "ENV['PUPPET_GEM_VERSION'].nil? or ENV['PUPPET_GEM_VERSION'] !~ %r{ 5}"
+
+Rakefile:
+  requires:
+  use_litmus_tasks: true
 ```
 
 When you run `pdk update` the changes made in your `.sync.yml` file will be applied to your `Rakefile` and `Gemfile`.
@@ -105,10 +111,10 @@ end
 This tutorial will give you a step by step guide on how to manually convert a module to use litmus.
 
 ### Gemfile
-Add the following lines to your `Gemfile` in the `group :development` section. You will find this file in the root directory of your module.
+Add the following lines to your `Gemfile` in the `group :system_tests` section. You will find this file in the root directory of your module.
 ```
 gem 'puppet_litmus', git: 'https://github.com/puppetlabs/puppet_litmus.git'
-gem 'pdk', git: 'https://github.com/tphoney/pdk.git', branch: 'pin_cri'
+
 ```
 
 ### Rakefile
