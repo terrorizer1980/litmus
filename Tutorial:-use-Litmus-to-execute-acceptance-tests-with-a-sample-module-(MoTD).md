@@ -30,9 +30,6 @@ This will bring a local copy of the module to your machine. Now you will rebase 
 ```
 # Change directory to the module you just brought down
 > cd puppetlabs-motd
-
-# Rebase to the Litmus branch
-> git rebase origin/puppet_litmus
 ```
 
 ### Install the necessary gems for the module.
