@@ -18,7 +18,7 @@ fixtures:
   repositories:
     facts: 'git://github.com/puppetlabs/puppetlabs-facts.git'
     puppet_agent: 'git://github.com/puppetlabs/puppetlabs-puppet_agent.git'
-    provision: 'git@github.com:puppetlabs/provision.git'
+    provision: 'git://github.com/puppetlabs/provision.git'
 ```
 Make the following changes to your `.sync.yml` file
 ### .sync.yml
