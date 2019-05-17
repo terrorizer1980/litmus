@@ -1,5 +1,5 @@
-# serverspec functions for testing your modules
-[serverspec](https://www.rubydoc.info/gems/puppet_litmus/PuppetLitmus/Serverspec)
+# functions to help test your modules
+[serverspec functions that apply manifests or run shell commands ...](https://www.rubydoc.info/gems/puppet_litmus/PuppetLitmus/Serverspec)
 
 # Helper Functions for inventory file manipulation
 * [inventory_hash_from_inventory_file(inventory_full_path = nil)](https://github.com/puppetlabs/puppet_litmus/blob/f858434e90e3c52138e1482f9a186024e8863a57/lib/puppet_litmus.rb#L76)
