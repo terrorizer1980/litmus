@@ -29,6 +29,7 @@ rake task -> bolt -> puppet_litmus -> litmus_image -> docker
 rake task -> bolt -> puppet-agent
 
 ### Install module
+We use the pdk to build the module tar file. It is then copied to the target using bolt. On the target machine we run a puppet module install, specifying the tar file. It will install the dependencies listed in the metadata.json of the built module.
 
 rake task -> pdk -> bolt
 
