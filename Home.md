@@ -9,3 +9,4 @@ The following topics explains different user workflows and a high level overview
 * [Converting a module to use Litmus](https://github.com/puppetlabs/puppet_litmus/wiki/Converting-a-module-to-use-Litmus). Provides a walkthrough of the steps necessary to convert an existing module that uses [Beaker](https://github.com/puppetlabs/beaker), to use Litmus as the test runner. This shows what files need to be changed, and how to modify the rspec files.
 * [Architecture of Litmus](https://github.com/puppetlabs/puppet_litmus/wiki/Architecture-of-puppet-litmus). An explanation of the technologies involved and what projects are used.
 * [Helper Functions](https://github.com/puppetlabs/puppet_litmus/wiki/Helper-Functions-for-Litmus) that are now available when using Litmus.
+* [Converting your tests beaker rspec to litmus](https://github.com/puppetlabs/puppet_litmus/wiki/converting-tests-from-beaker-rspec-to-litmus) some tips on converting your existing tests to use litmus.
