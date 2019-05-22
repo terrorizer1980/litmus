@@ -13,6 +13,37 @@ generally helper functions used to live everywhere, special files, in the spec_h
 
      spec\spec_helper_acceptance_local.rb   <- all helper code should live in here
 
+## a basic test example
+
+Below is a standard trope for checking that your puppet code works, it is a repeatable pattern.
+
+    require 'spec_helper_acceptance'
+
+    describe 'concat noop parameter', if: ['debian', 'redhat', 'ubuntu'].include?(os[:family]) do
+      before(:all) do
+        @basedir = setup_test_directory
+      end
+      describe 'with "/usr/bin/test -e %"' do
+        let(:pp) do
+          <<-MANIFEST
+          concat_file { '#{@basedir}/file':
+            noop => false,
+          }
+          concat_fragment { 'content':
+            target  => '#{@basedir}/file',
+            content => 'content',
+          }
+        MANIFEST
+        end
+
+        it 'applies the manifest twice with no stderr' do
+          idempotent_apply(pp)
+          expect(file("#{@basedir}/file")).to be_file
+          expect(file("#{@basedir}/file").content).to contain 'content'
+        end
+      end
+    end
+
 ## checking your manifest code is idempotent
 old way you would apply the manifest twice checking for different things.
 
