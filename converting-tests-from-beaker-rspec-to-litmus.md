@@ -9,7 +9,7 @@ generally helper functions used to live everywhere, special files, in the spec_h
      spec\acceptance\helper_functions.rb   <-some functions in here
      spec\acceptance\test_spec.rb          <-some functions in here
 
-**new way ** we put all helper code in one place, it will be automatically loaded by spec_helper_acceptance.rb
+**new way** we put all helper code in one place, it will be automatically loaded by spec_helper_acceptance.rb
 
      spec\spec_helper_acceptance_local.rb   <- all helper code should live in here
 
@@ -24,3 +24,15 @@ new way with litmus, we can use the idempotent_apply helper function. (its quick
 
     pp = ' class { 'mysql::server' } '
     idempotent_apply(pp)
+
+## running shell commands
+
+Shell has become run_shell. Generally in the past code blocks were used.
+
+     shell('/usr/local/sbin/mysqlbackup.sh') do |r|
+       expect(r.stderr).to eq('')
+     end
+
+This can be done on a single line, if you are only checking one thing from the command
+
+    expect(run_shell('/usr/local/sbin/mysqlbackup.sh').stderr).to eq('')
