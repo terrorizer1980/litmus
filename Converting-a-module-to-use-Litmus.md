@@ -195,4 +195,4 @@ end
 
 There are a number of helper functions that litmus provides, that can be used in your tests. [helper functions for tests](https://github.com/puppetlabs/puppet_litmus/wiki/Helper-Functions-for-Litmus#helper-functions-for-testing-your-modules) these are similar to the functions provided previously by the beaker language. 
 
-For example the apply_manifest function is a like for like replacement. 
+There is also this guide [Converting your tests beaker rspec to litmus](https://github.com/puppetlabs/puppet_litmus/wiki/converting-tests-from-beaker-rspec-to-litmus)
