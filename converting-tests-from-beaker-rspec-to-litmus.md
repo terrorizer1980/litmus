@@ -58,7 +58,7 @@ new way with litmus, we can use the idempotent_apply helper function. (its quick
 
 ## running shell commands
 
-Shell has become run_shell. Generally in the past code blocks were used.
+the shell command has become run_shell. Generally in the past code blocks were used.
 
      shell('/usr/local/sbin/mysqlbackup.sh') do |r|
        expect(r.stderr).to eq('')
@@ -67,3 +67,14 @@ Shell has become run_shell. Generally in the past code blocks were used.
 This can be done on a single line, if you are only checking one thing from the command
 
     expect(run_shell('/usr/local/sbin/mysqlbackup.sh').stderr).to eq('')
+
+## checking facts
+Calling facter or getting other system information was like:
+
+    fact_on(host, 'osfamily')
+    fact('selinux')
+
+You can now use the serverspec functions (incidentally, these are cached so are quick to call) look here for more https://serverspec.org/host_inventory.html 
+
+    os[:family]
+    host_inventory['facter']['os']['release']
