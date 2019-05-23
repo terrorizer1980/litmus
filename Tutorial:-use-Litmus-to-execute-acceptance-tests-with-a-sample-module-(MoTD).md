@@ -27,11 +27,12 @@ Run the following command in a terminal to get a local copy of the module.
 ```
 > git clone https://github.com/puppetlabs/puppetlabs-motd.git
 ```
-This will bring a local copy of the module to your machine. Now you will rebase to the Litmus branch.
+This will bring a local copy of the module to your machine. You can rebase to the Litmus branch `puppet_litmus` or run them directly on the master branch.
 ```
 # Change directory to the module you just brought down
 > cd puppetlabs-motd
-> git checkout puppet_litmus
+# if you don't want to make changes on master
+> git checkout puppet_litmus 
 ```
 
 ### Install the necessary gems for the module.
