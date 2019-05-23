@@ -17,6 +17,7 @@ At the end of this you will have:
 1. Docker installed and working. type `docker --version` in a terminal to check that Docker is installed. If you need to install Docker go [here](https://runnable.com/docker/getting-started/). To check Docker is working as expected type `docker run centos:7 ls` in a terminal. This should list folders in the CentOS image.
 1. Git installed and working. Type `git --version` to check if Git is installed. If not, then go [here](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git) and follow the instructions for your host OS.
 1. The [Puppet Development Kit (PDK)](https://puppet.com/docs/pdk/1.x/pdk.html) installed. Type `pdk --version` from the command line to ensure that the PDK is installed. If not, then following the [instructions](https://puppet.com/docs/pdk/1.x/pdk_install.html) to install it.
+2. [Bolt](https://puppet.com/docs/bolt) installed. Type `bolt --version` from the command line to ensure that the Bolt is installed. If not, then following the [instructions](https://puppet.com/docs/bolt/latest/bolt_installing.html#concept-8499) to install it
 
 ## Instructions
 
@@ -30,6 +31,7 @@ This will bring a local copy of the module to your machine. Now you will rebase 
 ```
 # Change directory to the module you just brought down
 > cd puppetlabs-motd
+> git checkout puppet_litmus
 ```
 
 ### Install the necessary gems for the module.
@@ -57,6 +59,8 @@ To double check that all is OK, run the following: `docker ps` and you should se
 CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS                  NAMES
 7b12b616cf65        centos:7            "/bin/bash"         4 minutes ago       Up 4 minutes        0.0.0.0:2222->22/tcp   centos_7-2222
 ```
+
+#### Inventory (bolt inventory)
 At this stage, it's worth pointing out that the provisioned targets will be in the inventory.yaml file. Litmus creates this file in your working directory. Therefore, if you type `cat inventory.yaml` it should display the targets you just created. For the above example, the following should appear:
 ```
 > cat inventory.yaml
@@ -84,6 +88,8 @@ The next step is to install the latest Puppet Agent on the CentOS Docker image. 
 ```
 > bundle exec rake litmus:install_agent
 ```
+
+#### Validating with Bolt
 This will just output a single line with `install_agent`. To verify that the agent installed successfully on the target you can use bolt to check (you could also just use SSH)! Simply type the following command to verify that the agent is installed:
 ```
 > bolt command run 'puppet --version' -n localhost:2222 -i inventory.yaml
@@ -110,6 +116,10 @@ Built
 Installed
 ```
 To check if the module did install, again we can use bolt. Run the puppet module list command against the target
+```
+
+#### validating with Bolt
+
 ```
 > bolt command run 'puppet module list' -n localhost:2222 -i inventory.yaml
 ```
