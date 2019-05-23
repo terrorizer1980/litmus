@@ -106,7 +106,8 @@ Ran on 1 node in 0.92 seconds
 ```
 
 ### Install the module on your target
-OK, now it's time to install the MoTD module on the target in order for the tests to be executed. This needs the prerequiste of the PDK to be installed. Run the following command in your terminal. Please note that you need to be in your working directory for the module and the module should have created by the PDK, or have been converted to use the PDK.
+OK, now it's time to install the MoTD module on the target in order for the tests to be executed. This needs the prerequisite of the PDK to be installed. Run the following command in your terminal. Please note that you need to be in your working directory for the module and the module should have created by the PDK, or have been converted to use the PDK.
+
 ```
 > bundle exec rake litmus:install_module
 ```
@@ -116,7 +117,6 @@ Built
 Installed
 ```
 To check if the module did install, again we can use bolt. Run the puppet module list command against the target
-```
 
 #### validating with Bolt
 
