@@ -56,6 +56,7 @@ Add the following to the `spec_helper_acceptance.rb` file. This is an acceptance
 
 require 'serverspec'
 require 'puppet_litmus'
+require 'spec_helper_acceptance_local' if File.file?(File.join(File.dirname(__FILE__), 'spec_helper_acceptance_local.rb'))
 include PuppetLitmus
 
 if ENV['TARGET_HOST'].nil? || ENV['TARGET_HOST'] == 'localhost'
@@ -66,17 +67,22 @@ if ENV['TARGET_HOST'].nil? || ENV['TARGET_HOST'] == 'localhost'
     set :backend, :exec
   end
 else
-  puts "TARGET_HOST #{ENV['TARGET_HOST']}"
   # load inventory
   inventory_hash = inventory_hash_from_inventory_file
   node_config = config_from_node(inventory_hash, ENV['TARGET_HOST'])
 
-  if target_in_group(inventory_hash, ENV['TARGET_HOST'], 'ssh_nodes')
+  if target_in_group(inventory_hash, ENV['TARGET_HOST'], 'docker_nodes')
+    host = ENV['TARGET_HOST']
+    set :backend, :docker
+    set :docker_container, host
+  elsif target_in_group(inventory_hash, ENV['TARGET_HOST'], 'ssh_nodes')
     set :backend, :ssh
     options = Net::SSH::Config.for(host)
     options[:user] = node_config.dig('ssh', 'user') unless node_config.dig('ssh', 'user').nil?
     options[:port] = node_config.dig('ssh', 'port') unless node_config.dig('ssh', 'port').nil?
+    options[:keys] = node_config.dig('ssh', 'private-key') unless node_config.dig('ssh', 'private-key').nil?
     options[:password] = node_config.dig('ssh', 'password') unless node_config.dig('ssh', 'password').nil?
+    options[:verify_host_key] = Net::SSH::Verifiers::Null.new unless node_config.dig('ssh', 'host-key-check').nil?
     host = if ENV['TARGET_HOST'].include?(':')
              ENV['TARGET_HOST'].split(':').first
            else
@@ -84,6 +90,7 @@ else
            end
     set :host,        options[:host_name] || host
     set :ssh_options, options
+    set :request_pty, true
   elsif target_in_group(inventory_hash, ENV['TARGET_HOST'], 'winrm_nodes')
     require 'winrm'
 
