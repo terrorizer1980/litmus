@@ -78,3 +78,33 @@ You can now use the serverspec functions (incidentally, these are cached so are 
 
     os[:family]
     host_inventory['facter']['os']['release']
+
+## travis setup example
+This is what a Travis config chunk would look like for running puppet_litmus tests.
+
+    ---
+    language: ruby
+    cache: bundler
+    before_install:
+      - bundle -v
+      - rm -f Gemfile.lock
+      - gem update --system $RUBYGEMS_VERSION
+      - gem --version
+      - bundle -v
+    rvm:
+      - 2.5.1
+    matrix:
+      fast_finish: true
+      include:
+        -
+          bundler_args:
+          dist: trusty
+          env: PLATFORMS=debian_puppet5
+          rvm: 2.5.1
+          before_script:
+          - bundle exec rake 'litmus:provision_list[travis_deb]'
+          - bundle exec bolt command run 'apt-get install wget -y' --inventoryfile inventory.yaml --nodes='localhost*'
+          - bundle exec rake 'litmus:install_agent[puppet5]'
+          - bundle exec rake litmus:install_module
+          script:
+          - bundle exec rake litmus:acceptance:parallel
