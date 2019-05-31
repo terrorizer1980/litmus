@@ -22,9 +22,9 @@ fixtures:
 ```
 Make the following changes to your `.sync.yml` file
 These changes are needed for pdksync. By adding these code lines, we ensure that every time when pdk update is ran, all the required gems are installed. 
-gem: 'puppet-module-posix-system-r#{minor_version}' -> by adding this gem, we make sure that all the unix OSs are added
-gem: 'puppet-module-win-system-r#{minor_version}' -> by adding this gem, we make sure that all the windows OSs are added
-gem: 'puppet_litmus' -> the added condition is added there, because for now bolt is not compatible with puppet5, meaning that we can't use bolt commands, but we can use Litmus for testing 
+* gem: 'puppet-module-posix-system-r#{minor_version}' -> by adding this gem, we make sure that all the unix OSs are added
+* gem: 'puppet-module-win-system-r#{minor_version}' -> by adding this gem, we make sure that all the windows OSs are added
+* gem: 'puppet_litmus' -> the added condition is added there, because for now bolt is not compatible with puppet5, meaning that we can't use bolt commands, but we can use Litmus for testing 
 Rakefile requires to use litmus_tasks
 ### .sync.yml
 
