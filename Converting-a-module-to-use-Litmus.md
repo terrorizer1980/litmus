@@ -11,7 +11,7 @@ To check if an existing module is compatible with the PDK, look in the modules `
 To use Litmus in a module you first need to update the following files to include the specified code.
 
 ### .fixtures.yml
-Add the following lines to your `.fixtures.yml` file in the root directory of your module.
+In order to provide specific target and to install puppet_agent, to create a functional test environment, Litmus needs to have the following repositories installed: facts, puppet_gent and provision. That's why its needed to add the following lines to your `.fixtures.yml` file in the root directory of your module.
 ```
 ---
 fixtures:
@@ -21,6 +21,11 @@ fixtures:
     provision: 'git://github.com/puppetlabs/provision.git'
 ```
 Make the following changes to your `.sync.yml` file
+These changes are needed for pdksync. By adding these code lines, we ensure that every time when pdk update is ran, all the required gems are installed. 
+gem: 'puppet-module-posix-system-r#{minor_version}' -> by adding this gem, we make sure that all the unix OSs are added
+gem: 'puppet-module-win-system-r#{minor_version}' -> by adding this gem, we make sure that all the windows OSs are added
+gem: 'puppet_litmus' -> the added condition is added there, because for now bolt is not compatible with puppet5, meaning that we can't use bolt commands, but we can use Litmus for testing 
+Rakefile requires to use litmus_tasks
 ### .sync.yml
 
 ```
@@ -51,6 +56,9 @@ When you run `pdk update` the changes made in your `.sync.yml` file will be appl
 
 ### spec/spec_helper_acceptance.rb
 Add the following to the `spec_helper_acceptance.rb` file. This is an acceptance testing file that you will find in the `spec` folder of your module. If it doesn't exist then it means your module doesn't have any acceptance tests, and you will need to add some. However, for the purposes of this tutorial, simply create the file with the following content. We will add a tutorial on how to write acceptance tests and link from here when it's ready.
+
+Litmus added the possibility to run tests on your local machine. it's not recommended, but it's allowed. 
+This is the configuration file used for connection with the testing target. This target can be your local machine or a remote machine. Each time when you provision a target, its configuration is added in inventory.file. Based on that file, all the connection settings are defined here.
 ```
 # frozen_string_literal: true
 
@@ -118,14 +126,14 @@ end
 This tutorial will give you a step by step guide on how to manually convert a module to use litmus.
 
 ### Gemfile
-Add the following lines to your `Gemfile` in the `group :system_tests` section. You will find this file in the root directory of your module.
+Add the following lines to your `Gemfile` in the `group :system_tests` section. You will find this file in the root directory of your module. By including this line, we make sure that puppet_litmus library is included in the module. 
 ```
 gem 'puppet_litmus', git: 'https://github.com/puppetlabs/puppet_litmus.git'
 
 ```
 
 ### Rakefile
-Add the following line to the **top** of your `Rakefile`. You will find this file in the root directory of your module. 
+Add the following line to the **top** of your `Rakefile`. You will find this file in the root directory of your module. By including this line, we make sure that litmus rake tasks are included in the module. 
 ```
 require 'puppet_litmus/rake_tasks'
 ```
