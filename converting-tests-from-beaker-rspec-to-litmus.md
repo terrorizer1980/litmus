@@ -1,19 +1,19 @@
 # Introduction
 Below we will list some example patterns you may want to use in your tests, when moving from beaker-rspec style testing. 
 
-## where to put your helper functions
-generally helper functions used to live everywhere, special files, in the spec_helper_acceptance.rb
+## Where to put your helper functions
+Generally helper functions used to live everywhere, special files, in the spec_helper_acceptance.rb
 
      spec\
      spec\spec_helper_acceptance.rb        <-some functions in here
      spec\acceptance\helper_functions.rb   <-some functions in here
      spec\acceptance\test_spec.rb          <-some functions in here
 
-**new way** we put all helper code in one place, it will be automatically loaded by spec_helper_acceptance.rb
+**New way** we put all helper code in one place, it will be automatically loaded by spec_helper_acceptance.rb
 
      spec\spec_helper_acceptance_local.rb   <- all helper code should live in here
 
-## a basic test example
+## A basic test example
 
 Below is a standard trope for checking that your puppet code works, it is a repeatable pattern.
 
@@ -44,21 +44,21 @@ Below is a standard trope for checking that your puppet code works, it is a repe
       end
     end
 
-## checking your manifest code is idempotent
-old way you would apply the manifest twice checking for different things.
+## Checking your manifest code is idempotent
+The old way to test for idempotency is to apply the manifest twice checking for failures on the first apply and changes on the second apply.
 
     pp = ' class { 'mysql::server' } '
     execute_manifest(pp, catch_failures: true)
     execute_manifest(pp, catch_changes: true)
 
-new way with litmus, we can use the idempotent_apply helper function. (its quicker too) 
+New way with Litmus, we can use the idempotent_apply helper function. (its quicker too) 
 
     pp = ' class { 'mysql::server' } '
     idempotent_apply(pp)
 
-## running shell commands
+## Running shell commands
 
-the shell command has become run_shell. Generally in the past code blocks were used.
+The shell command has become run_shell. Generally in the past code blocks were used.
 
      shell('/usr/local/sbin/mysqlbackup.sh') do |r|
        expect(r.stderr).to eq('')
@@ -68,7 +68,7 @@ This can be done on a single line, if you are only checking one thing from the c
 
     expect(run_shell('/usr/local/sbin/mysqlbackup.sh').stderr).to eq('')
 
-## checking facts
+## Checking facts
 Calling facter or getting other system information was like:
 
     fact_on(host, 'osfamily')
@@ -79,7 +79,7 @@ You can now use the serverspec functions (incidentally, these are cached so are 
     os[:family]
     host_inventory['facter']['os']['release']
 
-## travis setup example
+## Travis setup example
 This is what a Travis config chunk would look like for running puppet_litmus tests.
 
     ---
