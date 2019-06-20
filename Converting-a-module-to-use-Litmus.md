@@ -46,10 +46,6 @@ Gemfile:
           - mingw
           - x64_mingw
         condition: "ENV['PUPPET_GEM_VERSION'].nil? or ENV['PUPPET_GEM_VERSION'] !~ %r{ 5}"
-
-Rakefile:
-  requires:
-  use_litmus_tasks: true
 ```
 
 When you run `pdk update` the changes made in your `.sync.yml` file will be applied to your `Rakefile` and `Gemfile`.
