@@ -21,34 +21,7 @@ fixtures:
     provision: 'git://github.com/puppetlabs/provision.git'
 ```
 Make the following changes to your `.sync.yml` file
-These changes are needed for pdksync. By adding these code lines, we ensure that every time when pdk update is ran, all the required gems are installed. 
-* gem: 'puppet-module-posix-system-r#{minor_version}' -> by adding this gem, we make sure that all the unix OSs are added
-* gem: 'puppet-module-win-system-r#{minor_version}' -> by adding this gem, we make sure that all the windows OSs are added
-* gem: 'puppet_litmus' -> the added condition is added there, because for now bolt is not compatible with puppet5, meaning that we can't use bolt commands, but we can use Litmus for testing 
-Rakefile requires to use litmus_tasks
-### .sync.yml
-
-```
-Gemfile:
-  required:
-    ':system_tests':
-      - gem: 'puppet-module-posix-system-r#{minor_version}'
-        platforms: ruby
-      - gem: 'puppet-module-win-system-r#{minor_version}'
-        platforms:
-          - mswin
-          - mingw
-          - x64_mingw
-      - gem: 'puppet_litmus'
-        platforms:
-          - ruby
-          - mswin
-          - mingw
-          - x64_mingw
-        condition: "ENV['PUPPET_GEM_VERSION'].nil? or ENV['PUPPET_GEM_VERSION'] !~ %r{ 5}"
-```
-
-When you run `pdk update` the changes made in your `.sync.yml` file will be applied to your `Rakefile` and `Gemfile`.
+No changes are required, litmus is installed as part of the development gems of puppet-module-gems, and the rakefile is updated to include the litmus tasks.
 
 ### spec/spec_helper_acceptance.rb
 Add the following to the `spec_helper_acceptance.rb` file. This is an acceptance testing file that you will find in the `spec` folder of your module. If it doesn't exist then it means your module doesn't have any acceptance tests, and you will need to add some. However, for the purposes of this tutorial, simply create the file with the following content. We will add a tutorial on how to write acceptance tests and link from here when it's ready.
@@ -122,9 +95,10 @@ end
 This tutorial will give you a step by step guide on how to manually convert a module to use litmus.
 
 ### Gemfile
-Add the following lines to your `Gemfile` in the `group :system_tests` section. You will find this file in the root directory of your module. By including this line, we make sure that puppet_litmus library is included in the module. 
+Add the following lines to your `Gemfile` in the `group :development` section. You will find this file in the root directory of your module. By including this line, we make sure that puppet_litmus library is included in the module. 
 ```
 gem 'puppet_litmus', git: 'https://github.com/puppetlabs/puppet_litmus.git'
+gem 'serverspec'
 
 ```
 
