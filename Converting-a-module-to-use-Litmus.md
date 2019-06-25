@@ -23,9 +23,10 @@ fixtures:
 ### .sync.yml
 
 Make the following changes to your `.sync.yml` file
-No changes are required, litmus is installed as part of the development gems of puppet-module-gems, and the rakefile is updated to include the litmus tasks. However you can now remove the system tests section.
+No changes are required, litmus is installed as part of the development gems of puppet-module-gems, and the rakefile is updated to include the litmus tasks. However you can now remove the system tests section, as beaker is no longer needed.
 
 ### spec/spec_helper_acceptance.rb
+
 Add the following to the `spec_helper_acceptance.rb` file. This is an acceptance testing file that you will find in the `spec` folder of your module. If it doesn't exist then it means your module doesn't have any acceptance tests, and you will need to add some. However, for the purposes of this tutorial, simply create the file with the following content. We will add a tutorial on how to write acceptance tests and link from here when it's ready.
 
 Litmus added the possibility to run tests on your local machine. it's not recommended, but it's allowed. 
@@ -97,7 +98,7 @@ end
 This tutorial will give you a step by step guide on how to manually convert a module to use litmus.
 
 ### Gemfile
-Add the following lines to your `Gemfile` in the `group :development` section. You will find this file in the root directory of your module. By including this line, we make sure that puppet_litmus library is included in the module. 
+Add the following lines to your `Gemfile` in the `group :development` section. You will find this file in the root directory of your module. By including this line, we make sure that puppet_litmus library is included in the module. However you can now remove the system tests section, as beaker is no longer needed.
 ```
 gem 'puppet_litmus', git: 'https://github.com/puppetlabs/puppet_litmus.git'
 gem 'serverspec'
