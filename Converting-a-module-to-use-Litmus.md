@@ -20,8 +20,10 @@ fixtures:
     puppet_agent: 'git://github.com/puppetlabs/puppetlabs-puppet_agent.git'
     provision: 'git://github.com/puppetlabs/provision.git'
 ```
+### .sync.yml
+
 Make the following changes to your `.sync.yml` file
-No changes are required, litmus is installed as part of the development gems of puppet-module-gems, and the rakefile is updated to include the litmus tasks.
+No changes are required, litmus is installed as part of the development gems of puppet-module-gems, and the rakefile is updated to include the litmus tasks. However you can now remove the system tests section.
 
 ### spec/spec_helper_acceptance.rb
 Add the following to the `spec_helper_acceptance.rb` file. This is an acceptance testing file that you will find in the `spec` folder of your module. If it doesn't exist then it means your module doesn't have any acceptance tests, and you will need to add some. However, for the purposes of this tutorial, simply create the file with the following content. We will add a tutorial on how to write acceptance tests and link from here when it's ready.
