@@ -66,6 +66,25 @@ Some modules can be tested against localhost, i.e. the machine you are running y
 
 In addition to directly provisioning one or more machines using `litmus:provision` as shown above, you can also define one or more sets of nodes in a `provision.yaml` file at the root of your project and use that to provision targets.
 
+A single example might look like this:
+ ```yaml
+---
+list_name:
+  provisioner: vagrant
+  images: ['centos/7', 'generic/ubuntu1804', 'gusztavvargadr/windows-server']
+  params:
+    param_a: someone
+    param_b: something
+```
+
+A few notes:
+
+- The `list_name` is arbitrary and can be any string you want, though it's best to keep it simple.
+- The `provisioner` specifies which provision task to use.
+- The `images` must specify an array of one or more images to provision.
+- Any keys inside of `params` will be turned into process-scope environment variables with `LITMUS_` and upcase the actual key.
+  So, in this example, `param_a` would become an environment variable called `LITMUS_PARAM_A` with a value of `someone`.
+
 An example `provision.yaml` might look like this:
 
 ```yaml
@@ -91,15 +110,20 @@ release_checks:
 vagrant:
   provisioner: vagrant
   images: ['centos/7', 'generic/ubuntu1804', 'gusztavvargadr/windows-server']
+  params:
+    hyperv_smb_username: someone
+    hyperv_smb_password: something
 ```
 
 You can then provision a list of targets from that file:
 
 ```bash
-# This will spin up the three nodes listed in the `vagrant` key via Vagrant
-bundle exec 'litmus:provision_list[vagrant]'
 # This will spin up all the nodes defined in the `release_checks` key via VMPooler
 bundle exec 'litmus:provision_list[release_checks]'
+# This will spin up the three nodes listed in the `vagrant` key via Vagrant.
+# Note that it will also turn the listed key-value pairs in `params` into
+# the environment variables and enable the task to leverage them.
+bundle exec 'litmus:provision_list[vagrant]'
 ```
 
 <a name="agent"/>
