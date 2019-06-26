@@ -45,6 +45,7 @@ Below is a standard trope for checking that your puppet code works, it is a repe
     end
 
 ## Checking your manifest code is idempotent
+
 The old way to test for idempotency is to apply the manifest twice checking for failures on the first apply and changes on the second apply.
 
     pp = ' class { 'mysql::server' } '
@@ -69,6 +70,7 @@ This can be done on a single line, if you are only checking one thing from the c
     expect(run_shell('/usr/local/sbin/mysqlbackup.sh').stderr).to eq('')
 
 ## Checking facts
+
 Calling facter or getting other system information was like:
 
     fact_on(host, 'osfamily')
@@ -78,6 +80,13 @@ You can now use the serverspec functions (incidentally, these are cached so are 
 
     os[:family]
     host_inventory['facter']['os']['release']
+
+## Debugging your tests
+There is a known issue when running certain commands from within a pry session. It is recommended that you use the following pry-byebug gem. 
+
+```
+gem  'pry-byebug', '> 3.4.3' 
+```
 
 ## Travis setup example
 This is what a Travis config chunk would look like for running puppet_litmus tests.
