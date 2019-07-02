@@ -11,7 +11,7 @@ To check if an existing module is compatible with the PDK, look in the modules `
 To use Litmus in a module you first need to update the following files to include the specified code.
 
 ### .fixtures.yml
-In order to provide specific target and to install puppet_agent, to create a functional test environment, Litmus needs to have the following repositories installed: facts, puppet_gent and provision. Because of that we need to add the following lines to the `.fixtures.yml` file in the root directory of the module.
+In order to provide specific target and to install puppet_agent, to create a functional test environment, Litmus needs to have the following repositories installed: `facts`, `puppet_agent` and `provision`. Because of that we need to add the following lines to the `.fixtures.yml` file in the root directory of the module.
 
 ```yaml
 ---
