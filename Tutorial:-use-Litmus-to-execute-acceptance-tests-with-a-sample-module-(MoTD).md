@@ -13,7 +13,7 @@ At the end of this you will have:
 
 ## Pre-requisites: 
 
-1. A ruby environment 2.3 is preferred. Type `ruby --version` in a terminal to check the version you're running.
+1. A ruby environment 2.3 and up is preferred. Type `ruby --version` in a terminal to check the version you're running.
 1. Docker installed and working. type `docker --version` in a terminal to check that Docker is installed. If you need to install Docker go [here](https://runnable.com/docker/getting-started/). To check Docker is working as expected type `docker run centos:7 ls` in a terminal. This should list folders in the CentOS image.
 1. Git installed and working. Type `git --version` to check if Git is installed. If not, then go [here](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git) and follow the instructions for your host OS.
 1. The [Puppet Development Kit (PDK)](https://puppet.com/docs/pdk/1.x/pdk.html) installed. Type `pdk --version` from the command line to ensure that the PDK is installed. If not, then following the [instructions](https://puppet.com/docs/pdk/1.x/pdk_install.html) to install it.
