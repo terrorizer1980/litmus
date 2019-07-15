@@ -119,11 +119,11 @@ You can then provision a list of targets from that file:
 
 ```bash
 # This will spin up all the nodes defined in the `release_checks` key via VMPooler
-bundle exec 'litmus:provision_list[release_checks]'
+bundle exec rake 'litmus:provision_list[release_checks]'
 # This will spin up the three nodes listed in the `vagrant` key via Vagrant.
 # Note that it will also turn the listed key-value pairs in `params` into
 # the environment variables and enable the task to leverage them.
-bundle exec 'litmus:provision_list[vagrant]'
+bundle exec rake 'litmus:provision_list[vagrant]'
 ```
 
 <a name="agent"/>
