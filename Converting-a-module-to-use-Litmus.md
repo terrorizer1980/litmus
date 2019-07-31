@@ -29,7 +29,7 @@ No changes are required, litmus is installed as part of the development gems of 
 
 ### spec/spec_helper_acceptance.rb
 
-Add the following to the `spec_helper_acceptance.rb` file. This is an acceptance testing file that you will find in the `spec` folder of your module. If it doesn't exist then it means your module doesn't have any acceptance tests, and you will need to add some. However, for the purposes of this tutorial, simply create the file with the following content. We will add a tutorial on how to write acceptance tests and link from here when it's ready.
+The following should be the contents of the `spec_helper_acceptance.rb` file. This is an acceptance testing file that you will find in the `spec` folder of your module. If it doesn't exist then it means your module doesn't have any acceptance tests, and you will need to add some. If the `spec_helper_acceptance.rb` file does exist, rename it as `spec_helper_acceptance_local.rb`. However, for the purposes of this tutorial, simply create the file with the following content. We will add a tutorial on how to write acceptance tests and link from here when it's ready.
 
 Litmus added the possibility to run tests on your local machine. it's not recommended, but it's allowed. 
 This is the configuration file used for connection with the testing target. This target can be your local machine or a remote machine. Each time when you provision a target, its configuration is added in inventory.file. 
