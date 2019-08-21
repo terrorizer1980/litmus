@@ -24,7 +24,6 @@ fixtures:
 
 ### .sync.yml
 
-Make the following changes to your `.sync.yml` file
 No changes are required, litmus is installed as part of the development gems of puppet-module-gems, and the rakefile is updated to include the litmus tasks. However you can now remove the system tests section, as beaker is no longer needed.
 
 ### spec/spec_helper_acceptance.rb
