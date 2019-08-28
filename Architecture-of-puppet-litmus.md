@@ -45,4 +45,4 @@ rake task -> bolt -> puppet_litmus -> litmus_image -> docker
 
 ## Protocols used
 
-Litmus is built on top of bolt, so it natively handles SSH and WinRM. The inventory file specifies the protocol to use for each target, along with connection specific information. We are planning on adding Docker as a protocol soon based on this work https://tickets.puppetlabs.com/browse/BOLT-962
+Litmus is built on top of bolt, so it natively handles SSH, WinRM and Docker. The inventory file specifies the protocol to use for each target, along with connection specific information.
