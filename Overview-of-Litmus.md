@@ -128,7 +128,7 @@ bundle exec rake 'litmus:provision_list[vagrant]'
 
 <a name="agent"/>
 
-## Installing the Agent
+## Installing the Puppet Agent
 
 Installing the agent on the provisioned targets is accomplished by using the [Puppet Agent module](https://github.com/puppetlabs/puppetlabs-puppet_agent). Using the tasks in this module we can install different versions of the Puppet Agent on many different OSes. This command can install the agent on a single target or on all targets in the inventory file. Agents are installed in parallel when running against multiple targets.
  
@@ -190,6 +190,9 @@ The example below shows how to run all tests against localhost. Please note that
 ```
 TARGET_HOST=localhost bundle exec rspec ./spec/acceptance
 ```
+
+If this does not meet your needs you can look at this bolt task for running a test [run_tests task](https://github.com/puppetlabs/provision/wiki#run_tests) or this bolt plan [run tests plan](https://github.com/puppetlabs/provision/wiki#tests_against_agents)
+
 <a name="teardown"/>
 
 ## Tearing Down Provisioned Systems
