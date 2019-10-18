@@ -43,6 +43,13 @@ The module relies on a number of gems. To bring those to your machine type the f
 ### Provision a target to test against
 For the purposes of this tutorial we will provision a single CentOS 7 image in a Docker container as the target to test against. Additional targets can be added by running the command below for whichever OSes you like. Remember, provisioning is extensible, so if your preferred provisioner is missing, please let us know by raising an issue on the [provision repo](https://github.com/puppetlabs/provision/issues), or just add your own and submit a [PR](https://github.com/puppetlabs/provision/pulls) - we love to get community contributions!
 
+To add the `provision` module to your fixtures, add the following to `.fixtures.yml`:
+```
+fixtures:
+  repositories:
+    provision: 'git://github.com/puppetlabs/provision'
+```
+
 Type the following command in your terminal to provision the CentOS 7 target.
 
 ```
