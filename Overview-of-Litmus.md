@@ -62,6 +62,25 @@ groups:
 
 Some modules can be tested against localhost, i.e. the machine you are running your test from. This can be dangerous. If you are running against localhost you can go to [Run the tests: 'rake litmus:parallel'](#test)
 
+### Systemd
+
+For testing services that require systemd, the default docker images might not be enough. In this case, there is a collection of docker images, with systemd enabled, based on https://github.com/puppetlabs/litmus_image
+
+Images available on https://hub.docker.com/u/waffleimage:
+* waffleimage/debian8
+* waffleimage/debian9
+* waffleimage/debian10
+* waffleimage/oraclelinux6
+* waffleimage/oraclelinux7
+* waffleimage/centos6
+* waffleimage/centos7
+* waffleimage/scientificlinux6
+* waffleimage/ubuntu14.04
+* waffleimage/ubuntu16.04
+* waffleimage/ubuntu18.04
+
+An alternative to this approach, would be to use a dedicated VM using another provisioner like vmpooler or vagrant.
+
 ### Provisioning via YAML
 
 In addition to directly provisioning one or more machines using `litmus:provision` as shown above, you can also define one or more sets of nodes in a `provision.yaml` file at the root of your project and use that to provision targets.
