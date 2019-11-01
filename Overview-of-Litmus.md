@@ -62,9 +62,9 @@ groups:
 
 Some modules can be tested against localhost, i.e. the machine you are running your test from. This can be dangerous. If you are running against localhost you can go to [Run the tests: 'rake litmus:parallel'](#test)
 
-### Systemd
+### Testing services
 
-For testing services that require systemd, the default docker images might not be enough. In this case, there is a collection of docker images, with systemd enabled, based on https://github.com/puppetlabs/litmus_image
+For testing services that require a service manager (like systemd), the default docker images might not be enough. In this case, there is a collection of docker images, with a service manager enabled, based on https://github.com/puppetlabs/litmus_image
 
 Images available on https://hub.docker.com/u/waffleimage:
 * waffleimage/debian8
