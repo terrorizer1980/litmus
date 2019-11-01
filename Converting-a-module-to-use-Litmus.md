@@ -17,9 +17,9 @@ In order to provide specific target and to install puppet_agent, to create a fun
 ---
 fixtures:
   repositories:
-    facts: 'git://github.com/puppetlabs/puppetlabs-facts.git'
-    puppet_agent: 'git://github.com/puppetlabs/puppetlabs-puppet_agent.git'
-    provision: 'git://github.com/puppetlabs/provision.git'
+    facts: 'https://github.com/puppetlabs/puppetlabs-facts.git'
+    puppet_agent: 'https://github.com/puppetlabs/puppetlabs-puppet_agent.git'
+    provision: 'https://github.com/puppetlabs/provision.git'
 ```
 
 ### .sync.yml
@@ -145,9 +145,9 @@ Add the following lines to your `.fixtures.yml` file in the root directory of yo
 ---
 fixtures:
   repositories:
-    facts: 'git://github.com/puppetlabs/puppetlabs-facts.git'
-    puppet_agent: 'git://github.com/puppetlabs/puppetlabs-puppet_agent.git'
-    provision: 'git://github.com/puppetlabs/provision.git'
+    facts: 'https://github.com/puppetlabs/puppetlabs-facts.git'
+    puppet_agent: 'https://github.com/puppetlabs/puppetlabs-puppet_agent.git'
+    provision: 'https://github.com/puppetlabs/provision.git'
 ```
 
 ### spec/spec_helper_acceptance.rb
