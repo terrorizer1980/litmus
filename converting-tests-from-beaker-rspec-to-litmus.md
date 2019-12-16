@@ -69,6 +69,17 @@ This can be done on a single line, if you are only checking one thing from the c
 
     expect(run_shell('/usr/local/sbin/mysqlbackup.sh').stderr).to eq('')
 
+### Serverspec Idioms
+
+You can also use serverspec declarations:
+
+```ruby
+command('/usr/local/sbin/mysqlbackup.sh') do
+  its(:stderr) { should eq '' }
+end
+```
+
+
 ## Checking facts
 
 Calling facter or getting other system information was like:
