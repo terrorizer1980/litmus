@@ -54,26 +54,34 @@ end
 
 The old way to test for idempotency is to apply the manifest twice checking for failures on the first apply and changes on the second apply.
 
-    pp = ' class { 'mysql::server' } '
-    execute_manifest(pp, catch_failures: true)
-    execute_manifest(pp, catch_changes: true)
+```ruby
+pp = ' class { 'mysql::server' } '
+execute_manifest(pp, catch_failures: true)
+execute_manifest(pp, catch_changes: true)
+```
 
 New way with Litmus, we can use the idempotent_apply helper function. (its quicker too) 
 
-    pp = ' class { 'mysql::server' } '
-    idempotent_apply(pp)
+```ruby
+pp = ' class { 'mysql::server' } '
+idempotent_apply(pp)
+```
 
 ## Running shell commands
 
 The shell command has become run_shell. Generally in the past code blocks were used.
 
-     shell('/usr/local/sbin/mysqlbackup.sh') do |r|
-       expect(r.stderr).to eq('')
-     end
+```ruby
+shell('/usr/local/sbin/mysqlbackup.sh') do |r|
+  expect(r.stderr).to eq('')
+end
+```
 
 This can be done on a single line, if you are only checking one thing from the command
 
-    expect(run_shell('/usr/local/sbin/mysqlbackup.sh').stderr).to eq('')
+```ruby
+expect(run_shell('/usr/local/sbin/mysqlbackup.sh').stderr).to eq('')
+```
 
 ### Serverspec Idioms
 
@@ -90,47 +98,53 @@ end
 
 Calling facter or getting other system information was like:
 
-    fact_on(host, 'osfamily')
-    fact('selinux')
+```ruby
+fact_on(host, 'osfamily')
+fact('selinux')
+```
 
 You can now use the serverspec functions (incidentally, these are cached so are quick to call) look here for more https://serverspec.org/host_inventory.html 
 
-    os[:family]
-    host_inventory['facter']['os']['release']
+```ruby
+os[:family]
+host_inventory['facter']['os']['release']
+```
 
 ## Debugging your tests
 There is a known issue when running certain commands from within a pry session. It is recommended that you use the following pry-byebug gem. 
 
-```
+```ruby
 gem  'pry-byebug', '> 3.4.3' 
 ```
 
 ## Travis setup example
 This is what a Travis config chunk would look like for running puppet_litmus tests.
 
-    ---
-    language: ruby
-    cache: bundler
-    before_install:
-      - bundle -v
-      - rm -f Gemfile.lock
-      - gem update --system $RUBYGEMS_VERSION
-      - gem --version
-      - bundle -v
-    rvm:
-      - 2.5.1
-    matrix:
-      fast_finish: true
-      include:
-        -
-          bundler_args:
-          dist: trusty
-          env: PLATFORMS=debian_puppet5
-          rvm: 2.5.1
-          before_script:
-          - bundle exec rake 'litmus:provision_list[travis_deb]'
-          - bundle exec bolt command run 'apt-get install wget -y' --inventoryfile inventory.yaml --nodes='localhost*'
-          - bundle exec rake 'litmus:install_agent[puppet5]'
-          - bundle exec rake litmus:install_module
-          script:
-          - bundle exec rake litmus:acceptance:parallel
+```yaml
+---
+language: ruby
+cache: bundler
+before_install:
+  - bundle -v
+  - rm -f Gemfile.lock
+  - gem update --system $RUBYGEMS_VERSION
+  - gem --version
+  - bundle -v
+rvm:
+  - 2.5.1
+matrix:
+  fast_finish: true
+  include:
+    -
+      bundler_args:
+      dist: trusty
+      env: PLATFORMS=debian_puppet5
+      rvm: 2.5.1
+      before_script:
+      - bundle exec rake 'litmus:provision_list[travis_deb]'
+      - bundle exec bolt command run 'apt-get install wget -y' --inventoryfile inventory.yaml --nodes='localhost*'
+      - bundle exec rake 'litmus:install_agent[puppet5]'
+      - bundle exec rake litmus:install_module
+      script:
+      - bundle exec rake litmus:acceptance:parallel
+```
