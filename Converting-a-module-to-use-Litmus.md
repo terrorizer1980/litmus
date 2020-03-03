@@ -5,7 +5,7 @@ This tutorial will walk you through how to convert a module to use Litmus for ac
 ## Pre-requisites
 Ensure that the module is compatible with the [Puppet Development Kit](https://puppet.com/docs/pdk/1.x/pdk.html). This means it was either created with the PDK, or has been converted to use the PDK - by using the `pdk convert` command.
 
-To check if an existing module is compatible with the PDK, look in the modules `metadata.json` file and check that there is an entry which states the PDK version. It should read something like: `"pdk-version": "1.9.0"`
+To check if an existing module is compatible with the PDK, look in the modules `metadata.json` file and check that there is an entry which states the PDK version. It should read something like: `"pdk-version": "1.17.0"`
 
 ## Update files
 To use Litmus in a module you first need to update the following files to include the specified code.
@@ -69,7 +69,7 @@ This tutorial will give you a step by step guide on how to manually convert a mo
 Add the following lines to your `Gemfile` in the `group :development` section. You will find this file in the root directory of your module. By including this line, we make sure that puppet_litmus library is included in the module. However you can now remove the system tests section, as beaker is no longer needed.
 
 ```ruby
-gem 'puppet_litmus', git: 'https://github.com/puppetlabs/puppet_litmus.git'
+gem 'puppet_litmus'
 gem 'serverspec'
 
 ```
