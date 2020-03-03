@@ -13,10 +13,9 @@ At the end of this you will have:
 
 ## Pre-requisites: 
 
-1. A ruby environment 2.5 and up is preferred. Type `ruby --version` in a terminal to check the version you're running.
 1. Docker installed and working. type `docker --version` in a terminal to check that Docker is installed. If you need to install Docker go [here](https://runnable.com/docker/getting-started/). To check Docker is working as expected type `docker run centos:7 ls` in a terminal. This should list folders in the CentOS image.
 1. Git installed and working. Type `git --version` to check if Git is installed. If not, then go [here](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git) and follow the instructions for your host OS.
-1. The [Puppet Development Kit (PDK)](https://puppet.com/docs/pdk/1.x/pdk.html) installed. Type `pdk --version` from the command line to ensure that the PDK is installed. If not, then following the [instructions](https://puppet.com/docs/pdk/1.x/pdk_install.html) to install it.
+1. The [Puppet Development Kit (PDK)](https://puppet.com/docs/pdk/1.x/pdk.html) installed. Type `pdk --version` from the command line to ensure that the PDK is installed - at a minimum, you need `1.17.0`. If not, then following the [instructions](https://puppet.com/docs/pdk/1.x/pdk_install.html) to install it.
 2. [Bolt](https://puppet.com/docs/bolt) installed. Type `bolt --version` from the command line to ensure that the Bolt is installed. If not, then following the [instructions](https://puppet.com/docs/bolt/latest/bolt_installing.html#concept-8499) to install it
 
 ## Instructions
@@ -37,16 +36,17 @@ This will bring a local copy of the module to your machine. You can run directly
 
 The module relies on a number of gems. To bring those to your machine type the following command from your terminal
 ```
-> bundle install --path .bundle/gems/
+> pdk bundle install
 ```
 
 ### Provision a target to test against
+
 For the purposes of this tutorial we will provision a single CentOS 7 image in a Docker container as the target to test against. Additional targets can be added by running the command below for whichever OSes you like. Remember, provisioning is extensible, so if your preferred provisioner is missing, please let us know by raising an issue on the [provision repo](https://github.com/puppetlabs/provision/issues), or just add your own and submit a [PR](https://github.com/puppetlabs/provision/pulls) - we love to get community contributions!
 
 Type the following command in your terminal to provision the CentOS 7 target.
 
 ```
-> bundle exec rake 'litmus:provision[docker, centos:7]'
+> pdk bundle exec rake 'litmus:provision[docker, centos:7]'
 ```
 There will be a lot of output in your terminal, but the last lines should be as follows:
 ```
@@ -61,7 +61,8 @@ CONTAINER ID        IMAGE               COMMAND             CREATED             
 
 #### Inventory (bolt inventory)
 At this stage, it's worth pointing out that the provisioned targets will be in the inventory.yaml file. Litmus creates this file in your working directory. Therefore, if you type `cat inventory.yaml` it should display the targets you just created. For the above example, the following should appear:
-```
+
+```yaml
 > cat inventory.yaml
 ---
 groups:
@@ -80,7 +81,7 @@ groups:
       container_name: centos_7-2222
 - name: winrm_nodes
   nodes: []
-  ```
+```
 
 ### Install the Puppet Agent on your target
 The next step is to install the latest Puppet Agent on the CentOS Docker image. Run the following in your terminal.
