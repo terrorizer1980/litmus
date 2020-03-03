@@ -86,7 +86,7 @@ groups:
 ### Install the Puppet Agent on your target
 The next step is to install the latest Puppet Agent on the CentOS Docker image. Run the following in your terminal.
 ```
-> bundle exec rake litmus:install_agent
+> pdk bundle exec rake litmus:install_agent
 ```
 
 #### Validating with Bolt
@@ -106,10 +106,11 @@ Ran on 1 node in 0.92 seconds
 ```
 
 ### Install the module on your target
+
 OK, now it's time to install the MoTD module on the target in order for the tests to be executed. This needs the prerequisite of the PDK to be installed. Run the following command in your terminal. Please note that you need to be in your working directory for the module and the module should have created by the PDK, or have been converted to use the PDK.
 
 ```
-> bundle exec rake litmus:install_module
+> pdk bundle exec rake litmus:install_module
 ```
 You should receive output similar to below:
 ```
@@ -143,11 +144,11 @@ Ran on 1 node in 1.11 seconds
 ### Run the tests
 So far we've provisioned the target, installed the Puppet Agent, and installed the relevant module. Now, it's time to run the tests. Run the following command from your working directory.
 ```
-> bundle exec rake litmus:acceptance:parallel
+> pdk bundle exec rake litmus:acceptance:parallel
 ```
 This will execute the acceptance tests in the [acceptance folder](https://github.com/puppetlabs/puppetlabs-motd/tree/master/spec/acceptance) of the module. If the tests have run successfully, you will see output similar to below.
 ```
-> bundle exec rake litmus:acceptance:parallel
+> pdk bundle exec rake litmus:acceptance:parallel
 Running against 1 machines |Time: 00:00:48 | ======================================================================================== | Time: 00:00:48
 ......
 
@@ -161,19 +162,20 @@ pid 24471 exit 0
 ### Clean up
 Now that the tests have been run it's time to clean up. Litmus includes a tear down command that will allow the targets to be removed. In this example, we will be removing the Docker container. Type the following command
 ```
-> bundle exec rake litmus:tear_down
+> pdk bundle exec rake litmus:tear_down
 ```
 You should receive some JSON output, similar to what's below.
-```
+
+```json
 {"node"=>"localhost", "status"=>"success", "result"=>{"_output"=>"Removed localhost:2222\n{\"status\":\"ok\"}\n"}}
 ```
 To double check that the target has been removed, type `docker ps` from the command line and you should see that it's no longer running.
 
 ## Next steps
+
 The above example is straightforward and simple example of using Litmus to test an existing module that contains acceptance tests. It is intended as an introductory tutorial for new users. As you scale up your acceptance testing, you will need need to do much more than this tutorial outlined, including writing your own acceptance tests.
 
-* Try provisioning more than one system, e.g. `bundle exec rake 'litmus:provision[docker, centos:6]'`, remembering that you will need to re-run the install_agent and install_module command if you want to run tests.
-* Look at the inventory file, inventory.yaml, noting the ssh connection information
+* Try provisioning more than one system, e.g. `pdk bundle exec rake 'litmus:provision[docker, centos:6]'`, remembering that you will need to re-run the `install_agent` and `install_module` command if you want to run tests.
+* Look at the inventory file, `inventory.yaml`, noting the ssh connection information
 * ssh into the CentOS box `ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no root@localhost -p 2222`, or just use bolt as outlined in the tutorial
-* Compare the current released version of MoTD to the Litmus version. https://github.com/puppetlabs/puppetlabs-motd/compare/puppet_litmus. All Puppet supported modules will be updated to use Litmus over time.
-* We're moving more of our PR testing to public pipelines to make contributing to Puppet Supported modules a better experience for developers. Check out our [bigger PR testing matrix](https://github.com/puppetlabs/puppetlabs-motd/pull/180) on Appveyor (which tests Windows 2016 and Windows 2012) and Travis (which tests Puppet5/6 on Oracle, Scientific Linux, Debian, Ubuntu and CentOS!)
+<!--* We're moving more of our PR testing to public pipelines to make contributing to Puppet Supported modules a better experience for developers. Check out our [bigger PR testing matrix](https://github.com/puppetlabs/puppetlabs-motd/pull/180) on Appveyor (which tests Windows 2016 and Windows 2012) and Travis (which tests Puppet5/6 on Oracle, Scientific Linux, Debian, Ubuntu and CentOS!)-->
