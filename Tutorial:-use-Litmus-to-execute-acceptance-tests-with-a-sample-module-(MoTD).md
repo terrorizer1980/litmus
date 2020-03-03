@@ -16,7 +16,6 @@ At the end of this you will have:
 1. Docker installed and working. type `docker --version` in a terminal to check that Docker is installed. If you need to install Docker go [here](https://runnable.com/docker/getting-started/). To check Docker is working as expected type `docker run centos:7 ls` in a terminal. This should list folders in the CentOS image.
 1. Git installed and working. Type `git --version` to check if Git is installed. If not, then go [here](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git) and follow the instructions for your host OS.
 1. The [Puppet Development Kit (PDK)](https://puppet.com/docs/pdk/1.x/pdk.html) installed. Type `pdk --version` from the command line to ensure that the PDK is installed - at a minimum, you need `1.17.0`. If not, then following the [instructions](https://puppet.com/docs/pdk/1.x/pdk_install.html) to install it.
-2. [Bolt](https://puppet.com/docs/bolt) installed. Type `bolt --version` from the command line to ensure that the Bolt is installed. If not, then following the [instructions](https://puppet.com/docs/bolt/latest/bolt_installing.html#concept-8499) to install it
 
 ## Instructions
 
@@ -48,27 +47,35 @@ Type the following command in your terminal to provision the CentOS 7 target.
 ```
 > pdk bundle exec rake 'litmus:provision[docker, centos:7]'
 ```
+
 There will be a lot of output in your terminal, but the last lines should be as follows:
+
 ```
-Provisioning centos_7-2222
-{"status":"ok","node_name":"localhost"}
+Provisioning centos:7 using docker provisioner.[✔]
+localhost:2222, centos:7
 ```
+
 To double check that all is OK, run the following: `docker ps` and you should see output similar to below
+
 ```
 CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS              PORTS                  NAMES
 7b12b616cf65        centos:7            "/bin/bash"         4 minutes ago       Up 4 minutes        0.0.0.0:2222->22/tcp   centos_7-2222
 ```
 
 #### Inventory (bolt inventory)
-At this stage, it's worth pointing out that the provisioned targets will be in the inventory.yaml file. Litmus creates this file in your working directory. Therefore, if you type `cat inventory.yaml` it should display the targets you just created. For the above example, the following should appear:
+
+At this stage, it's worth pointing out that the provisioned targets will be in the `inventory.yaml` file. Litmus creates this file in your working directory. Therefore, if you type `cat inventory.yaml` it should display the targets you just created. For the above example, the following should appear:
 
 ```yaml
 > cat inventory.yaml
 ---
+version: 2
 groups:
+- name: docker_nodes
+  targets: []
 - name: ssh_nodes
-  nodes:
-  - name: localhost:2222
+  targets:
+  - uri: localhost:2222
     config:
       transport: ssh
       ssh:
@@ -79,30 +86,37 @@ groups:
     facts:
       provisioner: docker
       container_name: centos_7-2222
+      platform: centos:7
 - name: winrm_nodes
-  nodes: []
+  targets: []
 ```
 
 ### Install the Puppet Agent on your target
+
 The next step is to install the latest Puppet Agent on the CentOS Docker image. Run the following in your terminal.
+
 ```
 > pdk bundle exec rake litmus:install_agent
 ```
 
 #### Validating with Bolt
-This will just output a single line with `install_agent`. To verify that the agent installed successfully on the target you can use bolt to check (you could also just use SSH)! Simply type the following command to verify that the agent is installed:
+
+This will just output a single line with `install_agent`. To verify that the agent installed successfully on the target you can use bolt to check (you could also just use SSH)! Type the following command to verify that the agent is installed:
+
 ```
-> bolt command run 'puppet --version' -n localhost:2222 -i inventory.yaml
+> pdk bundle exec bolt command run 'puppet --version' -n localhost:2222 -i inventory.yaml
 ```
+
 where, `localhost:2222` is the name of the node as taken from the inventory.yaml file in your current working directory. You should receive output to below, displaying the version of the Puppet Agent that was installed:
+
 ```
 > bolt command run 'puppet --version' -n localhost:2222 -i inventory.yaml
-Started on localhost...
-Finished on localhost:
+Started on localhost:2222...
+Finished on localhost:2222:
   STDOUT:
-    6.3.0
-Successful on 1 node: localhost:2222
-Ran on 1 node in 0.92 seconds
+    6.13.0
+Successful on 1 target: localhost:2222
+Ran on 1 target in 1.72 sec
 ```
 
 ### Install the module on your target
@@ -122,9 +136,11 @@ To check if the module did install, again we can use bolt. Run the puppet module
 #### validating with Bolt
 
 ```
-> bolt command run 'puppet module list' -n localhost:2222 -i inventory.yaml
+> pdk bundle exec bolt command run 'puppet module list' -n localhost:2222 -i inventory.yaml
 ```
+
 The output should be similar to what's below, with the MoTD module showing as installed (along with its dependent modules).
+
 ```
 > bolt command run 'puppet module list' -n localhost:2222 -i inventory.yaml
 Started on localhost...
@@ -139,36 +155,56 @@ Finished on localhost:
     /opt/puppetlabs/puppet/modules (no modules installed)
 Successful on 1 node: localhost:2222
 Ran on 1 node in 1.11 seconds
+Started on localhost:2222...
+Finished on localhost:2222:
+  STDOUT:
+    /etc/puppetlabs/code/environments/production/modules
+    ├── puppetlabs-motd (v4.1.0)
+    ├── puppetlabs-registry (v3.1.0)
+    ├── puppetlabs-stdlib (v6.2.0)
+    └── puppetlabs-translate (v2.1.0)
+    /etc/puppetlabs/code/modules (no modules installed)
+    /opt/puppetlabs/puppet/modules (no modules installed)
+Successful on 1 target: localhost:2222
+Ran on 1 target in 1.77 sec
 ```
 
 ### Run the tests
 So far we've provisioned the target, installed the Puppet Agent, and installed the relevant module. Now, it's time to run the tests. Run the following command from your working directory.
+
 ```
 > pdk bundle exec rake litmus:acceptance:parallel
 ```
 This will execute the acceptance tests in the [acceptance folder](https://github.com/puppetlabs/puppetlabs-motd/tree/master/spec/acceptance) of the module. If the tests have run successfully, you will see output similar to below.
 ```
 > pdk bundle exec rake litmus:acceptance:parallel
-Running against 1 machines |Time: 00:00:48 | ======================================================================================== | Time: 00:00:48
++ [✔] Running against 1 targets.
+|__ [✔] localhost:2222, centos:7
+================
+localhost:2222, centos:7
 ......
 
-Finished in 46.38 seconds (files took 1.97 seconds to load)
+Finished in 42.95 seconds (files took 10.15 seconds to load)
 6 examples, 0 failures
 
-
-pid 24471 exit 0
+pid 1476 exit 0
+Successful on 1 nodes: ["localhost:2222, centos:7"]
 ```
 
 ### Clean up
+
 Now that the tests have been run it's time to clean up. Litmus includes a tear down command that will allow the targets to be removed. In this example, we will be removing the Docker container. Type the following command
+
 ```
 > pdk bundle exec rake litmus:tear_down
 ```
+
 You should receive some JSON output, similar to what's below.
 
 ```
-{"node"=>"localhost", "status"=>"success", "result"=>{"_output"=>"Removed localhost:2222\n{\"status\":\"ok\"}\n"}}
+localhost:2222: success
 ```
+
 To double check that the target has been removed, type `docker ps` from the command line and you should see that it's no longer running.
 
 ## Next steps
