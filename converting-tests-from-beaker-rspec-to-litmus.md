@@ -4,45 +4,51 @@ Below we will list some example patterns you may want to use in your tests, when
 ## Where to put your helper functions
 Generally helper functions used to live everywhere, special files, in the spec_helper_acceptance.rb
 
-     spec\
-     spec\spec_helper_acceptance.rb        <-some functions in here
-     spec\acceptance\helper_functions.rb   <-some functions in here
-     spec\acceptance\test_spec.rb          <-some functions in here
+```
+spec\
+spec\spec_helper_acceptance.rb        <-some functions in here
+spec\acceptance\helper_functions.rb   <-some functions in here
+spec\acceptance\test_spec.rb          <-some functions in here
+```
 
 **New way**: we put all helper code in one place, it will be automatically loaded by spec_helper_acceptance.rb
 
-     spec\spec_helper_acceptance_local.rb   <- all helper code should live in here
+```
+spec\spec_helper_acceptance_local.rb   <- all helper code should live in here
+```
 
 ## A basic test example
 
 Below is a standard trope for checking that your puppet code works, it is a repeatable pattern.
 
-    require 'spec_helper_acceptance'
+```ruby
+require 'spec_helper_acceptance'
 
-    describe 'concat noop parameter', if: ['debian', 'redhat', 'ubuntu'].include?(os[:family]) do
-      before(:all) do
-        @basedir = setup_test_directory
-      end
-      describe 'with "/usr/bin/test -e %"' do
-        let(:pp) do
-          <<-MANIFEST
-          concat_file { '#{@basedir}/file':
-            noop => false,
-          }
-          concat_fragment { 'content':
-            target  => '#{@basedir}/file',
-            content => 'content',
-          }
-        MANIFEST
-        end
-
-        it 'applies the manifest twice with no stderr' do
-          idempotent_apply(pp)
-          expect(file("#{@basedir}/file")).to be_file
-          expect(file("#{@basedir}/file").content).to contain 'content'
-        end
-      end
+describe 'concat noop parameter', if: ['debian', 'redhat', 'ubuntu'].include?(os[:family]) do
+  before(:all) do
+    @basedir = setup_test_directory
+  end
+  describe 'with "/usr/bin/test -e %"' do
+    let(:pp) do
+      <<-MANIFEST
+      concat_file { '#{@basedir}/file':
+        noop => false,
+      }
+      concat_fragment { 'content':
+        target  => '#{@basedir}/file',
+        content => 'content',
+      }
+    MANIFEST
     end
+
+    it 'applies the manifest twice with no stderr' do
+      idempotent_apply(pp)
+      expect(file("#{@basedir}/file")).to be_file
+      expect(file("#{@basedir}/file").content).to contain 'content'
+    end
+  end
+end
+```
 
 ## Checking your manifest code is idempotent
 
