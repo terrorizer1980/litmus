@@ -166,7 +166,7 @@ Now that the tests have been run it's time to clean up. Litmus includes a tear d
 ```
 You should receive some JSON output, similar to what's below.
 
-```json
+```
 {"node"=>"localhost", "status"=>"success", "result"=>{"_output"=>"Removed localhost:2222\n{\"status\":\"ok\"}\n"}}
 ```
 To double check that the target has been removed, type `docker ps` from the command line and you should see that it's no longer running.
