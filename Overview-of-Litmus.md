@@ -105,8 +105,8 @@ A few notes:
 - The `list_name` is arbitrary and can be any string you want, though it's best to keep it simple.
 - The `provisioner` specifies which provision task to use.
 - The `images` must specify an array of one or more images to provision.
-- Any keys inside of `params` will be turned into process-scope environment variables with `LITMUS_` and upcase the actual key.
-  So, in this example, `param_a` would become an environment variable called `LITMUS_PARAM_A` with a value of `someone`.
+- Any keys inside of `params` will be turned into process-scope environment variables as the key, upcased.
+  So, in this example, `param_a` would become an environment variable called `PARAM_A` with a value of `someone`.
 
 An example `provision.yaml` might look like this:
 
@@ -134,8 +134,8 @@ vagrant:
   provisioner: vagrant
   images: ['centos/7', 'generic/ubuntu1804', 'gusztavvargadr/windows-server']
   params:
-    hyperv_smb_username: someone
-    hyperv_smb_password: something
+    vagrant_hyperv_smb_username: someone
+    vagrant_hyperv_smb_password: something
 ```
 
 You can then provision a list of targets from that file:
