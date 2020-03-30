@@ -67,23 +67,9 @@ Some modules can be tested against localhost, i.e. the machine you are running y
 
 ### Testing services
 
-For testing services that require a service manager (like systemd), the default docker images might not be enough. In this case, there is a collection of docker images, with a service manager enabled, based on https://github.com/puppetlabs/litmus_image
+For testing services that require a service manager (like systemd), the default docker images might not be enough. In this case, there is a collection of docker images, with a service manager enabled, based on https://github.com/puppetlabs/litmusimage. See the [docker hub](https://hub.docker.com/u/litmusimage) for available images.
 
-Images available on https://hub.docker.com/u/litmusimage:
-
-* litmusimage/debian8
-* litmusimage/debian9
-* litmusimage/debian10
-* litmusimage/oraclelinux6
-* litmusimage/oraclelinux7
-* litmusimage/centos6
-* litmusimage/centos7
-* litmusimage/scientificlinux6
-* litmusimage/ubuntu14.04
-* litmusimage/ubuntu16.04
-* litmusimage/ubuntu18.04
-
-An alternative to this approach, would be to use a dedicated VM using another provisioner like vmpooler or vagrant.
+An alternative to this approach would be to use a dedicated VM using another provisioner like vmpooler or vagrant.
 
 ### Provisioning via YAML
 
