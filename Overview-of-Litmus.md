@@ -1,6 +1,8 @@
-# Commands and Structure
+# Litmus core commands
 
-Litmus has 5 commands at its core:
+Using the Litmus commands, you can provision test platforms such as containers/images, install a Puppet agent, install a module and run tests.  
+
+Litmus has five commands:
 
 1. [Provision: 'rake litmus:provision'](#provision)
 2. [Install the agent: 'rake litmus:install_agent](#agent)
@@ -8,12 +10,12 @@ Litmus has 5 commands at its core:
 4. [Run the tests: 'rake litmus:acceptance:parallel'](#test)
 5. [Remove the provisioned machines: 'rake litmus:tear_down'](#teardown)
 
-These commands allow user to create a test environment and run tests against those systems. Not all these steps are needed for every scenario.
+These commands allow you to create a test environment and run tests against your systems. Note that not all of these steps are needed for every deployment.
 
-3 likely test setups are:
-  * run against localhost
-  * run against an existing machine that has Puppet installed
-  * provision a fresh system and install Puppet 
+Three common test setups are:
+  * Run against localhost
+  * Run against an existing machine that has Puppet installed
+  * Provision a fresh system and install Puppet 
 
 Once you have your environment, Litmus is designed to speed up the following workflow:
 
@@ -25,9 +27,11 @@ At any point you can re-run tests, or provision new systems and add them to your
 
 <a name="provision"/>
 
-## Provisioning
+### Provisioning
 
-Provisioning is accomplished using [provision](https://github.com/puppetlabs/provision). It's possible to spin up Docker containers, vagrant machines, or machines in private clouds, e.g. vmpooler. Example commands:
+Using the Litmus [provision](https://github.com/puppetlabs/provision) command, you can spin up Docker containers, vagrant machines or machines in private clouds, such as vmpooler. 
+
+For example:
 
 ```
 pdk bundle exec rake 'litmus:provision[vmpooler, redhat-6-x86_64]'
@@ -35,9 +39,11 @@ pdk bundle exec rake 'litmus:provision[docker, ubuntu:18.04]'
 pdk bundle exec rake 'litmus:provision[vagrant, gusztavvargadr/windows-server]'
 ```
 
-Provisioning is extensible - if your chosen provisioner isn't available feel free to raise an issue on the [provision repo](https://github.com/puppetlabs/provision), or better still, raise a PR to add your chosen provisioner!
+> Note: Provisioning is extensible — if your chosen provisioner isn't available, raise an issue on the [provision repo](https://github.com/puppetlabs/provision), or a PR to add your chosen provisioner.
 
-The command creates a Bolt inventory.yml file that is used by Litmus - a sample is displayed below. You can manually add machines to this file. The Bolt [documentation](https://puppet.com/docs/bolt/1.x/inventory_file.html) provides more examples.
+The provision command creates a Bolt `inventory.yml` file for Litmus to use. You can manually add machines to this file. 
+
+For example:
 
 ```yaml
 ---
@@ -63,38 +69,40 @@ groups:
   targets: []
 ```
 
-Some modules can be tested against localhost, i.e. the machine you are running your test from. This can be dangerous. If you are running against localhost you can go to [Run the tests: 'rake litmus:parallel'](#test)
+For more examples of inventory files, see the [Bolt documentation](https://puppet.com/docs/bolt/1.x/inventory_file.html).
 
-### Testing services
+Note that you can test some modules against localhost — the machine you are running your test from. Note that this is only recommended if you are familiar with the code base, as tests may have unexpected side effects on your local machine. To run a test against localhost, see [Run the tests: 'rake litmus:parallel'](#test)
 
-For testing services that require a service manager (like systemd), the default docker images might not be enough. In this case, there is a collection of docker images, with a service manager enabled, based on https://github.com/puppetlabs/litmusimage. See the [docker hub](https://hub.docker.com/u/litmusimage) for available images.
+#### Testing services
 
-An alternative to this approach would be to use a dedicated VM using another provisioner like vmpooler or vagrant.
+For testing services that require a service manager (like systemd), the default Docker images might not be enough. In this case, there is a collection of Docker images, with a service manager enabled, based on https://github.com/puppetlabs/litmusimage. For available images, see the [docker hub](https://hub.docker.com/u/litmusimage).
 
-### Provisioning via YAML
+Alternatively, you can use a dedicated VM that uses another provisioner, for example vmpooler or vagrant.
 
-In addition to directly provisioning one or more machines using `litmus:provision` as shown above, you can also define one or more sets of nodes in a `provision.yaml` file at the root of your project and use that to provision targets.
+#### Provisioning via YAML
 
-A single example might look like this:
- ```yaml
+In addition to directly provisioning one or more machines using `litmus:provision`, you can also define one or more sets of nodes in a `provision.yaml` file and use that to provision targets.
+
+An example of a `provision.yaml` defining a single node:
+
+```yaml
 ---
 list_name:
   provisioner: vagrant
   images: ['centos/7', 'generic/ubuntu1804', 'gusztavvargadr/windows-server']
   params:
     param_a: someone
-    param_b: something
+    param_b: something   
 ```
 
-A few notes:
+Take note of the following:
 
-- The `list_name` is arbitrary and can be any string you want, though it's best to keep it simple.
+- The `list_name` is arbitrary and can be any string you want.
 - The `provisioner` specifies which provision task to use.
 - The `images` must specify an array of one or more images to provision.
-- Any keys inside of `params` will be turned into process-scope environment variables as the key, upcased.
-  So, in this example, `param_a` would become an environment variable called `PARAM_A` with a value of `someone`.
+- Any keys inside of `params` will be turned into process-scope environment variables as the key, upcased. In the example above, `param_a` would become an environment variable called `PARAM_A` with a value of `someone`.
 
-An example `provision.yaml` might look like this:
+An example of a `provision.yaml` defining multiple nodes:
 
 ```yaml
 ---
@@ -137,44 +145,50 @@ pdk bundle exec rake 'litmus:provision_list[vagrant]'
 
 <a name="agent"/>
 
-## Installing the Puppet Agent
+### Installing a Puppet agent
 
-Installing the agent on the provisioned targets is accomplished by using the [Puppet Agent module](https://github.com/puppetlabs/puppetlabs-puppet_agent). Using the tasks in this module we can install different versions of the Puppet Agent on many different OSes. This command can install the agent on a single target or on all targets in the inventory file. Agents are installed in parallel when running against multiple targets.
+Install an agent on the provisioned targets using the [Puppet Agent module](https://github.com/puppetlabs/puppetlabs-puppet_agent). The tasks in this module allow you to install different versions of the Puppet agent, on  different OSes. 
+
+Use the following command to install an agent on a single target or on all the targets in the inventory file. Note that agents are installed in parallel when running against multiple targets.
  
-The sample commands below illustrate how to install the Puppet Agent on targets.
+Install an agent on a target using the following commands:
+
 ```
-# Installs the latest Puppet Agent on all targets
+# Install the latest Puppet agent on a specific target
+pdk bundle exec rake 'litmus:install_agent[gn55owqktvej9fp.delivery.puppetlabs.net]' 
+
+# Install the latest Puppet agent on all targets
 pdk bundle exec rake "litmus:install_agent" 
 
-# Installs Puppet 5 on all targets
+# Install Puppet 5 on all targets
 pdk bundle exec rake 'litmus:install_agent[puppet5]' 
 
-# Install the latest Puppet Agent on a specific target
-pdk bundle exec rake 'litmus:install_agent[gn55owqktvej9fp.delivery.puppetlabs.net]' 
 ```
 
 <a name="module"/>
 
-## Installing the module under test
+### Installing a module
 
-The module under test is installed on the target by Litmus using the PDK. You can specify a single target or run against all targets in the inventory file. Modules are installed in parallel when running against multiple targets.
+Using PDK and Bolt, the `rake litmus:install_module` command builds and installs a module on the target. 
 
-The command below illustrate how to install your module under test on targets.
+For example:
+
 ```
 pdk bundle exec rake "litmus:install_module"
 ```
 
 <a name="test"/>
 
-## Running Tests
-There are several options when it comes to running your tests at this point. Litmus primarily uses [serverspec](https://serverspec.org/) though other testing tools can be used.
+### Running tests
 
-It is possible to:
-* run all tests against a single target;
-* run all tests against all targets in parallel; or
-* run a single test against a single target.
+There are several options for running tests. Litmus primarily uses [serverspec](https://serverspec.org/), though you can use other testing tools.
 
-The example below shows how to run all tests against a single target:
+When running tests with Litmus, you can:
+* Run all tests against a single target.
+* Run all tests against all targets in parallel.
+* Run a single test against a single target.
+
+An example running all tests against a single target:
 
 ```
 # On Linux/MacOS:
@@ -185,7 +199,7 @@ $ENV:TARGET_HOST = 'lk8g530gzpjxogh.delivery.puppetlabs.net'
 pdk bundle exec rspec ./spec/acceptance
 ```
 
-The example below shows how to run a specific test against a single target:
+An example running a specific test against a single target:
 
 ```
 # On Linux/MacOS:
@@ -196,35 +210,33 @@ $ENV:TARGET_HOST = 'lk8g530gzpjxogh.delivery.puppetlabs.net'
 pdk bundle exec rspec ./spec/acceptance/test_spec.rb:21
 ```
 
-This example below shows how to run all tests against all targets, as specified in the inventory.yml file.
+An example running all tests against all targets, as specified in the inventory.yml file:
  
 ```
 pdk bundle exec rake litmus:acceptance:parallel 
 ```
 
-The example below shows how to run all tests against localhost. Please note that this is only recommended if you are familiar with the code base as tests may have unexpected side effects on your local machine.
+An example running all tests against localhost. Note that this is only recommended if you are familiar with the code base, as tests may have unexpected side effects on your local machine.
 
 ```
 pdk bundle exec rake litmus:acceptance:localhost
 ```
 
-If this does not meet your needs you can look at this bolt task for running a test [run_tests task](https://github.com/puppetlabs/provision/wiki#run_tests) or this bolt plan [run tests plan](https://github.com/puppetlabs/provision/wiki#tests_against_agents)
+For more test examples, see [run_tests task](https://github.com/puppetlabs/provision/wiki#run_tests) or [run tests plan](https://github.com/puppetlabs/provision/wiki#tests_against_agents)
 
 <a name="teardown"/>
 
-## Tearing Down Provisioned Systems
+### Removing provisioned systems
 
-It's good practice to clean up after running tests. This command is used to clean up any provisioned systems, either an individual target that has been specified or if none are specified it will tear down and clean up all machines present in inventory.yml.
-
-The sample commands below illustrate how to tear down targets after testing.
+Use the commands below to clean up provisioned systems after running tests. Specify whether to to remove an individual target or all the targets in the inventory.yaml file.
 
 ```
-# Tear down all targets in inventory.yml
-pdk bundle exec rake "litmus:tear_down"
-
 # Tear down a specific target vm
 pdk bundle exec rake "litmus:tear_down[c985f9svvvu95nv.delivery.puppetlabs.net]"
 
 # Tear down a specific target running locally
 pdk bundle exec rake "litmus:tear_down[localhost:2222]"
+
+# Tear down all targets in inventory.yml
+pdk bundle exec rake "litmus:tear_down"
 ```
