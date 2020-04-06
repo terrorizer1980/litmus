@@ -10,4 +10,4 @@ In this guide, you will go through the following:
 * [Converting modules to use Litmus](https://github.com/puppetlabs/puppet_litmus/wiki/Converting-a-module-to-use-Litmus). An example that walks you through converting a module to use Litmus.
 * [Test examples](https://github.com/puppetlabs/puppet_litmus/wiki/Litmus-test-examples). Common examples you can use in your tests. 
 * [Helper functions](https://github.com/puppetlabs/puppet_litmus/wiki/Litmus-helper-functions). Litmus provides helper functions that you can use in your tests.
-* [Command reference](https://github.com/puppetlabs/puppet_litmus/wiki/Helper-Functions-for-Litmus). Including useful Docker commands. 
+* [Command reference](https://github.com/puppetlabs/puppet_litmus/wiki/Command-reference). Including useful Docker commands. 
