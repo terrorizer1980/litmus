@@ -1,5 +1,3 @@
-# Litmus core commands
-
 Using the Litmus commands, you can provision test platforms such as containers/images, install a Puppet agent, install a module and run tests.  
 
 Litmus has five commands:
@@ -27,7 +25,7 @@ At any point you can re-run tests, or provision new systems and add them to your
 
 <a name="provision"/>
 
-### Provisioning
+## Provisioning
 
 Using the Litmus [provision](https://github.com/puppetlabs/provision) command, you can spin up Docker containers, vagrant machines or machines in private clouds, such as vmpooler. 
 
@@ -73,13 +71,13 @@ For more examples of inventory files, see the [Bolt documentation](https://puppe
 
 Note that you can test some modules against localhost — the machine you are running your test from. Note that this is only recommended if you are familiar with the code base, as tests may have unexpected side effects on your local machine. To run a test against localhost, see [Run the tests: 'rake litmus:parallel'](#test)
 
-#### Testing services
+### Testing services
 
 For testing services that require a service manager (like systemd), the default Docker images might not be enough. In this case, there is a collection of Docker images, with a service manager enabled, based on https://github.com/puppetlabs/litmusimage. For available images, see the [docker hub](https://hub.docker.com/u/litmusimage).
 
 Alternatively, you can use a dedicated VM that uses another provisioner, for example vmpooler or vagrant.
 
-#### Provisioning via YAML
+### Provisioning via YAML
 
 In addition to directly provisioning one or more machines using `litmus:provision`, you can also define one or more sets of nodes in a `provision.yaml` file and use that to provision targets.
 
@@ -145,7 +143,7 @@ pdk bundle exec rake 'litmus:provision_list[vagrant]'
 
 <a name="agent"/>
 
-### Installing a Puppet agent
+## Installing a Puppet agent
 
 Install an agent on the provisioned targets using the [Puppet Agent module](https://github.com/puppetlabs/puppetlabs-puppet_agent). The tasks in this module allow you to install different versions of the Puppet agent, on  different OSes. 
 
@@ -167,7 +165,7 @@ pdk bundle exec rake 'litmus:install_agent[puppet5]'
 
 <a name="module"/>
 
-### Installing a module
+## Installing a module
 
 Using PDK and Bolt, the `rake litmus:install_module` command builds and installs a module on the target. 
 
@@ -179,7 +177,7 @@ pdk bundle exec rake "litmus:install_module"
 
 <a name="test"/>
 
-### Running tests
+## Running tests
 
 There are several options for running tests. Litmus primarily uses [serverspec](https://serverspec.org/), though you can use other testing tools.
 
@@ -226,7 +224,7 @@ For more test examples, see [run_tests task](https://github.com/puppetlabs/provi
 
 <a name="teardown"/>
 
-### Removing provisioned systems
+## Removing provisioned systems
 
 Use the commands below to clean up provisioned systems after running tests. Specify whether to to remove an individual target or all the targets in the inventory.yaml file.
 
