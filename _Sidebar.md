@@ -1,4 +1,4 @@
-* [Welcome to the Litmus wiki](./)
+* [Home](./)
 * [Litmus core commands](./Litmus-core-commands)
 * [Tools included in Litmus](./tools-included-in-Litmus)
 * [Running acceptance tests with Litmus](./Running-acceptance-tests)
