@@ -2,9 +2,9 @@ The following example walks you through converting a module to use Litmus testin
 
 ### Before you begin
 
-***Important:*** If your module is compatible with [Puppet Development Kit (PDK)](https://puppet.com/docs/pdk/1.x/pdk.html), meaning it was either created with the PDK or has been converted to use the PDK using the `pdk convert` command, you can convert your module to use Litmus using sync.yml. This means you can skip step 1 (add code to your `Gemfile` and `Rakefile`), and move straight to step 2 (Add code to the spec file). PDK manages the Gemfile and Rakefile. These file changes go either through sync.yml. The rest of the changes needs to happen manually. 
+***Important:*** If your module is compatible with [Puppet Development Kit (PDK)](https://puppet.com/docs/pdk/1.x/pdk.html), meaning it was either created with PDK or has been converted to use PDK using the `pdk convert` command, you can convert your module to use Litmus using sync.yml. This means you can skip step 1 (add code to your `Gemfile` and `Rakefile`), and move straight to step 2 (Add code to the spec file). PDK manages the Gemfile and Rakefile, and these file changes go through sync.yml. To verify that your module is compatible with PDK, look in the modules `metadata.json` file and see whether there is an entry that states the PDK version. It will look something like `"pdk-version": "1.17.0"`.
 
-To verify that the module is compatible with PDK, look in the modules `metadata.json` file and see whether there is an entry that states the PDK version. It will look something like `"pdk-version": "1.17.0"`.
+You need to make the rest of the changes manually — step 2 onwards. 
 
 To convert a module to use Litmus, add code to the following files:
 
