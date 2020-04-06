@@ -1,4 +1,4 @@
-The following example walks you through converting a module to use Litmus for acceptance testing.
+The following example walks you through converting a module to use Litmus testing.
 
 ### Before you begin
 
