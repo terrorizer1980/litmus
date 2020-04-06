@@ -19,7 +19,7 @@ Ensure you have installed the following:
 * [Git]((https://git-scm.com/book/en/v2/Getting-Started-Installing-Git))
 	* To check  where you already have git, run `git --version` in your terminal.
 * [Puppet Development Kit (PDK)](https://puppet.com/docs/pdk/1.x/pdk_install.html). 
-	* To check whether you already have PDK, run `pdk --version` from the command line. Note that you you need version `1.17.0` or later. If not, then following the 
+	* To check whether you already have PDK, run `pdk --version` from the command line. Note that you need version `1.17.0` or later. If not, then following the 
 
 ### 1. Clone the MoTD module from GitHub.
 
