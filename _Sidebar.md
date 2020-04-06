@@ -1,5 +1,5 @@
 * [Welcome to the Litmus wiki](./Welcome-to-the-Litmus-wiki)
-* Litmus core commands](./Litmus-core-commands)
+* [Litmus core commands](./Litmus-core-commands)
 * [Tools included in Litmus](./tools-included-in-Litmus)
 * [Running acceptance tests with Litmus](./Running-acceptance-tests)
 * [Converting modules to use Litmus](./Converting-modules-to-use-Litmus]
