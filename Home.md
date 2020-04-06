@@ -8,7 +8,7 @@ In this guide, you will go through the following:
 
 * [Litmus core commands](https://github.com/puppetlabs/puppet_litmus/wiki/Overview-of-Litmus). An overview of the core Litmus commands and how to use them.
 * [Tools included in Litmus](https://github.com/puppetlabs/puppet_litmus/wiki/Architecture-of-puppet-litmus). An overview of the tools Litmus uses.
-* [Running acceptance tests with Litmus](https://github.com/puppetlabs/puppet_litmus/wiki/Tutorial:-use-Litmus-to-execute-acceptance-tests-with-a-sample-module-(MoTD). An example that walks you through running an acceptance test with Litmus on a module that has already been converted.
+* [Running acceptance tests with Litmus](https://github.com/puppetlabs/puppet_litmus/wiki/Tutorial:-use-Litmus-to-execute-acceptance-tests-with-a-sample-module-(MoTD)). An example that walks you through running an acceptance test with Litmus on a module that has already been converted.
 * [Converting modules to use Litmus](https://github.com/puppetlabs/puppet_litmus/wiki/Converting-a-module-to-use-Litmus). An example that walks you through converting a module to use Litmus.
 * [Helper functions](https://github.com/puppetlabs/puppet_litmus/wiki/Helper-Functions-for-Litmus) Litmus provides helper functions that you can use in your tests.
 * [Test examples](https://github.com/puppetlabs/puppet_litmus/wiki/converting-tests-from-beaker-rspec-to-litmus) Common examples you can use in your tests. 
