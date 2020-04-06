@@ -1,25 +1,8 @@
-# Introduction
-Below we will list some example patterns you may want to use in your tests, when moving from beaker-rspec style testing. 
+These are some common examples you can use in your tests. Take note of the differences between beaker-rspec style testing and Litmus. 
 
-## Where to put your helper functions
-Generally helper functions used to live everywhere, special files, in the spec_helper_acceptance.rb
+## Testing Puppet code
 
-```
-spec\
-spec\spec_helper_acceptance.rb        <-some functions in here
-spec\acceptance\helper_functions.rb   <-some functions in here
-spec\acceptance\test_spec.rb          <-some functions in here
-```
-
-**New way**: we put all helper code in one place, it will be automatically loaded by spec_helper_acceptance.rb
-
-```
-spec\spec_helper_acceptance_local.rb   <- all helper code should live in here
-```
-
-## A basic test example
-
-Below is a standard trope for checking that your puppet code works, it is a repeatable pattern.
+The following example tests that your Puppet code works. Take note of the repeatable pattern.
 
 ```ruby
 require 'spec_helper_acceptance'
@@ -50,9 +33,9 @@ describe 'concat noop parameter', if: ['debian', 'redhat', 'ubuntu'].include?(os
 end
 ```
 
-## Checking your manifest code is idempotent
+## Testing manifest code for idempotency
 
-The old way to test for idempotency is to apply the manifest twice checking for failures on the first apply and changes on the second apply.
+Previously, when testing for test for idempotency you would apply manifest twice and check for failures on the first apply and changes on the second apply. For example:
 
 ```ruby
 pp = ' class { 'mysql::server' } '
@@ -60,7 +43,7 @@ execute_manifest(pp, catch_failures: true)
 execute_manifest(pp, catch_changes: true)
 ```
 
-New way with Litmus, we can use the idempotent_apply helper function. (its quicker too) 
+With Litmus, you just need to use the `idempotent_apply` helper function. For example 
 
 ```ruby
 pp = ' class { 'mysql::server' } '
@@ -69,7 +52,7 @@ idempotent_apply(pp)
 
 ## Running shell commands
 
-The shell command has become run_shell. Generally in the past code blocks were used.
+Previously,, it was common to use code blocks when running shell commands. With Litmus, use the shell command is `run_shell`. For example:
 
 ```ruby
 shell('/usr/local/sbin/mysqlbackup.sh') do |r|
@@ -77,7 +60,7 @@ shell('/usr/local/sbin/mysqlbackup.sh') do |r|
 end
 ```
 
-This can be done on a single line, if you are only checking one thing from the command
+You can do run this on a single line:
 
 ```ruby
 expect(run_shell('/usr/local/sbin/mysqlbackup.sh').stderr).to eq('')
@@ -85,7 +68,7 @@ expect(run_shell('/usr/local/sbin/mysqlbackup.sh').stderr).to eq('')
 
 ### Serverspec Idioms
 
-You can also use serverspec declarations:
+An example of a serverspec declaration:
 
 ```ruby
 command('/usr/local/sbin/mysqlbackup.sh') do
@@ -96,29 +79,32 @@ end
 
 ## Checking facts
 
-Calling facter or getting other system information was like:
+Previously, you would call facter or getting other system information like:
 
 ```ruby
 fact_on(host, 'osfamily')
 fact('selinux')
 ```
 
-You can now use the serverspec functions (incidentally, these are cached so are quick to call) look here for more https://serverspec.org/host_inventory.html 
+With Litmus, you can use the serverspec functions — these are cached so are quick to call. For example:
 
 ```ruby
 os[:family]
 host_inventory['facter']['os']['release']
 ```
+For more information, see the [serverspec docs](https://serverspec.org/host_inventory.html).
 
-## Debugging your tests
-There is a known issue when running certain commands from within a pry session. It is recommended that you use the following pry-byebug gem. 
+## Debugging tests
+
+There is a known issue when running certain commands from within a pry session. To debug tests, use the following pry-byebug gem: 
 
 ```ruby
 gem  'pry-byebug', '> 3.4.3' 
 ```
 
-## Travis setup example
-This is what a Travis config chunk would look like for running puppet_litmus tests.
+## Setting up Travis 
+
+An example of a Travis configuration chunk in a `puppet_litmus` test:
 
 ```yaml
 ---
