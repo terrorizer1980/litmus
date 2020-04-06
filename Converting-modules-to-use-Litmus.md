@@ -1,20 +1,24 @@
 The following example walks you through converting a module to use Litmus testing.
 
+The process involves adding code to the following files:
+
+1. The `Gemfile`
+2. The `Rakefile` 
+3. The`.fixtures.yml` file
+4. The `spec_helper_acceptance.rb` file
+5. The `spec_helper_acceptance_local.rb` file
+
 ### Before you begin
 
-***Important:*** If your module is compatible with [Puppet Development Kit (PDK)](https://puppet.com/docs/pdk/1.x/pdk.html), meaning it was either created with PDK or has been converted to use PDK using the `pdk convert` command, you can convert your module to use Litmus using sync.yml. This means you can skip step 1 (add code to your `Gemfile` and `Rakefile`), and move straight to step 2 (Add code to the spec file). PDK manages the Gemfile and Rakefile, and these file changes go through sync.yml. To verify that your module is compatible with PDK, look in the modules `metadata.json` file and see whether there is an entry that states the PDK version. It will look something like `"pdk-version": "1.17.0"`.
+***Important:*** If your module is compatible with [Puppet Development Kit (PDK)](https://puppet.com/docs/pdk/1.x/pdk.html), meaning it was either created with PDK or has been converted to use PDK using the `pdk convert` command, you can convert your module to use Litmus using sync.yml. This means you can skip step 1 and 2 (add code to your `Gemfile` and `Rakefile`), and move straight to step 3 (Add code to the spec file). PDK manages the Gemfile and Rakefile, and these file changes go through sync.yml. To verify that your module is compatible with PDK, look in the modules `metadata.json` file and see whether there is an entry that states the PDK version. It will look something like `"pdk-version": "1.17.0"`.
 
-You need to make the rest of the changes manually — step 2 onwards. 
-
-To convert a module to use Litmus, add code to the following files:
+You need to make the rest of the changes manually — step 3 onwards. 
 
 ### 1. Add code to your `Gemfile` and `Rakefile` 
 
-***Note*** If your module is compatible with PDK, skip this step and move to step 2.
+***Note*** If your module is compatible with PDK, skip this step and move to step 3.
 
-Inside the root directory of your module, you will have a `Gemfile` and `Rakefile`. 
-
-Inside the `Gemfile`, add the following code to `group :development` section:
+Inside the root directory of your module, add the following code to `group :development` section of the `Gemfile`:
 
 ```ruby
 gem 'puppet_litmus'
@@ -23,7 +27,11 @@ gem 'serverspec'
 ```
 This code makes sure the `puppet_litmus` library is included in the module. You can now remove the system tests section, as Beaker is no longer needed.
 
-Inside the`Rakefile`, add the following code to the **top**:
+### 1. Add code to your `Rakefile` 
+
+***Note*** If your module is compatible with PDK, skip this step and move to step 3.
+
+Inside the root directory of your module, add the following code to the **top** of the `Rakefile`:
 
 ```ruby
 require 'puppet_litmus/rake_tasks'
