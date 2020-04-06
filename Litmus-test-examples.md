@@ -35,7 +35,7 @@ end
 
 ## Testing manifest code for idempotency
 
-Previously, when testing for test for idempotency you would apply manifest twice and check for failures on the first apply and changes on the second apply. For example:
+Previously, when testing for idempotency, you would apply manifest twice and check for failures on the first apply and changes on the second apply. For example:
 
 ```ruby
 pp = ' class { 'mysql::server' } '
@@ -52,7 +52,7 @@ idempotent_apply(pp)
 
 ## Running shell commands
 
-Previously,, it was common to use code blocks when running shell commands. With Litmus, use the shell command is `run_shell`. For example:
+Previously, it was common to use code blocks when running shell commands. With Litmus, the shell command is `run_shell`. For example:
 
 ```ruby
 shell('/usr/local/sbin/mysqlbackup.sh') do |r|
