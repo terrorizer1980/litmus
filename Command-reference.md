@@ -1,8 +1,11 @@
-# Contents
+## Useful Docker commands 
 
-## Docker tips and tricks - litmus_image
+To list all docker images, including stopped ones, run:
+```
+litmus_image
+``` 
 
-List all docker images, including stopped ones
+You will get output similar to:
 
 ```
 docker container ls -a
@@ -13,20 +16,25 @@ ae94def06077        waffleimage/oraclelinux6   "/bin/sh -c /sbin/in…"   3 minu
 b7923a25f95b        ubuntu:14.04               "/bin/bash"              6 weeks ago          Exited (255) 4 weeks ago   0.0.0.0:2222->22/tcp   ubuntu_14.04-2222
 ```
 
-stop and remove an image
+To stop and remove an image, run:
 
 ```
 docker rm -f ubuntu_14.04-2222
 ```
 
-connect via ssh to the docker image (don't add to the known hosts file, don't check keys)
+To connect via ssh to the Docker image, run:
+
 ```
 ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no root@localhost -p 2222
 ```
 
-attach to the docker image and detach
+Note that you don't need to add to the known hosts file or check keys.
+
+To attach to the docker image and detach, run:
+
 ```
 docker attach centos6
 # to deattach <ctrl + p> then <ctrl + q>
 ```
-NB you cannot attach to a docker image that is running systemd/upstart ie the litmus_image images
+
+Note that you cannot attach to a Docker image that is running systemd/upstart, for example, the `litmus_image` images. 
