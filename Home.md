@@ -1,12 +1,15 @@
-# Welcome to the Litmus wiki!
+# Welcome to the Litmus wiki
 
-Litmus is a tool that helps you acceptance test Puppet modules. It facilitates testing a module against a variety of OSes, and deployment scenarios. This tool helps provision test platforms such as containers/images, install the Puppet agent, install a module and run tests with minimal effort. These commands empower the user to run different workflows quickly and interactively.
+Litmus a command line tool that allows you to run acceptance tests against Puppet modules for a variety of OSes and deployment scenarios.
 
-The following topics explains different user workflows and a high level overview. 
+Install Litmus as a gem by running gem `install puppet_litmus`.
 
-* [Overview of using Litmus (basic workflow  & concepts)](https://github.com/puppetlabs/puppet_litmus/wiki/Overview-of-Litmus) an in-depth look into the Litmus commands, along with what options are available, e.g. how to install Puppet 5, or how to run against localhost.
-* [Tutorial: use Litmus with MoTD](https://github.com/puppetlabs/puppet_litmus/wiki/Tutorial:-use-Litmus-to-execute-acceptance-tests-with-a-sample-module-(MoTD)). This is a quick start guide, to try Litmus on a module that has already been converted. It allows you to try the different commands and get used to the workflow.
-* [Converting a module to use Litmus](https://github.com/puppetlabs/puppet_litmus/wiki/Converting-a-module-to-use-Litmus). Provides a walkthrough of the steps necessary to convert an existing module that uses [Beaker](https://github.com/puppetlabs/beaker), to use Litmus as the test runner. This shows what files need to be changed, and how to modify the rspec files.
-* [Architecture of Litmus](https://github.com/puppetlabs/puppet_litmus/wiki/Architecture-of-puppet-litmus). An explanation of the technologies involved and what projects are used.
-* [Helper Functions](https://github.com/puppetlabs/puppet_litmus/wiki/Helper-Functions-for-Litmus) that are now available when using Litmus.
-* [Converting your tests beaker rspec to litmus](https://github.com/puppetlabs/puppet_litmus/wiki/converting-tests-from-beaker-rspec-to-litmus) some tips on converting your existing tests to use litmus.
+In this guide, you will go through the following:
+
+* [Litmus core commands)](https://github.com/puppetlabs/puppet_litmus/wiki/Overview-of-Litmus). An overview of the core Litmus commands and how to use them.
+* [Tools included in Litmus](https://github.com/puppetlabs/puppet_litmus/wiki/Architecture-of-puppet-litmus). An overview of the tools Litmus uses.
+* [Running acceptance tests with Litmus](https://github.com/puppetlabs/puppet_litmus/wiki/Tutorial:-use-Litmus-to-execute-acceptance-tests-with-a-sample-module-(MoTD). An example that walks you through running an acceptance test with Litmus on a module that has already been converted.
+* [Converting modules to use Litmus](https://github.com/puppetlabs/puppet_litmus/wiki/Converting-a-module-to-use-Litmus). An example that walks you through converting a module to use Litmus.
+* [Helper functions](https://github.com/puppetlabs/puppet_litmus/wiki/Helper-Functions-for-Litmus) Litmus provides helper functions that you can use in your tests.
+* [Test examples](https://github.com/puppetlabs/puppet_litmus/wiki/converting-tests-from-beaker-rspec-to-litmus) Common examples you can use in your tests. 
+* [Command reference](https://github.com/puppetlabs/puppet_litmus/wiki/Helper-Functions-for-Litmus) Including useful Docker commands. 
