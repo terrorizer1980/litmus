@@ -104,33 +104,6 @@ gem  'pry-byebug', '> 3.4.3'
 
 ## Setting up Travis 
 
-An example of a Travis configuration chunk in a `puppet_litmus` test:
+To see this running on travis, check out one of our live configurations: 
 
-```yaml
----
-language: ruby
-cache: bundler
-before_install:
-  - bundle -v
-  - rm -f Gemfile.lock
-  - gem update --system $RUBYGEMS_VERSION
-  - gem --version
-  - bundle -v
-rvm:
-  - 2.5.1
-matrix:
-  fast_finish: true
-  include:
-    -
-      bundler_args:
-      dist: trusty
-      env: PLATFORMS=debian_puppet5
-      rvm: 2.5.1
-      before_script:
-      - bundle exec rake 'litmus:provision_list[travis_deb]'
-      - bundle exec bolt command run 'apt-get install wget -y' --inventoryfile inventory.yaml --nodes='localhost*'
-      - bundle exec rake 'litmus:install_agent[puppet5]'
-      - bundle exec rake litmus:install_module
-      script:
-      - bundle exec rake litmus:acceptance:parallel
-```
+https://github.com/puppetlabs/puppetlabs-motd/blob/master/.travis.yml
