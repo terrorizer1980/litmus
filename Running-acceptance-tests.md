@@ -13,7 +13,7 @@ The process involves these steps:
 1. Run the MoTD acceptance tests.
 1. Remove the Docker image.
 
-### Before you begin
+## Before you begin
 
 Ensure you have installed the following:
 
@@ -23,9 +23,10 @@ Ensure you have installed the following:
 * [Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
 	* To check  where you already have git, run `git --version` in your terminal.
 * [Puppet Development Kit (PDK)](https://puppet.com/docs/pdk/1.x/pdk_install.html).
-	* To check whether you already have PDK, run `pdk --version` from the command line. Note that you need version `1.17.0` or later. If not, then following the
+	* To check whether you already have PDK, run `pdk --version` from the command line. Note that you need version `1.17.0` or later. If not, then following the [installation instructions](https://puppet.com/docs/pdk/1.x/pdk_install.html).
 
-### 1. Clone the MoTD module from GitHub.
+
+## 1. Clone the MoTD module from GitHub.
 
 From  the command line, clone the Litmus branch of MoTD module:
 ```
@@ -38,7 +39,8 @@ Change directory to the MoTD module
 cd puppetlabs-motd
 ```
 
-### 2. Install the necessary gems.
+
+## 2. Install the necessary gems.
 
 The MoTD module relies on a number of gems. To install these on your machine, run the following command:
 
@@ -46,15 +48,15 @@ The MoTD module relies on a number of gems. To install these on your machine, ru
 pdk bundle install
 ```
 
-### 3. Provision a CentOS Docker image.
 
+## 3. Provision a CentOS Docker image.
 
 Provision a CentOS 7 image in a Docker container to be the target you will test against
 
 To provision the CentOS 7 target (or any OS of your choice), run the following command:
 
 ```
-pdk bundle exec rake 'litmus:provision[docker, centos:7]'
+pdk bundle exec rake 'litmus:provision[docker, litmusimage/centos:7]'
 ```
 
 > Note: Provisioning is extensible. If your preferred provisioner is missing, let us know by raising an issue on the [provision repo](https://github.com/puppetlabs/provision/issues) or submitting a [PR](https://github.com/puppetlabs/provision/pulls).
@@ -100,7 +102,7 @@ groups:
   targets: []
 ```
 
-### 3. Install a Puppet 6 agent on your target
+## 4. Install a Puppet 6 agent on your target
 
 To install a Puppet 6 agent on the CentOS Docker image, run the following command:
 
@@ -126,7 +128,7 @@ Successful on 1 target: localhost:2222
 Ran on 1 target in 1.72 sec
 ```
 
-### 4. Install the MoTD module on the CentOS image.
+## 5. Install the MoTD module on the CentOS image.
 
 To install the MoTD module on the CentOS image, run the following command from inside your working directory:
 
@@ -179,7 +181,7 @@ Ran on 1 target in 1.77 sec
 
 Note that you have also installed the MoTD module's dependent modules.
 
-### 4. Run the MoTD acceptance tests
+## 6. Run the MoTD acceptance tests
 
 To run acceptance tests with Litmus, run the following command from your working directory:
 
@@ -204,7 +206,7 @@ pid 1476 exit 0
 Successful on 1 nodes: ["localhost:2222, centos:7"]
 ```
 
-### 5. Remove the Docker image.
+## 7. Remove the Docker image.
 
 Now that you have completed your tests, you can remove the Docker image with the Litmus tear down command:
 

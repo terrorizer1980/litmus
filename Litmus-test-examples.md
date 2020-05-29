@@ -11,60 +11,40 @@ The following example tests that your Puppet code works. Take note of the repeat
 ```ruby
 require 'spec_helper_acceptance'
 
-describe 'concat noop parameter', if: ['debian', 'redhat', 'ubuntu'].include?(os[:family]) do
-  before(:all) do
-    @basedir = setup_test_directory
-  end
-  describe 'with "/usr/bin/test -e %"' do
-    let(:pp) do
-      <<-MANIFEST
-      concat_file { '#{@basedir}/file':
-        noop => false,
-      }
-      concat_fragment { 'content':
-        target  => '#{@basedir}/file',
-        content => 'content',
-      }
+describe 'a feature', if: ['debian', 'redhat', 'ubuntu'].include?(os[:family]) do
+  let(:pp) do
+    <<-MANIFEST
+      include feature::some_class
     MANIFEST
-    end
+  end
 
-    it 'applies the manifest twice with no stderr' do
-      idempotent_apply(pp)
-      expect(file("#{@basedir}/file")).to be_file
-      expect(file("#{@basedir}/file").content).to contain 'content'
-    end
+  it 'applies idempotently' do
+    idempotent_apply(pp)
+  end
+
+  describe file("/etc/feature.conf") do
+    it { is_expected.to be_file }
+    its(:content) { is_expected.to match %r{key = default value} }
+  end
+
+  describe port(777) do
+    it { is_expected.to be_listening }
   end
 end
 ```
 
 ## Testing manifest code for idempotency
 
-Previously, when testing for idempotency, you would apply manifest twice and check for failures on the first apply and changes on the second apply. For example:
+The `idempotent_apply` helper function runs the given manifest twice and will test that the first run doesn't have errors and the second run doesn't have changes. For many regular modules that already will give good confidence that it is working:
 
 ```ruby
-pp = ' class { 'mysql::server' } '
-execute_manifest(pp, catch_failures: true)
-execute_manifest(pp, catch_changes: true)
-```
-
-With Litmus, you just need to use the `idempotent_apply` helper function. For example
-
-```ruby
-pp = ' class { 'mysql::server' } '
+pp = 'class { "mysql::server": }'
 idempotent_apply(pp)
 ```
 
 ## Running shell commands
 
-Previously, it was common to use code blocks when running shell commands. With Litmus, the shell command is `run_shell`. For example:
-
-```ruby
-shell('/usr/local/sbin/mysqlbackup.sh') do |r|
-  expect(r.stderr).to eq('')
-end
-```
-
-You can do run this on a single line:
+To run a shell command and test it's output:
 
 ```ruby
 expect(run_shell('/usr/local/sbin/mysqlbackup.sh').stderr).to eq('')
@@ -75,27 +55,25 @@ expect(run_shell('/usr/local/sbin/mysqlbackup.sh').stderr).to eq('')
 An example of a serverspec declaration:
 
 ```ruby
-command('/usr/local/sbin/mysqlbackup.sh') do
+describe command('/usr/local/sbin/mysqlbackup.sh') do
   its(:stderr) { should eq '' }
 end
 ```
 
-
 ## Checking facts
-
-Previously, you would call facter or getting other system information like:
-
-```ruby
-fact_on(host, 'osfamily')
-fact('selinux')
-```
 
 With Litmus, you can use the serverspec functions — these are cached so are quick to call. For example:
 
 ```ruby
 os[:family]
+```
+
+or
+
+```ruby
 host_inventory['facter']['os']['release']
 ```
+
 For more information, see the [serverspec docs](https://serverspec.org/host_inventory.html).
 
 ## Debugging tests
@@ -106,8 +84,6 @@ There is a known issue when running certain commands from within a pry session. 
 gem  'pry-byebug', '> 3.4.3'
 ```
 
-## Setting up Travis
+## Setting up Travis and Appveyor
 
-To see this running on travis, check out one of our live configurations:
-
-https://github.com/puppetlabs/puppetlabs-motd/blob/master/.travis.yml
+To see this running on CI, enable the `use_litmus` flags for Travis CI and/or Appveyor. See the [pdk-templates docs](https://github.com/puppetlabs/pdk-templates#travisyml) for details and additional options.

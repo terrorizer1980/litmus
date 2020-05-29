@@ -31,17 +31,17 @@ At any point you can re-run tests, or provision new systems and add them to your
 
 ## Provisioning
 
-Using the Litmus [provision](https://github.com/puppetlabs/provision) command, you can spin up Docker containers, vagrant machines or machines in private clouds, such as vmpooler.
+Using the Litmus [provision](https://github.com/puppetlabs/provision) command, you can spin up Docker containers, vagrant boxes or VMs in private clouds, such as vmpooler.
 
 For example:
 
 ```
 pdk bundle exec rake 'litmus:provision[vmpooler, redhat-6-x86_64]'
-pdk bundle exec rake 'litmus:provision[docker, ubuntu:18.04]'
+pdk bundle exec rake 'litmus:provision[docker, litmusimage/ubuntu:18.04]'
 pdk bundle exec rake 'litmus:provision[vagrant, gusztavvargadr/windows-server]'
 ```
 
-> Note: Provisioning is extensible — if your chosen provisioner isn't available, raise an issue on the [provision repo](https://github.com/puppetlabs/provision), or a PR to add your chosen provisioner.
+> Note: Provisioning is extensible — if your chosen provisioner isn't available, you can add your own provisioner task to your test set up through a separate module in `.fixtures.yml`.
 
 The provision command creates a Bolt `inventory.yml` file for Litmus to use. You can manually add machines to this file.
 
@@ -108,30 +108,28 @@ An example of a `provision.yaml` defining multiple nodes:
 
 ```yaml
 ---
+---
 default:
   provisioner: docker
-  images: ['litmusimage/centos7']
-travis_deb:
-  provisioner: docker
-  images: ['debian:8', 'debian:9', 'ubuntu:14.04', 'ubuntu:16.04', 'ubuntu:18.04']
-litmus_deb:
-  provisioner: docker
-  images: ['litmusimage/debian8', 'litmusimage/debian9', 'litmusimage/ubuntu14.04', 'litmusimage/ubuntu16.04', 'litmusimage/ubuntu18.04']
-travis_el:
-  provisioner: docker
-  images: ['centos:6', 'centos:7', 'oraclelinux:6', 'oraclelinux:7', 'scientificlinux/sl:6', 'scientificlinux/sl:7']
-litmus_el:
-  provisioner: docker
-  images: ['litmusimage/centos6', 'litmusimage/centos7', 'litmusimage/oraclelinux6', 'litmusimage/oraclelinux7', 'litmusimage/scientificlinux6', 'litmusimage/scientificlinux7']
-release_checks:
-  provisioner: vmpooler
-  images: ['redhat-5-x86_64', 'redhat-6-x86_64', 'redhat-7-x86_64', 'redhat-8-x86_64', 'centos-5-x86_64', 'centos-6-x86_64', 'centos-7-x86_64', 'oracle-5-x86_64', 'oracle-6-x86_64', 'oracle-7-x86_64', 'scientific-6-x86_64', 'scientific-7-x86_64', 'debian-8-x86_64', 'debian-9-x86_64', 'sles-11-x86_64', 'sles-12-x86_64', 'sles-15-x86_64', 'ubuntu-1404-x86_64', 'ubuntu-1604-x86_64', 'ubuntu-1804-x86_64', 'win-2008r2-x86_64', 'win-2012r2-x86_64', 'win-2016-x86_64', 'win-10-pro-x86_64']
+  images: ['litmusimage/centos:7']
 vagrant:
   provisioner: vagrant
   images: ['centos/7', 'generic/ubuntu1804', 'gusztavvargadr/windows-server']
-  params:
-    vagrant_hyperv_smb_username: someone
-    vagrant_hyperv_smb_password: something
+travis_deb:
+  provisioner: docker
+  images: ['litmusimage/debian:8', 'litmusimage/debian:9', 'litmusimage/debian:10']
+travis_ub:
+  provisioner: docker
+  images: ['litmusimage/ubuntu:14.04', 'litmusimage/ubuntu:16.04', 'litmusimage/ubuntu:18.04']
+travis_el6:
+  provisioner: docker
+  images: ['litmusimage/centos:6', 'litmusimage/oraclelinux:6', 'litmusimage/scientificlinux:6']
+travis_el7:
+  provisioner: docker
+  images: ['litmusimage/centos:7', 'litmusimage/oraclelinux:7', 'litmusimage/scientificlinux:7']
+release_checks:
+  provisioner: vmpooler
+  images: ['redhat-5-x86_64', 'redhat-6-x86_64', 'redhat-7-x86_64', 'redhat-8-x86_64', 'centos-5-x86_64', 'centos-6-x86_64', 'centos-7-x86_64', 'centos-8-x86_64', 'oracle-5-x86_64', 'oracle-6-x86_64', 'oracle-7-x86_64', 'scientific-6-x86_64', 'scientific-7-x86_64', 'debian-8-x86_64', 'debian-9-x86_64', 'debian-10-x86_64', 'sles-11-x86_64', 'sles-12-x86_64', 'sles-15-x86_64', 'ubuntu-1404-x86_64', 'ubuntu-1604-x86_64', 'ubuntu-1804-x86_64', 'win-2008r2-x86_64', 'win-2012r2-x86_64', 'win-2016-core-x86_64', 'win-2019-core-x86_64', 'win-10-pro-x86_64']
 ```
 
 You can then provision a list of targets from that file:

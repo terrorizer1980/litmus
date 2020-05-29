@@ -6,7 +6,7 @@ layout: page
 
 To list all docker images, including stopped ones, run:
 ```
-litmus_image
+docker ps -a
 ```
 
 You will get output similar to:
@@ -14,9 +14,9 @@ You will get output similar to:
 ```
 docker container ls -a
 CONTAINER ID        IMAGE                      COMMAND                  CREATED              STATUS                     PORTS                  NAMES
-e7bc7e5b3d9b        waffleimage/oraclelinux7   "/bin/sh -c /usr/sbi…"   About a minute ago   Up About a minute          0.0.0.0:2225->22/tcp   waffleimage_oraclelinux7_-2225
-ae94def06077        waffleimage/oraclelinux6   "/bin/sh -c /sbin/in…"   3 minutes ago        Up 3 minutes               0.0.0.0:2224->22/tcp   waffleimage_oraclelinux6_-2224
-80b22735494e        waffleimage/centos6        "/bin/sh -c /sbin/in…"   5 minutes ago        Up 5 minutes               0.0.0.0:2223->22/tcp   waffleimage_centos6_-2223
+e7bc7e5b3d9b        litmusimage/oraclelinux7   "/bin/sh -c /usr/sbi…"   About a minute ago   Up About a minute          0.0.0.0:2225->22/tcp   litmusimage_oraclelinux7_-2225
+ae94def06077        litmusimage/oraclelinux6   "/bin/sh -c /sbin/in…"   3 minutes ago        Up 3 minutes               0.0.0.0:2224->22/tcp   litmusimage_oraclelinux6_-2224
+80b22735494e        litmusimage/centos6        "/bin/sh -c /sbin/in…"   5 minutes ago        Up 5 minutes               0.0.0.0:2223->22/tcp   litmusimage_centos6_-2223
 b7923a25f95b        ubuntu:14.04               "/bin/bash"              6 weeks ago          Exited (255) 4 weeks ago   0.0.0.0:2222->22/tcp   ubuntu_14.04-2222
 ```
 

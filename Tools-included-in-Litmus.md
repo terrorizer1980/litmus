@@ -15,14 +15,14 @@ These tools are built into the Litmus commands:
 
 To provision systems we created a [module](https://github.com/puppetlabs/provision) that will provision containers / images / hardware in ABS (internal to Puppet) and Docker instances. Provision is extensible, so other provisioners can be added - please raise an [issue](https://github.com/puppetlabs/provision/issues) on the Provision repository, or create your own and submit a [PR](https://github.com/puppetlabs/provision/pulls)!
 
-rake task -> bolt -> puppet_litmus -> litmus_image -> docker
-                                                   -> abs (internal)
-
-                                                   -> vmpooler
+rake task -> litmus -> bolt -> provision -> docker
+                                         -> vagrant
+                                         -> abs (internal)
+                                         -> vmpooler (internal)
 
 #### Installing an agents
 
-rake task -> bolt -> puppet-agent
+rake task -> bolt -> puppet_agent module
 
 #### Installing modules
 
@@ -36,6 +36,6 @@ rake task -> serverspec -> rspec
 
 #### Tearing down targets
 
-rake task -> bolt -> puppet_litmus -> litmus_image -> docker
-                                                   -> abs (internal)
-                                                   -> vmpooler
+rake task -> bolt provision -> docker
+                            -> abs (internal)
+                            -> vmpooler

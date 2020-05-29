@@ -2,9 +2,9 @@
 layout: page
 ---
 
-The following example walks you through converting a module to use Litmus testing.
+The following example walks you through enabling Litmus testing in a module.
 
-The process involves adding code to the following files:
+The process involves editing or adding code to the following files:
 
 1. The `Gemfile`
 2. The `Rakefile`
@@ -12,40 +12,19 @@ The process involves adding code to the following files:
 4. The `spec_helper_acceptance.rb` file
 5. The `spec_helper_acceptance_local.rb` file
 
-### Before you begin
+## Before you begin
 
-***Important:*** If your module is compatible with [Puppet Development Kit (PDK)](https://puppet.com/docs/pdk/1.x/pdk.html), meaning it was either created with PDK or has been converted to use PDK using the `pdk convert` command, you can convert your module to use Litmus using sync.yml. This means you can skip step 1 and 2 (add code to your `Gemfile` and `Rakefile`), and move straight to step 3 (Add code to the spec file). PDK manages the Gemfile and Rakefile, and these file changes go through sync.yml. To verify that your module is compatible with PDK, look in the modules `metadata.json` file and see whether there is an entry that states the PDK version. It will look something like `"pdk-version": "1.17.0"`.
+This guide assumes your module is compatible with [Puppet Development Kit (PDK)](https://puppet.com/docs/pdk/1.x/pdk.html),
+meaning it was either created with `pdk new module` or has been converted to use PDK using the `pdk convert` command.
+To verify that your module is compatible with PDK, look in the modules `metadata.json` file and see whether there is an entry that states the PDK version.
+It will look something like `"pdk-version": "1.18.0"`.
+The PDK ships litmus as an experimental component.
 
-You need to make the rest of the changes manually — step 3 onwards.
+To enable it, follow the steps below.
 
-### 1. Add code to your `Gemfile` and `Rakefile`
+## 1. Add required development dependencies
 
-***Note*** If your module is compatible with PDK, skip this step and move to step 3.
-
-Inside the root directory of your module, add the following code to `group :development` section of the `Gemfile`:
-
-```ruby
-gem 'puppet_litmus'
-gem 'serverspec'
-
-```
-This code makes sure the `puppet_litmus` library is included in the module. You can now remove the system tests section, as Beaker is no longer needed.
-
-### 1. Add code to your `Rakefile`
-
-***Note*** If your module is compatible with PDK, skip this step and move to step 3.
-
-Inside the root directory of your module, add the following code to the **top** of the `Rakefile`:
-
-```ruby
-require 'puppet_litmus/rake_tasks'
-```
-
-This code adds the Litmus rake tasks to the module.
-
-### 2. Add code to the `.fixtures.yml` file
-
-Inside the root directory of your module, add the following code to the `.fixtures.yml`:
+Inside the root directory of your module, add the following entries to the `.fixtures.yml`:
 
 ```yaml
 ---
@@ -56,9 +35,9 @@ fixtures:
     provision: 'https://github.com/puppetlabs/provision.git'
 ```
 
-### 3. Add code to the spec/spec_helper_acceptance.rb file
+## 2. Create the `spec/spec_helper_acceptance.rb` file
 
-Inside the `spec` folder of the module, add the following code to the `spec_helper_acceptance.rb` file:
+Inside the `spec` folder of the module, create a `spec_helper_acceptance.rb` file with the following contents:
 
 ```ruby
 # frozen_string_literal: true
@@ -69,14 +48,14 @@ require 'spec_helper_acceptance_local' if File.file?(File.join(File.dirname(__FI
 PuppetLitmus.configure!
 ```
 
-If you can't find this file, it means the module doesn't have any acceptance tests and you will need to add them. For the purposes of this example, create the file and add the code above.
+This file will later become managed by the PDK. For local changes, see the next step.
 
-### 4. Update the `spec/`spec_helper_acceptance_local.rb` file
+## 3. Create the `spec/spec_helper_acceptance_local.rb` file
 
-You might need to have an additional helper before you start running tests. If you need to use any of the Litmus methods in the following file, include Litmus in a singleton class:
+***Optional:*** For module-specific methods to be used during acceptance testing, create a `spec/spec_helper_acceptance_local.rb` file. This will be loaded at the start of each test run. If you need to use any of the Litmus methods in this file, include Litmus as a singleton class:
 
 ```ruby
-require 'puppet_litmus'
+# frozen_string_literal: true
 require 'singleton'
 
 class Helper
@@ -88,3 +67,7 @@ def some_helper_method
   Helper.instance.bolt_run_script('path/to/file')
 end
 ```
+
+## 4. Add tests to `spec/acceptance`
+
+You can find [litmus test examples]({% link Litmus-test-examples.md %}) on their own page.
