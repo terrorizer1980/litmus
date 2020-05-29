@@ -85,17 +85,17 @@
 
 <h2 id="provisioning">Provisioning</h2>
 
-<p>Using the Litmus <a href="https://github.com/puppetlabs/provision">provision</a> command, you can spin up Docker containers, vagrant machines or machines in private clouds, such as vmpooler.</p>
+<p>Using the Litmus <a href="https://github.com/puppetlabs/provision">provision</a> command, you can spin up Docker containers, vagrant boxes or VMs in private clouds, such as vmpooler.</p>
 
 <p>For example:</p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pdk bundle exec rake 'litmus:provision[vmpooler, redhat-6-x86_64]'
-pdk bundle exec rake 'litmus:provision[docker, ubuntu:18.04]'
+pdk bundle exec rake 'litmus:provision[docker, litmusimage/ubuntu:18.04]'
 pdk bundle exec rake 'litmus:provision[vagrant, gusztavvargadr/windows-server]'
 </code></pre></div></div>
 
 <blockquote>
-  <p>Note: Provisioning is extensible — if your chosen provisioner isn’t available, raise an issue on the <a href="https://github.com/puppetlabs/provision">provision repo</a>, or a PR to add your chosen provisioner.</p>
+  <p>Note: Provisioning is extensible — if your chosen provisioner isn’t available, you can add your own provisioner task to your test set up through a separate module in <code class="language-plaintext highlighter-rouge">.fixtures.yml</code>.</p>
 </blockquote>
 
 <p>The provision command creates a Bolt <code class="language-plaintext highlighter-rouge">inventory.yml</code> file for Litmus to use. You can manually add machines to this file.</p>
@@ -162,30 +162,28 @@ pdk bundle exec rake 'litmus:provision[vagrant, gusztavvargadr/windows-server]'
 <p>An example of a <code class="language-plaintext highlighter-rouge">provision.yaml</code> defining multiple nodes:</p>
 
 <div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nn">---</span>
+<span class="nn">---</span>
 <span class="na">default</span><span class="pi">:</span>
   <span class="na">provisioner</span><span class="pi">:</span> <span class="s">docker</span>
-  <span class="na">images</span><span class="pi">:</span> <span class="pi">[</span><span class="s1">'</span><span class="s">litmusimage/centos7'</span><span class="pi">]</span>
-<span class="na">travis_deb</span><span class="pi">:</span>
-  <span class="na">provisioner</span><span class="pi">:</span> <span class="s">docker</span>
-  <span class="na">images</span><span class="pi">:</span> <span class="pi">[</span><span class="s1">'</span><span class="s">debian:8'</span><span class="pi">,</span> <span class="s1">'</span><span class="s">debian:9'</span><span class="pi">,</span> <span class="s1">'</span><span class="s">ubuntu:14.04'</span><span class="pi">,</span> <span class="s1">'</span><span class="s">ubuntu:16.04'</span><span class="pi">,</span> <span class="s1">'</span><span class="s">ubuntu:18.04'</span><span class="pi">]</span>
-<span class="na">litmus_deb</span><span class="pi">:</span>
-  <span class="na">provisioner</span><span class="pi">:</span> <span class="s">docker</span>
-  <span class="na">images</span><span class="pi">:</span> <span class="pi">[</span><span class="s1">'</span><span class="s">litmusimage/debian8'</span><span class="pi">,</span> <span class="s1">'</span><span class="s">litmusimage/debian9'</span><span class="pi">,</span> <span class="s1">'</span><span class="s">litmusimage/ubuntu14.04'</span><span class="pi">,</span> <span class="s1">'</span><span class="s">litmusimage/ubuntu16.04'</span><span class="pi">,</span> <span class="s1">'</span><span class="s">litmusimage/ubuntu18.04'</span><span class="pi">]</span>
-<span class="na">travis_el</span><span class="pi">:</span>
-  <span class="na">provisioner</span><span class="pi">:</span> <span class="s">docker</span>
-  <span class="na">images</span><span class="pi">:</span> <span class="pi">[</span><span class="s1">'</span><span class="s">centos:6'</span><span class="pi">,</span> <span class="s1">'</span><span class="s">centos:7'</span><span class="pi">,</span> <span class="s1">'</span><span class="s">oraclelinux:6'</span><span class="pi">,</span> <span class="s1">'</span><span class="s">oraclelinux:7'</span><span class="pi">,</span> <span class="s1">'</span><span class="s">scientificlinux/sl:6'</span><span class="pi">,</span> <span class="s1">'</span><span class="s">scientificlinux/sl:7'</span><span class="pi">]</span>
-<span class="na">litmus_el</span><span class="pi">:</span>
-  <span class="na">provisioner</span><span class="pi">:</span> <span class="s">docker</span>
-  <span class="na">images</span><span class="pi">:</span> <span class="pi">[</span><span class="s1">'</span><span class="s">litmusimage/centos6'</span><span class="pi">,</span> <span class="s1">'</span><span class="s">litmusimage/centos7'</span><span class="pi">,</span> <span class="s1">'</span><span class="s">litmusimage/oraclelinux6'</span><span class="pi">,</span> <span class="s1">'</span><span class="s">litmusimage/oraclelinux7'</span><span class="pi">,</span> <span class="s1">'</span><span class="s">litmusimage/scientificlinux6'</span><span class="pi">,</span> <span class="s1">'</span><span class="s">litmusimage/scientificlinux7'</span><span class="pi">]</span>
-<span class="na">release_checks</span><span class="pi">:</span>
-  <span class="na">provisioner</span><span class="pi">:</span> <span class="s">vmpooler</span>
-  <span class="na">images</span><span class="pi">:</span> <span class="pi">[</span><span class="s1">'</span><span class="s">redhat-5-x86_64'</span><span class="pi">,</span> <span class="s1">'</span><span class="s">redhat-6-x86_64'</span><span class="pi">,</span> <span class="s1">'</span><span class="s">redhat-7-x86_64'</span><span class="pi">,</span> <span class="s1">'</span><span class="s">redhat-8-x86_64'</span><span class="pi">,</span> <span class="s1">'</span><span class="s">centos-5-x86_64'</span><span class="pi">,</span> <span class="s1">'</span><span class="s">centos-6-x86_64'</span><span class="pi">,</span> <span class="s1">'</span><span class="s">centos-7-x86_64'</span><span class="pi">,</span> <span class="s1">'</span><span class="s">oracle-5-x86_64'</span><span class="pi">,</span> <span class="s1">'</span><span class="s">oracle-6-x86_64'</span><span class="pi">,</span> <span class="s1">'</span><span class="s">oracle-7-x86_64'</span><span class="pi">,</span> <span class="s1">'</span><span class="s">scientific-6-x86_64'</span><span class="pi">,</span> <span class="s1">'</span><span class="s">scientific-7-x86_64'</span><span class="pi">,</span> <span class="s1">'</span><span class="s">debian-8-x86_64'</span><span class="pi">,</span> <span class="s1">'</span><span class="s">debian-9-x86_64'</span><span class="pi">,</span> <span class="s1">'</span><span class="s">sles-11-x86_64'</span><span class="pi">,</span> <span class="s1">'</span><span class="s">sles-12-x86_64'</span><span class="pi">,</span> <span class="s1">'</span><span class="s">sles-15-x86_64'</span><span class="pi">,</span> <span class="s1">'</span><span class="s">ubuntu-1404-x86_64'</span><span class="pi">,</span> <span class="s1">'</span><span class="s">ubuntu-1604-x86_64'</span><span class="pi">,</span> <span class="s1">'</span><span class="s">ubuntu-1804-x86_64'</span><span class="pi">,</span> <span class="s1">'</span><span class="s">win-2008r2-x86_64'</span><span class="pi">,</span> <span class="s1">'</span><span class="s">win-2012r2-x86_64'</span><span class="pi">,</span> <span class="s1">'</span><span class="s">win-2016-x86_64'</span><span class="pi">,</span> <span class="s1">'</span><span class="s">win-10-pro-x86_64'</span><span class="pi">]</span>
+  <span class="na">images</span><span class="pi">:</span> <span class="pi">[</span><span class="s1">'</span><span class="s">litmusimage/centos:7'</span><span class="pi">]</span>
 <span class="na">vagrant</span><span class="pi">:</span>
   <span class="na">provisioner</span><span class="pi">:</span> <span class="s">vagrant</span>
   <span class="na">images</span><span class="pi">:</span> <span class="pi">[</span><span class="s1">'</span><span class="s">centos/7'</span><span class="pi">,</span> <span class="s1">'</span><span class="s">generic/ubuntu1804'</span><span class="pi">,</span> <span class="s1">'</span><span class="s">gusztavvargadr/windows-server'</span><span class="pi">]</span>
-  <span class="na">params</span><span class="pi">:</span>
-    <span class="na">vagrant_hyperv_smb_username</span><span class="pi">:</span> <span class="s">someone</span>
-    <span class="na">vagrant_hyperv_smb_password</span><span class="pi">:</span> <span class="s">something</span>
+<span class="na">travis_deb</span><span class="pi">:</span>
+  <span class="na">provisioner</span><span class="pi">:</span> <span class="s">docker</span>
+  <span class="na">images</span><span class="pi">:</span> <span class="pi">[</span><span class="s1">'</span><span class="s">litmusimage/debian:8'</span><span class="pi">,</span> <span class="s1">'</span><span class="s">litmusimage/debian:9'</span><span class="pi">,</span> <span class="s1">'</span><span class="s">litmusimage/debian:10'</span><span class="pi">]</span>
+<span class="na">travis_ub</span><span class="pi">:</span>
+  <span class="na">provisioner</span><span class="pi">:</span> <span class="s">docker</span>
+  <span class="na">images</span><span class="pi">:</span> <span class="pi">[</span><span class="s1">'</span><span class="s">litmusimage/ubuntu:14.04'</span><span class="pi">,</span> <span class="s1">'</span><span class="s">litmusimage/ubuntu:16.04'</span><span class="pi">,</span> <span class="s1">'</span><span class="s">litmusimage/ubuntu:18.04'</span><span class="pi">]</span>
+<span class="na">travis_el6</span><span class="pi">:</span>
+  <span class="na">provisioner</span><span class="pi">:</span> <span class="s">docker</span>
+  <span class="na">images</span><span class="pi">:</span> <span class="pi">[</span><span class="s1">'</span><span class="s">litmusimage/centos:6'</span><span class="pi">,</span> <span class="s1">'</span><span class="s">litmusimage/oraclelinux:6'</span><span class="pi">,</span> <span class="s1">'</span><span class="s">litmusimage/scientificlinux:6'</span><span class="pi">]</span>
+<span class="na">travis_el7</span><span class="pi">:</span>
+  <span class="na">provisioner</span><span class="pi">:</span> <span class="s">docker</span>
+  <span class="na">images</span><span class="pi">:</span> <span class="pi">[</span><span class="s1">'</span><span class="s">litmusimage/centos:7'</span><span class="pi">,</span> <span class="s1">'</span><span class="s">litmusimage/oraclelinux:7'</span><span class="pi">,</span> <span class="s1">'</span><span class="s">litmusimage/scientificlinux:7'</span><span class="pi">]</span>
+<span class="na">release_checks</span><span class="pi">:</span>
+  <span class="na">provisioner</span><span class="pi">:</span> <span class="s">vmpooler</span>
+  <span class="na">images</span><span class="pi">:</span> <span class="pi">[</span><span class="s1">'</span><span class="s">redhat-5-x86_64'</span><span class="pi">,</span> <span class="s1">'</span><span class="s">redhat-6-x86_64'</span><span class="pi">,</span> <span class="s1">'</span><span class="s">redhat-7-x86_64'</span><span class="pi">,</span> <span class="s1">'</span><span class="s">redhat-8-x86_64'</span><span class="pi">,</span> <span class="s1">'</span><span class="s">centos-5-x86_64'</span><span class="pi">,</span> <span class="s1">'</span><span class="s">centos-6-x86_64'</span><span class="pi">,</span> <span class="s1">'</span><span class="s">centos-7-x86_64'</span><span class="pi">,</span> <span class="s1">'</span><span class="s">centos-8-x86_64'</span><span class="pi">,</span> <span class="s1">'</span><span class="s">oracle-5-x86_64'</span><span class="pi">,</span> <span class="s1">'</span><span class="s">oracle-6-x86_64'</span><span class="pi">,</span> <span class="s1">'</span><span class="s">oracle-7-x86_64'</span><span class="pi">,</span> <span class="s1">'</span><span class="s">scientific-6-x86_64'</span><span class="pi">,</span> <span class="s1">'</span><span class="s">scientific-7-x86_64'</span><span class="pi">,</span> <span class="s1">'</span><span class="s">debian-8-x86_64'</span><span class="pi">,</span> <span class="s1">'</span><span class="s">debian-9-x86_64'</span><span class="pi">,</span> <span class="s1">'</span><span class="s">debian-10-x86_64'</span><span class="pi">,</span> <span class="s1">'</span><span class="s">sles-11-x86_64'</span><span class="pi">,</span> <span class="s1">'</span><span class="s">sles-12-x86_64'</span><span class="pi">,</span> <span class="s1">'</span><span class="s">sles-15-x86_64'</span><span class="pi">,</span> <span class="s1">'</span><span class="s">ubuntu-1404-x86_64'</span><span class="pi">,</span> <span class="s1">'</span><span class="s">ubuntu-1604-x86_64'</span><span class="pi">,</span> <span class="s1">'</span><span class="s">ubuntu-1804-x86_64'</span><span class="pi">,</span> <span class="s1">'</span><span class="s">win-2008r2-x86_64'</span><span class="pi">,</span> <span class="s1">'</span><span class="s">win-2012r2-x86_64'</span><span class="pi">,</span> <span class="s1">'</span><span class="s">win-2016-core-x86_64'</span><span class="pi">,</span> <span class="s1">'</span><span class="s">win-2019-core-x86_64'</span><span class="pi">,</span> <span class="s1">'</span><span class="s">win-10-pro-x86_64'</span><span class="pi">]</span>
 </code></pre></div></div>
 
 <p>You can then provision a list of targets from that file:</p>

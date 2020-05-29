@@ -66,7 +66,7 @@
   <li>Remove the Docker image.</li>
 </ol>
 
-<h3 id="before-you-begin">Before you begin</h3>
+<h2 id="before-you-begin">Before you begin</h2>
 
 <p>Ensure you have installed the following:</p>
 
@@ -84,12 +84,12 @@
   </li>
   <li><a href="https://puppet.com/docs/pdk/1.x/pdk_install.html">Puppet Development Kit (PDK)</a>.
     <ul>
-      <li>To check whether you already have PDK, run <code class="language-plaintext highlighter-rouge">pdk --version</code> from the command line. Note that you need version <code class="language-plaintext highlighter-rouge">1.17.0</code> or later. If not, then following the</li>
+      <li>To check whether you already have PDK, run <code class="language-plaintext highlighter-rouge">pdk --version</code> from the command line. Note that you need version <code class="language-plaintext highlighter-rouge">1.17.0</code> or later. If not, then following the <a href="https://puppet.com/docs/pdk/1.x/pdk_install.html">installation instructions</a>.</li>
     </ul>
   </li>
 </ul>
 
-<h3 id="1-clone-the-motd-module-from-github">1. Clone the MoTD module from GitHub.</h3>
+<h2 id="1-clone-the-motd-module-from-github">1. Clone the MoTD module from GitHub.</h2>
 
 <p>From  the command line, clone the Litmus branch of MoTD module:</p>
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&gt; git clone https://github.com/puppetlabs/puppetlabs-motd.git
@@ -100,20 +100,20 @@
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cd puppetlabs-motd
 </code></pre></div></div>
 
-<h3 id="2-install-the-necessary-gems">2. Install the necessary gems.</h3>
+<h2 id="2-install-the-necessary-gems">2. Install the necessary gems.</h2>
 
 <p>The MoTD module relies on a number of gems. To install these on your machine, run the following command:</p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pdk bundle install
 </code></pre></div></div>
 
-<h3 id="3-provision-a-centos-docker-image">3. Provision a CentOS Docker image.</h3>
+<h2 id="3-provision-a-centos-docker-image">3. Provision a CentOS Docker image.</h2>
 
 <p>Provision a CentOS 7 image in a Docker container to be the target you will test against</p>
 
 <p>To provision the CentOS 7 target (or any OS of your choice), run the following command:</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pdk bundle exec rake 'litmus:provision[docker, centos:7]'
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pdk bundle exec rake 'litmus:provision[docker, litmusimage/centos:7]'
 </code></pre></div></div>
 
 <blockquote>
@@ -158,7 +158,7 @@ localhost:2222, centos:7
   <span class="s">targets: []</span>
 </code></pre></div></div>
 
-<h3 id="3-install-a-puppet-6-agent-on-your-target">3. Install a Puppet 6 agent on your target</h3>
+<h2 id="4-install-a-puppet-6-agent-on-your-target">4. Install a Puppet 6 agent on your target</h2>
 
 <p>To install a Puppet 6 agent on the CentOS Docker image, run the following command:</p>
 
@@ -181,7 +181,7 @@ Successful on 1 target: localhost:2222
 Ran on 1 target in 1.72 sec
 </code></pre></div></div>
 
-<h3 id="4-install-the-motd-module-on-the-centos-image">4. Install the MoTD module on the CentOS image.</h3>
+<h2 id="5-install-the-motd-module-on-the-centos-image">5. Install the MoTD module on the CentOS image.</h2>
 
 <p>To install the MoTD module on the CentOS image, run the following command from inside your working directory:</p>
 
@@ -230,7 +230,7 @@ Ran on 1 target in 1.77 sec
 
 <p>Note that you have also installed the MoTD module’s dependent modules.</p>
 
-<h3 id="4-run-the-motd-acceptance-tests">4. Run the MoTD acceptance tests</h3>
+<h2 id="6-run-the-motd-acceptance-tests">6. Run the MoTD acceptance tests</h2>
 
 <p>To run acceptance tests with Litmus, run the following command from your working directory:</p>
 
@@ -253,7 +253,7 @@ pid 1476 exit 0
 Successful on 1 nodes: ["localhost:2222, centos:7"]
 </code></pre></div></div>
 
-<h3 id="5-remove-the-docker-image">5. Remove the Docker image.</h3>
+<h2 id="7-remove-the-docker-image">7. Remove the Docker image.</h2>
 
 <p>Now that you have completed your tests, you can remove the Docker image with the Litmus tear down command:</p>
 

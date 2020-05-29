@@ -61,57 +61,39 @@
 
 <div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">require</span> <span class="s1">'spec_helper_acceptance'</span>
 
-<span class="n">describe</span> <span class="s1">'concat noop parameter'</span><span class="p">,</span> <span class="ss">if: </span><span class="p">[</span><span class="s1">'debian'</span><span class="p">,</span> <span class="s1">'redhat'</span><span class="p">,</span> <span class="s1">'ubuntu'</span><span class="p">].</span><span class="nf">include?</span><span class="p">(</span><span class="n">os</span><span class="p">[</span><span class="ss">:family</span><span class="p">])</span> <span class="k">do</span>
-  <span class="n">before</span><span class="p">(</span><span class="ss">:all</span><span class="p">)</span> <span class="k">do</span>
-    <span class="vi">@basedir</span> <span class="o">=</span> <span class="n">setup_test_directory</span>
-  <span class="k">end</span>
-  <span class="n">describe</span> <span class="s1">'with "/usr/bin/test -e %"'</span> <span class="k">do</span>
-    <span class="n">let</span><span class="p">(</span><span class="ss">:pp</span><span class="p">)</span> <span class="k">do</span>
-      <span class="o">&lt;&lt;-</span><span class="no">MANIFEST</span><span class="sh">
-      concat_file { '</span><span class="si">#{</span><span class="vi">@basedir</span><span class="si">}</span><span class="sh">/file':
-        noop =&gt; false,
-      }
-      concat_fragment { 'content':
-        target  =&gt; '</span><span class="si">#{</span><span class="vi">@basedir</span><span class="si">}</span><span class="sh">/file',
-        content =&gt; 'content',
-      }
+<span class="n">describe</span> <span class="s1">'a feature'</span><span class="p">,</span> <span class="ss">if: </span><span class="p">[</span><span class="s1">'debian'</span><span class="p">,</span> <span class="s1">'redhat'</span><span class="p">,</span> <span class="s1">'ubuntu'</span><span class="p">].</span><span class="nf">include?</span><span class="p">(</span><span class="n">os</span><span class="p">[</span><span class="ss">:family</span><span class="p">])</span> <span class="k">do</span>
+  <span class="n">let</span><span class="p">(</span><span class="ss">:pp</span><span class="p">)</span> <span class="k">do</span>
+    <span class="o">&lt;&lt;-</span><span class="no">MANIFEST</span><span class="sh">
+      include feature::some_class
 </span><span class="no">    MANIFEST</span>
-    <span class="k">end</span>
+  <span class="k">end</span>
 
-    <span class="n">it</span> <span class="s1">'applies the manifest twice with no stderr'</span> <span class="k">do</span>
-      <span class="n">idempotent_apply</span><span class="p">(</span><span class="n">pp</span><span class="p">)</span>
-      <span class="n">expect</span><span class="p">(</span><span class="n">file</span><span class="p">(</span><span class="s2">"</span><span class="si">#{</span><span class="vi">@basedir</span><span class="si">}</span><span class="s2">/file"</span><span class="p">)).</span><span class="nf">to</span> <span class="n">be_file</span>
-      <span class="n">expect</span><span class="p">(</span><span class="n">file</span><span class="p">(</span><span class="s2">"</span><span class="si">#{</span><span class="vi">@basedir</span><span class="si">}</span><span class="s2">/file"</span><span class="p">).</span><span class="nf">content</span><span class="p">).</span><span class="nf">to</span> <span class="n">contain</span> <span class="s1">'content'</span>
-    <span class="k">end</span>
+  <span class="n">it</span> <span class="s1">'applies idempotently'</span> <span class="k">do</span>
+    <span class="n">idempotent_apply</span><span class="p">(</span><span class="n">pp</span><span class="p">)</span>
+  <span class="k">end</span>
+
+  <span class="n">describe</span> <span class="n">file</span><span class="p">(</span><span class="s2">"/etc/feature.conf"</span><span class="p">)</span> <span class="k">do</span>
+    <span class="n">it</span> <span class="p">{</span> <span class="n">is_expected</span><span class="p">.</span><span class="nf">to</span> <span class="n">be_file</span> <span class="p">}</span>
+    <span class="n">its</span><span class="p">(</span><span class="ss">:content</span><span class="p">)</span> <span class="p">{</span> <span class="n">is_expected</span><span class="p">.</span><span class="nf">to</span> <span class="n">match</span> <span class="sr">%r{key = default value}</span> <span class="p">}</span>
+  <span class="k">end</span>
+
+  <span class="n">describe</span> <span class="n">port</span><span class="p">(</span><span class="mi">777</span><span class="p">)</span> <span class="k">do</span>
+    <span class="n">it</span> <span class="p">{</span> <span class="n">is_expected</span><span class="p">.</span><span class="nf">to</span> <span class="n">be_listening</span> <span class="p">}</span>
   <span class="k">end</span>
 <span class="k">end</span>
 </code></pre></div></div>
 
 <h2 id="testing-manifest-code-for-idempotency">Testing manifest code for idempotency</h2>
 
-<p>Previously, when testing for idempotency, you would apply manifest twice and check for failures on the first apply and changes on the second apply. For example:</p>
+<p>The <code class="language-plaintext highlighter-rouge">idempotent_apply</code> helper function runs the given manifest twice and will test that the first run doesn’t have errors and the second run doesn’t have changes. For many regular modules that already will give good confidence that it is working:</p>
 
-<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">pp</span> <span class="o">=</span> <span class="s1">' class { '</span><span class="n">mysql</span><span class="o">::</span><span class="n">server</span><span class="s1">' } '</span>
-<span class="n">execute_manifest</span><span class="p">(</span><span class="n">pp</span><span class="p">,</span> <span class="ss">catch_failures: </span><span class="kp">true</span><span class="p">)</span>
-<span class="n">execute_manifest</span><span class="p">(</span><span class="n">pp</span><span class="p">,</span> <span class="ss">catch_changes: </span><span class="kp">true</span><span class="p">)</span>
-</code></pre></div></div>
-
-<p>With Litmus, you just need to use the <code class="language-plaintext highlighter-rouge">idempotent_apply</code> helper function. For example</p>
-
-<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">pp</span> <span class="o">=</span> <span class="s1">' class { '</span><span class="n">mysql</span><span class="o">::</span><span class="n">server</span><span class="s1">' } '</span>
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">pp</span> <span class="o">=</span> <span class="s1">'class { "mysql::server": }'</span>
 <span class="n">idempotent_apply</span><span class="p">(</span><span class="n">pp</span><span class="p">)</span>
 </code></pre></div></div>
 
 <h2 id="running-shell-commands">Running shell commands</h2>
 
-<p>Previously, it was common to use code blocks when running shell commands. With Litmus, the shell command is <code class="language-plaintext highlighter-rouge">run_shell</code>. For example:</p>
-
-<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">shell</span><span class="p">(</span><span class="s1">'/usr/local/sbin/mysqlbackup.sh'</span><span class="p">)</span> <span class="k">do</span> <span class="o">|</span><span class="n">r</span><span class="o">|</span>
-  <span class="n">expect</span><span class="p">(</span><span class="n">r</span><span class="p">.</span><span class="nf">stderr</span><span class="p">).</span><span class="nf">to</span> <span class="n">eq</span><span class="p">(</span><span class="s1">''</span><span class="p">)</span>
-<span class="k">end</span>
-</code></pre></div></div>
-
-<p>You can do run this on a single line:</p>
+<p>To run a shell command and test it’s output:</p>
 
 <div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">expect</span><span class="p">(</span><span class="n">run_shell</span><span class="p">(</span><span class="s1">'/usr/local/sbin/mysqlbackup.sh'</span><span class="p">).</span><span class="nf">stderr</span><span class="p">).</span><span class="nf">to</span> <span class="n">eq</span><span class="p">(</span><span class="s1">''</span><span class="p">)</span>
 </code></pre></div></div>
@@ -120,24 +102,23 @@
 
 <p>An example of a serverspec declaration:</p>
 
-<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">command</span><span class="p">(</span><span class="s1">'/usr/local/sbin/mysqlbackup.sh'</span><span class="p">)</span> <span class="k">do</span>
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">describe</span> <span class="n">command</span><span class="p">(</span><span class="s1">'/usr/local/sbin/mysqlbackup.sh'</span><span class="p">)</span> <span class="k">do</span>
   <span class="n">its</span><span class="p">(</span><span class="ss">:stderr</span><span class="p">)</span> <span class="p">{</span> <span class="n">should</span> <span class="n">eq</span> <span class="s1">''</span> <span class="p">}</span>
 <span class="k">end</span>
 </code></pre></div></div>
 
 <h2 id="checking-facts">Checking facts</h2>
 
-<p>Previously, you would call facter or getting other system information like:</p>
-
-<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">fact_on</span><span class="p">(</span><span class="n">host</span><span class="p">,</span> <span class="s1">'osfamily'</span><span class="p">)</span>
-<span class="n">fact</span><span class="p">(</span><span class="s1">'selinux'</span><span class="p">)</span>
-</code></pre></div></div>
-
 <p>With Litmus, you can use the serverspec functions — these are cached so are quick to call. For example:</p>
 
 <div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">os</span><span class="p">[</span><span class="ss">:family</span><span class="p">]</span>
-<span class="n">host_inventory</span><span class="p">[</span><span class="s1">'facter'</span><span class="p">][</span><span class="s1">'os'</span><span class="p">][</span><span class="s1">'release'</span><span class="p">]</span>
 </code></pre></div></div>
+
+<p>or</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">host_inventory</span><span class="p">[</span><span class="s1">'facter'</span><span class="p">][</span><span class="s1">'os'</span><span class="p">][</span><span class="s1">'release'</span><span class="p">]</span>
+</code></pre></div></div>
+
 <p>For more information, see the <a href="https://serverspec.org/host_inventory.html">serverspec docs</a>.</p>
 
 <h2 id="debugging-tests">Debugging tests</h2>
@@ -147,11 +128,9 @@
 <div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">gem</span>  <span class="s1">'pry-byebug'</span><span class="p">,</span> <span class="s1">'&gt; 3.4.3'</span>
 </code></pre></div></div>
 
-<h2 id="setting-up-travis">Setting up Travis</h2>
+<h2 id="setting-up-travis-and-appveyor">Setting up Travis and Appveyor</h2>
 
-<p>To see this running on travis, check out one of our live configurations:</p>
-
-<p>https://github.com/puppetlabs/puppetlabs-motd/blob/master/.travis.yml</p>
+<p>To see this running on CI, enable the <code class="language-plaintext highlighter-rouge">use_litmus</code> flags for Travis CI and/or Appveyor. See the <a href="https://github.com/puppetlabs/pdk-templates#travisyml">pdk-templates docs</a> for details and additional options.</p>
 
   </div>
 

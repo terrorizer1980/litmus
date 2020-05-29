@@ -7,13 +7,13 @@
 <meta name="generator" content="Jekyll v4.1.0" />
 <meta property="og:title" content="Puppet Litmus Test Tool" />
 <meta property="og:locale" content="en_US" />
-<meta name="description" content="The following example walks you through converting a module to use Litmus testing." />
-<meta property="og:description" content="The following example walks you through converting a module to use Litmus testing." />
+<meta name="description" content="The following example walks you through enabling Litmus testing in a module." />
+<meta property="og:description" content="The following example walks you through enabling Litmus testing in a module." />
 <link rel="canonical" href="https://puppetlabs.github.io/litmus/Converting-modules-to-use-Litmus.html" />
 <meta property="og:url" content="https://puppetlabs.github.io/litmus/Converting-modules-to-use-Litmus.html" />
 <meta property="og:site_name" content="Puppet Litmus Test Tool" />
 <script type="application/ld+json">
-{"description":"The following example walks you through converting a module to use Litmus testing.","@type":"WebPage","url":"https://puppetlabs.github.io/litmus/Converting-modules-to-use-Litmus.html","headline":"Puppet Litmus Test Tool","@context":"https://schema.org"}</script>
+{"description":"The following example walks you through enabling Litmus testing in a module.","@type":"WebPage","url":"https://puppetlabs.github.io/litmus/Converting-modules-to-use-Litmus.html","headline":"Puppet Litmus Test Tool","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/litmus/assets/main.css"><link type="application/atom+xml" rel="alternate" href="https://puppetlabs.github.io/litmus/feed.xml" title="Puppet Litmus Test Tool" />
     <!-- Google Analytics -->
@@ -53,9 +53,9 @@
   </header>
 
   <div class="post-content">
-    <p>The following example walks you through converting a module to use Litmus testing.</p>
+    <p>The following example walks you through enabling Litmus testing in a module.</p>
 
-<p>The process involves adding code to the following files:</p>
+<p>The process involves editing or adding code to the following files:</p>
 
 <ol>
   <li>The <code class="language-plaintext highlighter-rouge">Gemfile</code></li>
@@ -65,38 +65,19 @@
   <li>The <code class="language-plaintext highlighter-rouge">spec_helper_acceptance_local.rb</code> file</li>
 </ol>
 
-<h3 id="before-you-begin">Before you begin</h3>
+<h2 id="before-you-begin">Before you begin</h2>
 
-<p><strong><em>Important:</em></strong> If your module is compatible with <a href="https://puppet.com/docs/pdk/1.x/pdk.html">Puppet Development Kit (PDK)</a>, meaning it was either created with PDK or has been converted to use PDK using the <code class="language-plaintext highlighter-rouge">pdk convert</code> command, you can convert your module to use Litmus using sync.yml. This means you can skip step 1 and 2 (add code to your <code class="language-plaintext highlighter-rouge">Gemfile</code> and <code class="language-plaintext highlighter-rouge">Rakefile</code>), and move straight to step 3 (Add code to the spec file). PDK manages the Gemfile and Rakefile, and these file changes go through sync.yml. To verify that your module is compatible with PDK, look in the modules <code class="language-plaintext highlighter-rouge">metadata.json</code> file and see whether there is an entry that states the PDK version. It will look something like <code class="language-plaintext highlighter-rouge">"pdk-version": "1.17.0"</code>.</p>
+<p>This guide assumes your module is compatible with <a href="https://puppet.com/docs/pdk/1.x/pdk.html">Puppet Development Kit (PDK)</a>,
+meaning it was either created with <code class="language-plaintext highlighter-rouge">pdk new module</code> or has been converted to use PDK using the <code class="language-plaintext highlighter-rouge">pdk convert</code> command.
+To verify that your module is compatible with PDK, look in the modules <code class="language-plaintext highlighter-rouge">metadata.json</code> file and see whether there is an entry that states the PDK version.
+It will look something like <code class="language-plaintext highlighter-rouge">"pdk-version": "1.18.0"</code>.
+The PDK ships litmus as an experimental component.</p>
 
-<p>You need to make the rest of the changes manually — step 3 onwards.</p>
+<p>To enable it, follow the steps below.</p>
 
-<h3 id="1-add-code-to-your-gemfile-and-rakefile">1. Add code to your <code class="language-plaintext highlighter-rouge">Gemfile</code> and <code class="language-plaintext highlighter-rouge">Rakefile</code></h3>
+<h2 id="1-add-required-development-dependencies">1. Add required development dependencies</h2>
 
-<p><strong><em>Note</em></strong> If your module is compatible with PDK, skip this step and move to step 3.</p>
-
-<p>Inside the root directory of your module, add the following code to <code class="language-plaintext highlighter-rouge">group :development</code> section of the <code class="language-plaintext highlighter-rouge">Gemfile</code>:</p>
-
-<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">gem</span> <span class="s1">'puppet_litmus'</span>
-<span class="n">gem</span> <span class="s1">'serverspec'</span>
-
-</code></pre></div></div>
-<p>This code makes sure the <code class="language-plaintext highlighter-rouge">puppet_litmus</code> library is included in the module. You can now remove the system tests section, as Beaker is no longer needed.</p>
-
-<h3 id="1-add-code-to-your-rakefile">1. Add code to your <code class="language-plaintext highlighter-rouge">Rakefile</code></h3>
-
-<p><strong><em>Note</em></strong> If your module is compatible with PDK, skip this step and move to step 3.</p>
-
-<p>Inside the root directory of your module, add the following code to the <strong>top</strong> of the <code class="language-plaintext highlighter-rouge">Rakefile</code>:</p>
-
-<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">require</span> <span class="s1">'puppet_litmus/rake_tasks'</span>
-</code></pre></div></div>
-
-<p>This code adds the Litmus rake tasks to the module.</p>
-
-<h3 id="2-add-code-to-the-fixturesyml-file">2. Add code to the <code class="language-plaintext highlighter-rouge">.fixtures.yml</code> file</h3>
-
-<p>Inside the root directory of your module, add the following code to the <code class="language-plaintext highlighter-rouge">.fixtures.yml</code>:</p>
+<p>Inside the root directory of your module, add the following entries to the <code class="language-plaintext highlighter-rouge">.fixtures.yml</code>:</p>
 
 <div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nn">---</span>
 <span class="na">fixtures</span><span class="pi">:</span>
@@ -106,9 +87,9 @@
     <span class="na">provision</span><span class="pi">:</span> <span class="s1">'</span><span class="s">https://github.com/puppetlabs/provision.git'</span>
 </code></pre></div></div>
 
-<h3 id="3-add-code-to-the-specspec_helper_acceptancerb-file">3. Add code to the spec/spec_helper_acceptance.rb file</h3>
+<h2 id="2-create-the-specspec_helper_acceptancerb-file">2. Create the <code class="language-plaintext highlighter-rouge">spec/spec_helper_acceptance.rb</code> file</h2>
 
-<p>Inside the <code class="language-plaintext highlighter-rouge">spec</code> folder of the module, add the following code to the <code class="language-plaintext highlighter-rouge">spec_helper_acceptance.rb</code> file:</p>
+<p>Inside the <code class="language-plaintext highlighter-rouge">spec</code> folder of the module, create a <code class="language-plaintext highlighter-rouge">spec_helper_acceptance.rb</code> file with the following contents:</p>
 
 <div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># frozen_string_literal: true</span>
 
@@ -118,13 +99,13 @@
 <span class="no">PuppetLitmus</span><span class="p">.</span><span class="nf">configure!</span>
 </code></pre></div></div>
 
-<p>If you can’t find this file, it means the module doesn’t have any acceptance tests and you will need to add them. For the purposes of this example, create the file and add the code above.</p>
+<p>This file will later become managed by the PDK. For local changes, see the next step.</p>
 
-<h3 id="4-update-the-specspec_helper_acceptance_localrb-file">4. Update the <code class="language-plaintext highlighter-rouge">spec/</code>spec_helper_acceptance_local.rb` file</h3>
+<h2 id="3-create-the-specspec_helper_acceptance_localrb-file">3. Create the <code class="language-plaintext highlighter-rouge">spec/spec_helper_acceptance_local.rb</code> file</h2>
 
-<p>You might need to have an additional helper before you start running tests. If you need to use any of the Litmus methods in the following file, include Litmus in a singleton class:</p>
+<p><strong><em>Optional:</em></strong> For module-specific methods to be used during acceptance testing, create a <code class="language-plaintext highlighter-rouge">spec/spec_helper_acceptance_local.rb</code> file. This will be loaded at the start of each test run. If you need to use any of the Litmus methods in this file, include Litmus as a singleton class:</p>
 
-<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">require</span> <span class="s1">'puppet_litmus'</span>
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># frozen_string_literal: true</span>
 <span class="nb">require</span> <span class="s1">'singleton'</span>
 
 <span class="k">class</span> <span class="nc">Helper</span>
@@ -136,6 +117,10 @@
   <span class="no">Helper</span><span class="p">.</span><span class="nf">instance</span><span class="p">.</span><span class="nf">bolt_run_script</span><span class="p">(</span><span class="s1">'path/to/file'</span><span class="p">)</span>
 <span class="k">end</span>
 </code></pre></div></div>
+
+<h2 id="4-add-tests-to-specacceptance">4. Add tests to <code class="language-plaintext highlighter-rouge">spec/acceptance</code></h2>
+
+<p>You can find <a href="/litmus/Litmus-test-examples.html">litmus test examples</a> on their own page.</p>
 
   </div>
 

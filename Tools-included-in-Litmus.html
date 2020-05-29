@@ -68,15 +68,14 @@
 
 <p>To provision systems we created a <a href="https://github.com/puppetlabs/provision">module</a> that will provision containers / images / hardware in ABS (internal to Puppet) and Docker instances. Provision is extensible, so other provisioners can be added - please raise an <a href="https://github.com/puppetlabs/provision/issues">issue</a> on the Provision repository, or create your own and submit a <a href="https://github.com/puppetlabs/provision/pulls">PR</a>!</p>
 
-<p>rake task -&gt; bolt -&gt; puppet_litmus -&gt; litmus_image -&gt; docker
-                                                   -&gt; abs (internal)</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>                                               -&gt; vmpooler
-</code></pre></div></div>
+<p>rake task -&gt; litmus -&gt; bolt -&gt; provision -&gt; docker
+                                         -&gt; vagrant
+                                         -&gt; abs (internal)
+                                         -&gt; vmpooler (internal)</p>
 
 <h4 id="installing-an-agents">Installing an agents</h4>
 
-<p>rake task -&gt; bolt -&gt; puppet-agent</p>
+<p>rake task -&gt; bolt -&gt; puppet_agent module</p>
 
 <h4 id="installing-modules">Installing modules</h4>
 
@@ -90,9 +89,9 @@
 
 <h4 id="tearing-down-targets">Tearing down targets</h4>
 
-<p>rake task -&gt; bolt -&gt; puppet_litmus -&gt; litmus_image -&gt; docker
-                                                   -&gt; abs (internal)
-                                                   -&gt; vmpooler</p>
+<p>rake task -&gt; bolt provision -&gt; docker
+                            -&gt; abs (internal)
+                            -&gt; vmpooler</p>
 
   </div>
 
