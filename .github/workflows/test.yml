@@ -19,7 +19,7 @@ jobs:
             ${{ runner.os }}-
 
       - name: Test
-        uses: DavidS/jekyll-deploy@misc-fixes
+        uses: DavidS/jekyll-deploy@master
         with:
           build-only: true
         env:
