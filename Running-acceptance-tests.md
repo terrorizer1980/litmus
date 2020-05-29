@@ -107,13 +107,13 @@ To install a Puppet 6 agent on the CentOS Docker image, run the following comman
 Use Bolt to verify that you have installed the agent on the target. Run the following command:
 
 ```
-> pdk bundle exec bolt command run 'puppet --version' --targets localhost:2222 -i inventory.yaml
+> pdk bundle exec bolt command run 'puppet --version' --targets localhost:2222 --inventoryfile inventory.yaml
 ```
 
 Note that `localhost:2222` is the name of the node in the inventory.yaml file. You should see output with the version of the Puppet agent that was installed:
 
 ```
-> bolt command run 'puppet --version' -n localhost:2222 -i inventory.yaml
+> bolt command run 'puppet --version' --targets localhost:2222 --inventoryfile inventory.yaml
 Started on localhost:2222...
 Finished on localhost:2222:
   STDOUT:
