@@ -1,4 +1,8 @@
-These are some common examples you can use in your tests. Take note of the differences between beaker-rspec style testing and Litmus. 
+---
+layout: page
+---
+
+These are some common examples you can use in your tests. Take note of the differences between beaker-rspec style testing and Litmus.
 
 ## Testing Puppet code
 
@@ -43,7 +47,7 @@ execute_manifest(pp, catch_failures: true)
 execute_manifest(pp, catch_changes: true)
 ```
 
-With Litmus, you just need to use the `idempotent_apply` helper function. For example 
+With Litmus, you just need to use the `idempotent_apply` helper function. For example
 
 ```ruby
 pp = ' class { 'mysql::server' } '
@@ -96,14 +100,14 @@ For more information, see the [serverspec docs](https://serverspec.org/host_inve
 
 ## Debugging tests
 
-There is a known issue when running certain commands from within a pry session. To debug tests, use the following pry-byebug gem: 
+There is a known issue when running certain commands from within a pry session. To debug tests, use the following pry-byebug gem:
 
 ```ruby
-gem  'pry-byebug', '> 3.4.3' 
+gem  'pry-byebug', '> 3.4.3'
 ```
 
-## Setting up Travis 
+## Setting up Travis
 
-To see this running on travis, check out one of our live configurations: 
+To see this running on travis, check out one of our live configurations:
 
 https://github.com/puppetlabs/puppetlabs-motd/blob/master/.travis.yml

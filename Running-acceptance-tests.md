@@ -1,11 +1,15 @@
+---
+layout: page
+---
+
 The following example walks you through running an acceptance test on the [MoTD](https://github.com/puppetlabs/puppetlabs-motd) module.
 
 The process involves these steps:
 
 1. Clone the MoTD module from GitHub.
-1. Provision a CentOS Docker image. 
-1. Install a Puppet 6 agent on the CentOS image. 
-1. Install the MoTD module on the CentOS image. 
+1. Provision a CentOS Docker image.
+1. Install a Puppet 6 agent on the CentOS image.
+1. Install the MoTD module on the CentOS image.
 1. Run the MoTD acceptance tests.
 1. Remove the Docker image.
 
@@ -13,13 +17,13 @@ The process involves these steps:
 
 Ensure you have installed the following:
 
-* [Docker](https://runnable.com/docker/getting-started/). 
+* [Docker](https://runnable.com/docker/getting-started/).
 	* To check whether you already have Docker, run `docker --version` from the command line.
 	* To check Docker is working, run `docker run centos:7 ls` in your terminal. You should see a list of folders in the CentOS image.
 * [Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
 	* To check  where you already have git, run `git --version` in your terminal.
-* [Puppet Development Kit (PDK)](https://puppet.com/docs/pdk/1.x/pdk_install.html). 
-	* To check whether you already have PDK, run `pdk --version` from the command line. Note that you need version `1.17.0` or later. If not, then following the 
+* [Puppet Development Kit (PDK)](https://puppet.com/docs/pdk/1.x/pdk_install.html).
+	* To check whether you already have PDK, run `pdk --version` from the command line. Note that you need version `1.17.0` or later. If not, then following the
 
 ### 1. Clone the MoTD module from GitHub.
 
@@ -42,12 +46,12 @@ The MoTD module relies on a number of gems. To install these on your machine, ru
 pdk bundle install
 ```
 
-### 3. Provision a CentOS Docker image. 
+### 3. Provision a CentOS Docker image.
 
 
 Provision a CentOS 7 image in a Docker container to be the target you will test against
 
-To provision the CentOS 7 target (or any OS of your choice), run the following command: 
+To provision the CentOS 7 target (or any OS of your choice), run the following command:
 
 ```
 pdk bundle exec rake 'litmus:provision[docker, centos:7]'
@@ -122,7 +126,7 @@ Successful on 1 target: localhost:2222
 Ran on 1 target in 1.72 sec
 ```
 
-### 4. Install the MoTD module on the CentOS image. 
+### 4. Install the MoTD module on the CentOS image.
 
 To install the MoTD module on the CentOS image, run the following command from inside your working directory:
 

@@ -1,4 +1,8 @@
-Using the Litmus commands, you can provision test platforms such as containers/images, install a Puppet agent, install a module and run tests.  
+---
+layout: page
+---
+
+Using the Litmus commands, you can provision test platforms such as containers/images, install a Puppet agent, install a module and run tests.
 
 Litmus has five commands:
 
@@ -13,7 +17,7 @@ These commands allow you to create a test environment and run tests against your
 Three common test setups are:
   * Run against localhost
   * Run against an existing machine that has Puppet installed
-  * Provision a fresh system and install Puppet 
+  * Provision a fresh system and install Puppet
 
 Once you have your environment, Litmus is designed to speed up the following workflow:
 
@@ -27,7 +31,7 @@ At any point you can re-run tests, or provision new systems and add them to your
 
 ## Provisioning
 
-Using the Litmus [provision](https://github.com/puppetlabs/provision) command, you can spin up Docker containers, vagrant machines or machines in private clouds, such as vmpooler. 
+Using the Litmus [provision](https://github.com/puppetlabs/provision) command, you can spin up Docker containers, vagrant machines or machines in private clouds, such as vmpooler.
 
 For example:
 
@@ -39,7 +43,7 @@ pdk bundle exec rake 'litmus:provision[vagrant, gusztavvargadr/windows-server]'
 
 > Note: Provisioning is extensible — if your chosen provisioner isn't available, raise an issue on the [provision repo](https://github.com/puppetlabs/provision), or a PR to add your chosen provisioner.
 
-The provision command creates a Bolt `inventory.yml` file for Litmus to use. You can manually add machines to this file. 
+The provision command creates a Bolt `inventory.yml` file for Litmus to use. You can manually add machines to this file.
 
 For example:
 
@@ -90,7 +94,7 @@ list_name:
   images: ['centos/7', 'generic/ubuntu1804', 'gusztavvargadr/windows-server']
   params:
     param_a: someone
-    param_b: something   
+    param_b: something
 ```
 
 Take note of the following:
@@ -105,19 +109,19 @@ An example of a `provision.yaml` defining multiple nodes:
 ```yaml
 ---
 default:
-  provisioner: docker 
+  provisioner: docker
   images: ['litmusimage/centos7']
 travis_deb:
   provisioner: docker
   images: ['debian:8', 'debian:9', 'ubuntu:14.04', 'ubuntu:16.04', 'ubuntu:18.04']
 litmus_deb:
-  provisioner: docker 
+  provisioner: docker
   images: ['litmusimage/debian8', 'litmusimage/debian9', 'litmusimage/ubuntu14.04', 'litmusimage/ubuntu16.04', 'litmusimage/ubuntu18.04']
 travis_el:
-  provisioner: docker 
+  provisioner: docker
   images: ['centos:6', 'centos:7', 'oraclelinux:6', 'oraclelinux:7', 'scientificlinux/sl:6', 'scientificlinux/sl:7']
 litmus_el:
-  provisioner: docker 
+  provisioner: docker
   images: ['litmusimage/centos6', 'litmusimage/centos7', 'litmusimage/oraclelinux6', 'litmusimage/oraclelinux7', 'litmusimage/scientificlinux6', 'litmusimage/scientificlinux7']
 release_checks:
   provisioner: vmpooler
@@ -145,21 +149,21 @@ pdk bundle exec rake 'litmus:provision_list[vagrant]'
 
 ## Installing a Puppet agent
 
-Install an agent on the provisioned targets using the [Puppet Agent module](https://github.com/puppetlabs/puppetlabs-puppet_agent). The tasks in this module allow you to install different versions of the Puppet agent, on  different OSes. 
+Install an agent on the provisioned targets using the [Puppet Agent module](https://github.com/puppetlabs/puppetlabs-puppet_agent). The tasks in this module allow you to install different versions of the Puppet agent, on  different OSes.
 
 Use the following command to install an agent on a single target or on all the targets in the inventory file. Note that agents are installed in parallel when running against multiple targets.
- 
+
 Install an agent on a target using the following commands:
 
 ```
 # Install the latest Puppet agent on a specific target
-pdk bundle exec rake 'litmus:install_agent[gn55owqktvej9fp.delivery.puppetlabs.net]' 
+pdk bundle exec rake 'litmus:install_agent[gn55owqktvej9fp.delivery.puppetlabs.net]'
 
 # Install the latest Puppet agent on all targets
-pdk bundle exec rake "litmus:install_agent" 
+pdk bundle exec rake "litmus:install_agent"
 
 # Install Puppet 5 on all targets
-pdk bundle exec rake 'litmus:install_agent[puppet5]' 
+pdk bundle exec rake 'litmus:install_agent[puppet5]'
 
 ```
 
@@ -167,7 +171,7 @@ pdk bundle exec rake 'litmus:install_agent[puppet5]'
 
 ## Installing a module
 
-Using PDK and Bolt, the `rake litmus:install_module` command builds and installs a module on the target. 
+Using PDK and Bolt, the `rake litmus:install_module` command builds and installs a module on the target.
 
 For example:
 
@@ -209,9 +213,9 @@ pdk bundle exec rspec ./spec/acceptance/test_spec.rb:21
 ```
 
 An example running all tests against all targets, as specified in the inventory.yml file:
- 
+
 ```
-pdk bundle exec rake litmus:acceptance:parallel 
+pdk bundle exec rake litmus:acceptance:parallel
 ```
 
 An example running all tests against localhost. Note that this is only recommended if you are familiar with the code base, as tests may have unexpected side effects on your local machine.

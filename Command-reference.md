@@ -1,9 +1,13 @@
-### Useful Docker commands 
+---
+layout: page
+---
+
+### Useful Docker commands
 
 To list all docker images, including stopped ones, run:
 ```
 litmus_image
-``` 
+```
 
 You will get output similar to:
 
@@ -37,4 +41,4 @@ docker attach centos6
  to deattach <ctrl + p> then <ctrl + q>
 ```
 
-Note that you cannot attach to a Docker image that is running systemd/upstart, for example, the `litmus_image` images. 
+Note that you cannot attach to a Docker image that is running systemd/upstart, for example, the `litmus_image` images.
