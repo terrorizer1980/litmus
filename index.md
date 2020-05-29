@@ -4,7 +4,7 @@ layout: home
 
 Litmus is a command line tool that allows you to run acceptance tests against Puppet modules for a variety of OSes and deployment scenarios.
 
-Install Litmus as a gem by running `gem install puppet_litmus`.
+Litmus is installed as (experimental) part of the [Puppet Development Kit](https://puppet.com/try-puppet/puppet-development-kit/).
 
 In this guide, you will go through the following:
 
