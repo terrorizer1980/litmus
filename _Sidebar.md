@@ -1,8 +1,0 @@
-* [Home](./)
-* [Litmus core commands](./Litmus-core-commands)
-* [Tools included in Litmus](./tools-included-in-Litmus)
-* [Running acceptance tests with Litmus](./Running-acceptance-tests)
-* [Converting modules to use Litmus](./Converting-modules-to-use-Litmus)
-* [Test examples](./Litmus-test-examples)
-* [Helper functions](./Litmus-helper-functions)
-* [Command reference](./Command-reference)
