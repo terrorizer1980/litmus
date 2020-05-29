@@ -92,7 +92,7 @@
 <h2 id="1-clone-the-motd-module-from-github">1. Clone the MoTD module from GitHub.</h2>
 
 <p>From  the command line, clone the Litmus branch of MoTD module:</p>
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&gt; git clone https://github.com/puppetlabs/puppetlabs-motd.git
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git clone https://github.com/puppetlabs/puppetlabs-motd.git
 </code></pre></div></div>
 <p>You now have a local copy of the module on your machine. In this example, you can work  off the master branch.</p>
 
@@ -134,46 +134,50 @@ localhost:2222, centos:7
 
 <p>Note that the provisioned targets will be in the <code class="language-plaintext highlighter-rouge">inventory.yaml</code> file. Litmus creates this file in your working directory. If you run <code class="language-plaintext highlighter-rouge">cat inventory.yaml</code>, you should see the targets you just created. For example:</p>
 
-<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="pi">&gt;</span> <span class="err">cat</span> <span class="err">inventory.yaml</span>
-<span class="err">-</span><span class="s">--</span>
-<span class="err">v</span><span class="s">ersion: 2</span>
-<span class="err">g</span><span class="s">roups:</span>
-<span class="err">-</span><span class="s"> name: docker_nodes</span>
-  <span class="s">targets: []</span>
-<span class="err">-</span><span class="s"> name: ssh_nodes</span>
-  <span class="s">targets:</span>
-  <span class="s">- uri: localhost:2222</span>
-    <span class="s">config:</span>
-      <span class="s">transport: ssh</span>
-      <span class="s">ssh:</span>
-        <span class="s">user: root</span>
-        <span class="s">password: root</span>
-        <span class="s">port: 2222</span>
-        <span class="s">host-key-check: false</span>
-    <span class="s">facts:</span>
-      <span class="s">provisioner: docker</span>
-      <span class="s">container_name: centos_7-2222</span>
-      <span class="s">platform: centos:7</span>
-<span class="err">-</span><span class="s"> name: winrm_nodes</span>
-  <span class="s">targets: []</span>
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># inventory.yaml</span>
+<span class="nn">---</span>
+<span class="na">version</span><span class="pi">:</span> <span class="m">2</span>
+<span class="na">groups</span><span class="pi">:</span>
+<span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">docker_nodes</span>
+  <span class="na">targets</span><span class="pi">:</span> <span class="pi">[]</span>
+<span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">ssh_nodes</span>
+  <span class="na">targets</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="na">uri</span><span class="pi">:</span> <span class="s">localhost:2222</span>
+    <span class="na">config</span><span class="pi">:</span>
+      <span class="na">transport</span><span class="pi">:</span> <span class="s">ssh</span>
+      <span class="na">ssh</span><span class="pi">:</span>
+        <span class="na">user</span><span class="pi">:</span> <span class="s">root</span>
+        <span class="na">password</span><span class="pi">:</span> <span class="s">root</span>
+        <span class="na">port</span><span class="pi">:</span> <span class="m">2222</span>
+        <span class="na">host-key-check</span><span class="pi">:</span> <span class="no">false</span>
+    <span class="na">facts</span><span class="pi">:</span>
+      <span class="na">provisioner</span><span class="pi">:</span> <span class="s">docker</span>
+      <span class="na">container_name</span><span class="pi">:</span> <span class="s">centos_7-2222</span>
+      <span class="na">platform</span><span class="pi">:</span> <span class="s">centos:7</span>
+<span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">winrm_nodes</span>
+  <span class="na">targets</span><span class="pi">:</span> <span class="pi">[]</span>
 </code></pre></div></div>
 
 <h2 id="4-install-a-puppet-6-agent-on-your-target">4. Install a Puppet 6 agent on your target</h2>
 
 <p>To install a Puppet 6 agent on the CentOS Docker image, run the following command:</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&gt; pdk bundle exec rake litmus:install_agent
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pdk bundle exec rake litmus:install_agent
 </code></pre></div></div>
 
 <p>Use Bolt to verify that you have installed the agent on the target. Run the following command:</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&gt; pdk bundle exec bolt command run 'puppet --version' --targets localhost:2222 --inventoryfile inventory.yaml
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pdk bundle exec bolt command run 'puppet --version' --targets localhost:2222 --inventoryfile inventory.yaml
 </code></pre></div></div>
 
 <p>Note that <code class="language-plaintext highlighter-rouge">localhost:2222</code> is the name of the node in the inventory.yaml file. You should see output with the version of the Puppet agent that was installed:</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&gt; bolt command run 'puppet --version' --targets localhost:2222 --inventoryfile inventory.yaml
-Started on localhost:2222...
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>bolt command run 'puppet --version' --targets localhost:2222 --inventoryfile inventory.yaml
+</code></pre></div></div>
+
+<p>Running the command will produce output similar to this:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Started on localhost:2222...
 Finished on localhost:2222:
   STDOUT:
     6.13.0
@@ -185,7 +189,7 @@ Ran on 1 target in 1.72 sec
 
 <p>To install the MoTD module on the CentOS image, run the following command from inside your working directory:</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&gt; pdk bundle exec rake litmus:install_module
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pdk bundle exec rake litmus:install_module
 </code></pre></div></div>
 
 <p>You see output similar to:</p>
@@ -196,13 +200,12 @@ Installed
 
 <p>Use Bolt to verify that you have installed the MoTD module. Run the following command:</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&gt; pdk bundle exec bolt command run 'puppet module list' --targets localhost:2222 -i inventory.yaml
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pdk bundle exec bolt command run 'puppet module list' --targets localhost:2222 -i inventory.yaml
 </code></pre></div></div>
 
 <p>The output should look similar to:</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&gt; bolt command run 'puppet module list' --targets localhost:2222 -i inventory.yaml
-Started on localhost...
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Started on localhost...
 Finished on localhost:
   STDOUT:
     /etc/puppetlabs/code/environments/production/modules
@@ -234,13 +237,12 @@ Ran on 1 target in 1.77 sec
 
 <p>To run acceptance tests with Litmus, run the following command from your working directory:</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&gt; pdk bundle exec rake litmus:acceptance:parallel
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pdk bundle exec rake litmus:acceptance:parallel
 </code></pre></div></div>
 
 <p>This command executes the acceptance tests in the <a href="https://github.com/puppetlabs/puppetlabs-motd/tree/master/spec/acceptance">acceptance folder</a> of the module. If the tests have run successfully, you will see output similar to:</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&gt; pdk bundle exec rake litmus:acceptance:parallel
-+ [✔] Running against 1 targets.
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+ [✔] Running against 1 targets.
 |__ [✔] localhost:2222, centos:7
 ================
 localhost:2222, centos:7
@@ -257,7 +259,7 @@ Successful on 1 nodes: ["localhost:2222, centos:7"]
 
 <p>Now that you have completed your tests, you can remove the Docker image with the Litmus tear down command:</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&gt; pdk bundle exec rake litmus:tear_down
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pdk bundle exec rake litmus:tear_down
 </code></pre></div></div>
 
 <p>You should see JSON output, similar to:</p>
@@ -278,7 +280,7 @@ Successful on 1 nodes: ["localhost:2222, centos:7"]
 </ul>
 
 <blockquote>
-  <p>Note: We are moving more of our PR testing to public pipelines to make contributing to Puppet supported modules a better experience. Check out our <a href="https://github.com/puppetlabs/puppetlabs-motd/pull/180">PR testing matrix</a> on Appveyor (which tests Windows 2016 and Windows 2012) and Travis (which tests Puppet5/6 on Oracle, Scientific Linux, Debian, Ubuntu and CentOS).</p>
+  <p>Note: We have moved all our PR testing to public pipelines to make contributing to Puppet supported modules a better experience. Check out our <a href="https://github.com/puppetlabs/puppetlabs-motd/pull/180">PR testing matrix</a> on Appveyor (which tests Windows 2016 and Windows 2012) and Travis (which tests Puppet5/6 on Oracle, Scientific Linux, Debian, Ubuntu and CentOS).</p>
 </blockquote>
 
   </div>
