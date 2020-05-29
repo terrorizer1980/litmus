@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<url>
+<loc>https://puppetlabs.github.io/litmus/Command-reference.html</loc>
+</url>
+<url>
+<loc>https://puppetlabs.github.io/litmus/Converting-modules-to-use-Litmus.html</loc>
+</url>
+<url>
+<loc>https://puppetlabs.github.io/litmus/Litmus-core-commands.html</loc>
+</url>
+<url>
+<loc>https://puppetlabs.github.io/litmus/Litmus-helper-functions.html</loc>
+</url>
+<url>
+<loc>https://puppetlabs.github.io/litmus/Litmus-test-examples.html</loc>
+</url>
+<url>
+<loc>https://puppetlabs.github.io/litmus/Running-acceptance-tests.html</loc>
+</url>
+<url>
+<loc>https://puppetlabs.github.io/litmus/Tools-included-in-Litmus.html</loc>
+</url>
+<url>
+<loc>https://puppetlabs.github.io/litmus/about/</loc>
+</url>
+<url>
+<loc>https://puppetlabs.github.io/litmus/</loc>
+</url>
+</urlset>

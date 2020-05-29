@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Puppet Litmus Test Tool | .</title>
+<meta name="generator" content="Jekyll v4.1.0" />
+<meta property="og:title" content="Puppet Litmus Test Tool" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Litmus wraps functionality from other tools, providing a rake interface for you to develop modules." />
+<meta property="og:description" content="Litmus wraps functionality from other tools, providing a rake interface for you to develop modules." />
+<link rel="canonical" href="https://puppetlabs.github.io/litmus/Tools-included-in-Litmus.html" />
+<meta property="og:url" content="https://puppetlabs.github.io/litmus/Tools-included-in-Litmus.html" />
+<meta property="og:site_name" content="Puppet Litmus Test Tool" />
+<script type="application/ld+json">
+{"description":"Litmus wraps functionality from other tools, providing a rake interface for you to develop modules.","@type":"WebPage","url":"https://puppetlabs.github.io/litmus/Tools-included-in-Litmus.html","headline":"Puppet Litmus Test Tool","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/litmus/assets/main.css"><link type="application/atom+xml" rel="alternate" href="https://puppetlabs.github.io/litmus/feed.xml" title="Puppet Litmus Test Tool" />
+    <!-- Google Analytics -->
+    <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-157301458-1', 'auto');
+	ga('send', 'pageview', { 'page': location.pathname + location.search + location.hash});
+	ga('set', 'anonymizeIp', true);
+    </script>
+    <!-- End Google Analytics -->
+    </head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/litmus/">Puppet Litmus Test Tool</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/litmus/about/">About</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post">
+
+  <header class="post-header">
+    <h1 class="post-title"></h1>
+  </header>
+
+  <div class="post-content">
+    <p>Litmus wraps functionality from other tools, providing a rake interface for you to develop modules.</p>
+
+<ul>
+  <li><a href="https://github.com/puppetlabs/bolt">Bolt</a> is an open source orchestration tool that automates the manual work it takes to maintain your infrastructure. Litmus is built on top of bolt, so it natively handles SSH, WinRM and Docker. The inventory file specifies the protocol to use for each target, along with connection specific information. Litmus uses Bolt to execute module tasks.</li>
+  <li><a href="https://serverspec.org/">Serverspec</a> lets you check your servers are configured correctly.</li>
+  <li>Puppet Development Kit (PDK) provides a complete module structure, templates for classes, defined types, and tasks, and a testing infrastructure.</li>
+  <li><a href="https://github.com/puppetlabs/litmus_image">Litmus Image</a> is a group of Docker build files. They are specifically designed to set up systemd/upstart on various nix images. This is a prerequisite for testing services with Puppet in Docker images.<code class="language-plaintext highlighter-rouge">litmus_image</code> generates an inventory file, that contains connection information for each system instance. This is used by subsequent commands or by rspec.</li>
+</ul>
+
+<p>These tools are built into the Litmus commands:</p>
+
+<h4 id="provision">Provision</h4>
+
+<p>To provision systems we created a <a href="https://github.com/puppetlabs/provision">module</a> that will provision containers / images / hardware in ABS (internal to Puppet) and Docker instances. Provision is extensible, so other provisioners can be added - please raise an <a href="https://github.com/puppetlabs/provision/issues">issue</a> on the Provision repository, or create your own and submit a <a href="https://github.com/puppetlabs/provision/pulls">PR</a>!</p>
+
+<p>rake task -&gt; bolt -&gt; puppet_litmus -&gt; litmus_image -&gt; docker
+                                                   -&gt; abs (internal)</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>                                               -&gt; vmpooler
+</code></pre></div></div>
+
+<h4 id="installing-an-agents">Installing an agents</h4>
+
+<p>rake task -&gt; bolt -&gt; puppet-agent</p>
+
+<h4 id="installing-modules">Installing modules</h4>
+
+<p>PDK builds the module tar file and is copied to the target using Bolt. On the target machine, run <code class="language-plaintext highlighter-rouge">puppet module install</code>, specifying the tar file. This installs the dependencies listed in the metadata.json of the built module.</p>
+
+<p>rake task -&gt; pdk -&gt; bolt</p>
+
+<h4 id="running-tests">Running tests</h4>
+
+<p>rake task -&gt; serverspec -&gt; rspec</p>
+
+<h4 id="tearing-down-targets">Tearing down targets</h4>
+
+<p>rake task -&gt; bolt -&gt; puppet_litmus -&gt; litmus_image -&gt; docker
+                                                   -&gt; abs (internal)
+                                                   -&gt; vmpooler</p>
+
+  </div>
+
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/litmus/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">Puppet Litmus Test Tool</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">Puppet Litmus Test Tool</li><li><a class="u-email" href="mailto:ia_content@puppet.com">ia_content@puppet.com</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/puppetlabs"><svg class="svg-icon"><use xlink:href="/litmus/assets/minima-social-icons.svg#github"></use></svg> <span class="username">puppetlabs</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>.</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

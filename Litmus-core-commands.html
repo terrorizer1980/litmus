@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Puppet Litmus Test Tool | .</title>
+<meta name="generator" content="Jekyll v4.1.0" />
+<meta property="og:title" content="Puppet Litmus Test Tool" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Using the Litmus commands, you can provision test platforms such as containers/images, install a Puppet agent, install a module and run tests." />
+<meta property="og:description" content="Using the Litmus commands, you can provision test platforms such as containers/images, install a Puppet agent, install a module and run tests." />
+<link rel="canonical" href="https://puppetlabs.github.io/litmus/Litmus-core-commands.html" />
+<meta property="og:url" content="https://puppetlabs.github.io/litmus/Litmus-core-commands.html" />
+<meta property="og:site_name" content="Puppet Litmus Test Tool" />
+<script type="application/ld+json">
+{"description":"Using the Litmus commands, you can provision test platforms such as containers/images, install a Puppet agent, install a module and run tests.","@type":"WebPage","url":"https://puppetlabs.github.io/litmus/Litmus-core-commands.html","headline":"Puppet Litmus Test Tool","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/litmus/assets/main.css"><link type="application/atom+xml" rel="alternate" href="https://puppetlabs.github.io/litmus/feed.xml" title="Puppet Litmus Test Tool" />
+    <!-- Google Analytics -->
+    <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-157301458-1', 'auto');
+	ga('send', 'pageview', { 'page': location.pathname + location.search + location.hash});
+	ga('set', 'anonymizeIp', true);
+    </script>
+    <!-- End Google Analytics -->
+    </head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/litmus/">Puppet Litmus Test Tool</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/litmus/about/">About</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post">
+
+  <header class="post-header">
+    <h1 class="post-title"></h1>
+  </header>
+
+  <div class="post-content">
+    <p>Using the Litmus commands, you can provision test platforms such as containers/images, install a Puppet agent, install a module and run tests.</p>
+
+<p>Litmus has five commands:</p>
+
+<ol>
+  <li><a href="#provision">Provision: ‘rake litmus:provision’</a></li>
+  <li><a href="#agent">Install the agent: ‘rake litmus:install_agent</a></li>
+  <li><a href="#module">Install the module: ‘rake litmus:install_module’</a></li>
+  <li><a href="#test">Run the tests: ‘rake litmus:acceptance:parallel’</a></li>
+  <li><a href="#teardown">Remove the provisioned machines: ‘rake litmus:tear_down’</a></li>
+</ol>
+
+<p>These commands allow you to create a test environment and run tests against your systems. Note that not all of these steps are needed for every deployment.</p>
+
+<p>Three common test setups are:</p>
+<ul>
+  <li>Run against localhost</li>
+  <li>Run against an existing machine that has Puppet installed</li>
+  <li>Provision a fresh system and install Puppet</li>
+</ul>
+
+<p>Once you have your environment, Litmus is designed to speed up the following workflow:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>edit code -&gt; install module -&gt; run test
+</code></pre></div></div>
+
+<p>At any point you can re-run tests, or provision new systems and add them to your test environment.</p>
+
+<p><a name="provision"></a></p>
+
+<h2 id="provisioning">Provisioning</h2>
+
+<p>Using the Litmus <a href="https://github.com/puppetlabs/provision">provision</a> command, you can spin up Docker containers, vagrant machines or machines in private clouds, such as vmpooler.</p>
+
+<p>For example:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pdk bundle exec rake 'litmus:provision[vmpooler, redhat-6-x86_64]'
+pdk bundle exec rake 'litmus:provision[docker, ubuntu:18.04]'
+pdk bundle exec rake 'litmus:provision[vagrant, gusztavvargadr/windows-server]'
+</code></pre></div></div>
+
+<blockquote>
+  <p>Note: Provisioning is extensible — if your chosen provisioner isn’t available, raise an issue on the <a href="https://github.com/puppetlabs/provision">provision repo</a>, or a PR to add your chosen provisioner.</p>
+</blockquote>
+
+<p>The provision command creates a Bolt <code class="language-plaintext highlighter-rouge">inventory.yml</code> file for Litmus to use. You can manually add machines to this file.</p>
+
+<p>For example:</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nn">---</span>
+<span class="na">version</span><span class="pi">:</span> <span class="m">2</span>
+<span class="na">groups</span><span class="pi">:</span>
+<span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">docker_nodes</span>
+  <span class="na">targets</span><span class="pi">:</span> <span class="pi">[]</span>
+<span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">ssh_nodes</span>
+  <span class="na">targets</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="na">uri</span><span class="pi">:</span> <span class="s">localhost:2222</span>
+    <span class="na">config</span><span class="pi">:</span>
+      <span class="na">transport</span><span class="pi">:</span> <span class="s">ssh</span>
+      <span class="na">ssh</span><span class="pi">:</span>
+        <span class="na">user</span><span class="pi">:</span> <span class="s">root</span>
+        <span class="na">password</span><span class="pi">:</span> <span class="s">root</span>
+        <span class="na">port</span><span class="pi">:</span> <span class="m">2222</span>
+        <span class="na">host-key-check</span><span class="pi">:</span> <span class="no">false</span>
+    <span class="na">facts</span><span class="pi">:</span>
+      <span class="na">provisioner</span><span class="pi">:</span> <span class="s">docker</span>
+      <span class="na">container_name</span><span class="pi">:</span> <span class="s">centos_7-2222</span>
+      <span class="na">platform</span><span class="pi">:</span> <span class="s">centos:7</span>
+<span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">winrm_nodes</span>
+  <span class="na">targets</span><span class="pi">:</span> <span class="pi">[]</span>
+</code></pre></div></div>
+
+<p>For more examples of inventory files, see the <a href="https://puppet.com/docs/bolt/1.x/inventory_file.html">Bolt documentation</a>.</p>
+
+<p>Note that you can test some modules against localhost — the machine you are running your test from. Note that this is only recommended if you are familiar with the code base, as tests may have unexpected side effects on your local machine. To run a test against localhost, see <a href="#test">Run the tests: ‘rake litmus:parallel’</a></p>
+
+<h3 id="testing-services">Testing services</h3>
+
+<p>For testing services that require a service manager (like systemd), the default Docker images might not be enough. In this case, there is a collection of Docker images, with a service manager enabled, based on https://github.com/puppetlabs/litmusimage. For available images, see the <a href="https://hub.docker.com/u/litmusimage">docker hub</a>.</p>
+
+<p>Alternatively, you can use a dedicated VM that uses another provisioner, for example vmpooler or vagrant.</p>
+
+<h3 id="provisioning-via-yaml">Provisioning via YAML</h3>
+
+<p>In addition to directly provisioning one or more machines using <code class="language-plaintext highlighter-rouge">litmus:provision</code>, you can also define one or more sets of nodes in a <code class="language-plaintext highlighter-rouge">provision.yaml</code> file and use that to provision targets.</p>
+
+<p>An example of a <code class="language-plaintext highlighter-rouge">provision.yaml</code> defining a single node:</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nn">---</span>
+<span class="na">list_name</span><span class="pi">:</span>
+  <span class="na">provisioner</span><span class="pi">:</span> <span class="s">vagrant</span>
+  <span class="na">images</span><span class="pi">:</span> <span class="pi">[</span><span class="s1">'</span><span class="s">centos/7'</span><span class="pi">,</span> <span class="s1">'</span><span class="s">generic/ubuntu1804'</span><span class="pi">,</span> <span class="s1">'</span><span class="s">gusztavvargadr/windows-server'</span><span class="pi">]</span>
+  <span class="na">params</span><span class="pi">:</span>
+    <span class="na">param_a</span><span class="pi">:</span> <span class="s">someone</span>
+    <span class="na">param_b</span><span class="pi">:</span> <span class="s">something</span>
+</code></pre></div></div>
+
+<p>Take note of the following:</p>
+
+<ul>
+  <li>The <code class="language-plaintext highlighter-rouge">list_name</code> is arbitrary and can be any string you want.</li>
+  <li>The <code class="language-plaintext highlighter-rouge">provisioner</code> specifies which provision task to use.</li>
+  <li>The <code class="language-plaintext highlighter-rouge">images</code> must specify an array of one or more images to provision.</li>
+  <li>Any keys inside of <code class="language-plaintext highlighter-rouge">params</code> will be turned into process-scope environment variables as the key, upcased. In the example above, <code class="language-plaintext highlighter-rouge">param_a</code> would become an environment variable called <code class="language-plaintext highlighter-rouge">PARAM_A</code> with a value of <code class="language-plaintext highlighter-rouge">someone</code>.</li>
+</ul>
+
+<p>An example of a <code class="language-plaintext highlighter-rouge">provision.yaml</code> defining multiple nodes:</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nn">---</span>
+<span class="na">default</span><span class="pi">:</span>
+  <span class="na">provisioner</span><span class="pi">:</span> <span class="s">docker</span>
+  <span class="na">images</span><span class="pi">:</span> <span class="pi">[</span><span class="s1">'</span><span class="s">litmusimage/centos7'</span><span class="pi">]</span>
+<span class="na">travis_deb</span><span class="pi">:</span>
+  <span class="na">provisioner</span><span class="pi">:</span> <span class="s">docker</span>
+  <span class="na">images</span><span class="pi">:</span> <span class="pi">[</span><span class="s1">'</span><span class="s">debian:8'</span><span class="pi">,</span> <span class="s1">'</span><span class="s">debian:9'</span><span class="pi">,</span> <span class="s1">'</span><span class="s">ubuntu:14.04'</span><span class="pi">,</span> <span class="s1">'</span><span class="s">ubuntu:16.04'</span><span class="pi">,</span> <span class="s1">'</span><span class="s">ubuntu:18.04'</span><span class="pi">]</span>
+<span class="na">litmus_deb</span><span class="pi">:</span>
+  <span class="na">provisioner</span><span class="pi">:</span> <span class="s">docker</span>
+  <span class="na">images</span><span class="pi">:</span> <span class="pi">[</span><span class="s1">'</span><span class="s">litmusimage/debian8'</span><span class="pi">,</span> <span class="s1">'</span><span class="s">litmusimage/debian9'</span><span class="pi">,</span> <span class="s1">'</span><span class="s">litmusimage/ubuntu14.04'</span><span class="pi">,</span> <span class="s1">'</span><span class="s">litmusimage/ubuntu16.04'</span><span class="pi">,</span> <span class="s1">'</span><span class="s">litmusimage/ubuntu18.04'</span><span class="pi">]</span>
+<span class="na">travis_el</span><span class="pi">:</span>
+  <span class="na">provisioner</span><span class="pi">:</span> <span class="s">docker</span>
+  <span class="na">images</span><span class="pi">:</span> <span class="pi">[</span><span class="s1">'</span><span class="s">centos:6'</span><span class="pi">,</span> <span class="s1">'</span><span class="s">centos:7'</span><span class="pi">,</span> <span class="s1">'</span><span class="s">oraclelinux:6'</span><span class="pi">,</span> <span class="s1">'</span><span class="s">oraclelinux:7'</span><span class="pi">,</span> <span class="s1">'</span><span class="s">scientificlinux/sl:6'</span><span class="pi">,</span> <span class="s1">'</span><span class="s">scientificlinux/sl:7'</span><span class="pi">]</span>
+<span class="na">litmus_el</span><span class="pi">:</span>
+  <span class="na">provisioner</span><span class="pi">:</span> <span class="s">docker</span>
+  <span class="na">images</span><span class="pi">:</span> <span class="pi">[</span><span class="s1">'</span><span class="s">litmusimage/centos6'</span><span class="pi">,</span> <span class="s1">'</span><span class="s">litmusimage/centos7'</span><span class="pi">,</span> <span class="s1">'</span><span class="s">litmusimage/oraclelinux6'</span><span class="pi">,</span> <span class="s1">'</span><span class="s">litmusimage/oraclelinux7'</span><span class="pi">,</span> <span class="s1">'</span><span class="s">litmusimage/scientificlinux6'</span><span class="pi">,</span> <span class="s1">'</span><span class="s">litmusimage/scientificlinux7'</span><span class="pi">]</span>
+<span class="na">release_checks</span><span class="pi">:</span>
+  <span class="na">provisioner</span><span class="pi">:</span> <span class="s">vmpooler</span>
+  <span class="na">images</span><span class="pi">:</span> <span class="pi">[</span><span class="s1">'</span><span class="s">redhat-5-x86_64'</span><span class="pi">,</span> <span class="s1">'</span><span class="s">redhat-6-x86_64'</span><span class="pi">,</span> <span class="s1">'</span><span class="s">redhat-7-x86_64'</span><span class="pi">,</span> <span class="s1">'</span><span class="s">redhat-8-x86_64'</span><span class="pi">,</span> <span class="s1">'</span><span class="s">centos-5-x86_64'</span><span class="pi">,</span> <span class="s1">'</span><span class="s">centos-6-x86_64'</span><span class="pi">,</span> <span class="s1">'</span><span class="s">centos-7-x86_64'</span><span class="pi">,</span> <span class="s1">'</span><span class="s">oracle-5-x86_64'</span><span class="pi">,</span> <span class="s1">'</span><span class="s">oracle-6-x86_64'</span><span class="pi">,</span> <span class="s1">'</span><span class="s">oracle-7-x86_64'</span><span class="pi">,</span> <span class="s1">'</span><span class="s">scientific-6-x86_64'</span><span class="pi">,</span> <span class="s1">'</span><span class="s">scientific-7-x86_64'</span><span class="pi">,</span> <span class="s1">'</span><span class="s">debian-8-x86_64'</span><span class="pi">,</span> <span class="s1">'</span><span class="s">debian-9-x86_64'</span><span class="pi">,</span> <span class="s1">'</span><span class="s">sles-11-x86_64'</span><span class="pi">,</span> <span class="s1">'</span><span class="s">sles-12-x86_64'</span><span class="pi">,</span> <span class="s1">'</span><span class="s">sles-15-x86_64'</span><span class="pi">,</span> <span class="s1">'</span><span class="s">ubuntu-1404-x86_64'</span><span class="pi">,</span> <span class="s1">'</span><span class="s">ubuntu-1604-x86_64'</span><span class="pi">,</span> <span class="s1">'</span><span class="s">ubuntu-1804-x86_64'</span><span class="pi">,</span> <span class="s1">'</span><span class="s">win-2008r2-x86_64'</span><span class="pi">,</span> <span class="s1">'</span><span class="s">win-2012r2-x86_64'</span><span class="pi">,</span> <span class="s1">'</span><span class="s">win-2016-x86_64'</span><span class="pi">,</span> <span class="s1">'</span><span class="s">win-10-pro-x86_64'</span><span class="pi">]</span>
+<span class="na">vagrant</span><span class="pi">:</span>
+  <span class="na">provisioner</span><span class="pi">:</span> <span class="s">vagrant</span>
+  <span class="na">images</span><span class="pi">:</span> <span class="pi">[</span><span class="s1">'</span><span class="s">centos/7'</span><span class="pi">,</span> <span class="s1">'</span><span class="s">generic/ubuntu1804'</span><span class="pi">,</span> <span class="s1">'</span><span class="s">gusztavvargadr/windows-server'</span><span class="pi">]</span>
+  <span class="na">params</span><span class="pi">:</span>
+    <span class="na">vagrant_hyperv_smb_username</span><span class="pi">:</span> <span class="s">someone</span>
+    <span class="na">vagrant_hyperv_smb_password</span><span class="pi">:</span> <span class="s">something</span>
+</code></pre></div></div>
+
+<p>You can then provision a list of targets from that file:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># This will spin up all the nodes defined in the `release_checks` key via VMPooler</span>
+pdk bundle <span class="nb">exec </span>rake <span class="s1">'litmus:provision_list[release_checks]'</span>
+<span class="c"># This will spin up the three nodes listed in the `vagrant` key via Vagrant.</span>
+<span class="c"># Note that it will also turn the listed key-value pairs in `params` into</span>
+<span class="c"># the environment variables and enable the task to leverage them.</span>
+pdk bundle <span class="nb">exec </span>rake <span class="s1">'litmus:provision_list[vagrant]'</span>
+</code></pre></div></div>
+
+<p><a name="agent"></a></p>
+
+<h2 id="installing-a-puppet-agent">Installing a Puppet agent</h2>
+
+<p>Install an agent on the provisioned targets using the <a href="https://github.com/puppetlabs/puppetlabs-puppet_agent">Puppet Agent module</a>. The tasks in this module allow you to install different versions of the Puppet agent, on  different OSes.</p>
+
+<p>Use the following command to install an agent on a single target or on all the targets in the inventory file. Note that agents are installed in parallel when running against multiple targets.</p>
+
+<p>Install an agent on a target using the following commands:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># Install the latest Puppet agent on a specific target
+pdk bundle exec rake 'litmus:install_agent[gn55owqktvej9fp.delivery.puppetlabs.net]'
+
+# Install the latest Puppet agent on all targets
+pdk bundle exec rake "litmus:install_agent"
+
+# Install Puppet 5 on all targets
+pdk bundle exec rake 'litmus:install_agent[puppet5]'
+
+</code></pre></div></div>
+
+<p><a name="module"></a></p>
+
+<h2 id="installing-a-module">Installing a module</h2>
+
+<p>Using PDK and Bolt, the <code class="language-plaintext highlighter-rouge">rake litmus:install_module</code> command builds and installs a module on the target.</p>
+
+<p>For example:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pdk bundle exec rake "litmus:install_module"
+</code></pre></div></div>
+
+<p><a name="test"></a></p>
+
+<h2 id="running-tests">Running tests</h2>
+
+<p>There are several options for running tests. Litmus primarily uses <a href="https://serverspec.org/">serverspec</a>, though you can use other testing tools.</p>
+
+<p>When running tests with Litmus, you can:</p>
+<ul>
+  <li>Run all tests against a single target.</li>
+  <li>Run all tests against all targets in parallel.</li>
+  <li>Run a single test against a single target.</li>
+</ul>
+
+<p>An example running all tests against a single target:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># On Linux/MacOS:
+TARGET_HOST=lk8g530gzpjxogh.delivery.puppetlabs.net pdk bundle exec rspec ./spec/acceptance
+TARGET_HOST=localhost:2223 pdk bundle exec rspec ./spec/acceptance
+# On Windows:
+$ENV:TARGET_HOST = 'lk8g530gzpjxogh.delivery.puppetlabs.net'
+pdk bundle exec rspec ./spec/acceptance
+</code></pre></div></div>
+
+<p>An example running a specific test against a single target:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># On Linux/MacOS:
+TARGET_HOST=lk8g530gzpjxogh.delivery.puppetlabs.net pdk bundle exec rspec ./spec/acceptance/test_spec.rb:21
+TARGET_HOST=localhost:2223 pdk bundle exec rspec ./spec/acceptance/test_spec.rb:21
+# On Windows:
+$ENV:TARGET_HOST = 'lk8g530gzpjxogh.delivery.puppetlabs.net'
+pdk bundle exec rspec ./spec/acceptance/test_spec.rb:21
+</code></pre></div></div>
+
+<p>An example running all tests against all targets, as specified in the inventory.yml file:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pdk bundle exec rake litmus:acceptance:parallel
+</code></pre></div></div>
+
+<p>An example running all tests against localhost. Note that this is only recommended if you are familiar with the code base, as tests may have unexpected side effects on your local machine.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pdk bundle exec rake litmus:acceptance:localhost
+</code></pre></div></div>
+
+<p>For more test examples, see <a href="https://github.com/puppetlabs/provision/wiki#run_tests">run_tests task</a> or <a href="https://github.com/puppetlabs/provision/wiki#tests_against_agents">run tests plan</a></p>
+
+<p><a name="teardown"></a></p>
+
+<h2 id="removing-provisioned-systems">Removing provisioned systems</h2>
+
+<p>Use the commands below to clean up provisioned systems after running tests. Specify whether to to remove an individual target or all the targets in the inventory.yaml file.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># Tear down a specific target vm
+pdk bundle exec rake "litmus:tear_down[c985f9svvvu95nv.delivery.puppetlabs.net]"
+
+# Tear down a specific target running locally
+pdk bundle exec rake "litmus:tear_down[localhost:2222]"
+
+# Tear down all targets in inventory.yml
+pdk bundle exec rake "litmus:tear_down"
+</code></pre></div></div>
+
+  </div>
+
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/litmus/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">Puppet Litmus Test Tool</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">Puppet Litmus Test Tool</li><li><a class="u-email" href="mailto:ia_content@puppet.com">ia_content@puppet.com</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/puppetlabs"><svg class="svg-icon"><use xlink:href="/litmus/assets/minima-social-icons.svg#github"></use></svg> <span class="username">puppetlabs</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>.</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
