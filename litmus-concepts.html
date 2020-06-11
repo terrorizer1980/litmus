@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Puppet Litmus Test Tool | .</title>
+<meta name="generator" content="Jekyll v4.1.0" />
+<meta property="og:title" content="Puppet Litmus Test Tool" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="The main engineering goal of Litmus is to re-use as much existing content and external code as is feasible. Smaller re-usable components and leveraging functionality of other projects allows for easier adaptation and allows Litmus to ride along on the success of others, like bolt. It also means that it is easier to replace the parts that did not turn out to fulfill the needs of the users." />
+<meta property="og:description" content="The main engineering goal of Litmus is to re-use as much existing content and external code as is feasible. Smaller re-usable components and leveraging functionality of other projects allows for easier adaptation and allows Litmus to ride along on the success of others, like bolt. It also means that it is easier to replace the parts that did not turn out to fulfill the needs of the users." />
+<link rel="canonical" href="https://puppetlabs.github.io/litmus/litmus-concepts.html" />
+<meta property="og:url" content="https://puppetlabs.github.io/litmus/litmus-concepts.html" />
+<meta property="og:site_name" content="Puppet Litmus Test Tool" />
+<script type="application/ld+json">
+{"description":"The main engineering goal of Litmus is to re-use as much existing content and external code as is feasible. Smaller re-usable components and leveraging functionality of other projects allows for easier adaptation and allows Litmus to ride along on the success of others, like bolt. It also means that it is easier to replace the parts that did not turn out to fulfill the needs of the users.","@type":"WebPage","url":"https://puppetlabs.github.io/litmus/litmus-concepts.html","headline":"Puppet Litmus Test Tool","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/litmus/assets/main.css"><link type="application/atom+xml" rel="alternate" href="https://puppetlabs.github.io/litmus/feed.xml" title="Puppet Litmus Test Tool" />
+    <!-- Google Analytics -->
+    <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-157301458-1', 'auto');
+	ga('send', 'pageview', { 'page': location.pathname + location.search + location.hash});
+	ga('set', 'anonymizeIp', true);
+    </script>
+    <!-- End Google Analytics -->
+    </head>
+<body><header class="site-header" role="banner">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/litmus/">Puppet Litmus Test Tool</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/litmus/about/">About</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post">
+
+  <header class="post-header">
+    <h1 class="post-title"></h1>
+  </header>
+
+  <div class="post-content">
+    <p>The main engineering goal of Litmus is to re-use as much existing content and external code as is feasible.
+Smaller re-usable components and leveraging functionality of other projects allows for easier adaptation and allows Litmus to ride along on the success of others, like bolt.
+It also means that it is easier to replace the parts that did not turn out to fulfill the needs of the users.</p>
+
+<h2 id="components">Components</h2>
+
+<p>The following list is the current set of components and implementation choices. Some of those choices are pure expediency to get something working. Others clear strategic decisions to build a better-together story.</p>
+
+<ul>
+  <li>UI: litmus rake tasks</li>
+  <li>Communication Layer: bolt</li>
+  <li>Configuration:
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">provision.yaml</code></li>
+      <li>CI job setup</li>
+      <li>inventory.yaml</li>
+      <li>test dependencies: .fixtures.yml</li>
+    </ul>
+  </li>
+  <li>Test Infrastructure:
+    <ul>
+      <li>puppetlabs-provision module</li>
+      <li>hypervisors: docker, vagrant, vmpooler, abs</li>
+      <li>external provisioners: e.g. terraform</li>
+      <li>test systems:
+        <ul>
+          <li>litmusimage</li>
+          <li>upstream images</li>
+          <li>custom images</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>utility code
+    <ul>
+      <li>puppetlabs-facts module</li>
+      <li>puppetlabs-puppet_agent module</li>
+    </ul>
+  </li>
+  <li>Test Tracing: honeycomb</li>
+  <li>Testing System
+    <ul>
+      <li>runner: RSpec</li>
+      <li>test case definition: RSpec</li>
+      <li>test setup:
+        <ul>
+          <li>a manifest string embedded in the test case</li>
+          <li>ruby code to orchestrate a change</li>
+        </ul>
+      </li>
+      <li>test assertion
+        <ul>
+          <li>serverspec</li>
+          <li>hand-coded checks</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>Packaging and delivery:
+    <ul>
+      <li>Litmus as gem</li>
+      <li>Litmus as PDK component</li>
+      <li>utility modules as git repos</li>
+      <li>bolt as gem</li>
+    </ul>
+  </li>
+</ul>
+
+<p>The following sections go over the various components, their reasoning and discuss alternative options.</p>
+
+<h2 id="ui">UI</h2>
+
+<p>The current UI/UX of Litmus is implemented as a set of rake tasks in <a href="https://github.com/puppetlabs/puppet_litmus/blob/master/lib/puppet_litmus/rake_tasks.rb">puppet_litmus:lib/puppet_litmus/rake_tasks.rb</a>.</p>
+
+<p><strong>Reasoning:</strong>
+Rake is a ubiquitous choice of interacting with a set of connected tasks in the ruby world.
+The limited option parsing capabilities push the design towards simple interactions and storing important information in configuration files.
+It is very easy to get started with a project based on rake tasks, as there is a wealth of examples and tutorials on how to build rake tasks.</p>
+
+<p><strong>Alternatives:</strong>
+As the Litmus workflow and configuration matures we might want to consider a dedicated CLI with more ergonomic option parsing possibilities.
+This could be implemented as part of the pdk (<code class="language-plaintext highlighter-rouge">pdk test acceptance</code>) or a standalone CLI tool shipped as part of the PDK.</p>
+
+<p>The VSCode plugin could provide additional UI to make running and interacting with acceptance tests directly from the IDE possible.</p>
+
+<h2 id="communication-layer">Communication Layer</h2>
+
+<p>The communications layer for litmus needs to be able to talk to all the various systems that users might want to use in testing.</p>
+
+<p><strong>Reasoning:</strong>
+Bolt supports SSH, WinRM natively and allows extension to other remote protocols using Puppet’s extension points.
+With Bolt being integrated into our entire product line, re-using it also for content testing is an easy choice.
+Content generated for Bolt can be re-used within tests, and vice versa.
+This allows users to re-use skills acquired and strenghtens Puppet’s better-together story.</p>
+
+<p><strong>Alternatives:</strong>
+Bolt as communication layer touches most other components and - while having a well-defined interface - would not be easy to replace.
+There is currently no reason to consider alternatives to Bolt.</p>
+
+<h2 id="configuration">Configuration</h2>
+
+<p>Configuration for Litmus currently is spread over several files.
+The <code class="language-plaintext highlighter-rouge">provision.yaml</code> contains various lists of platforms to target for tests.
+The CI job setup (usually in <code class="language-plaintext highlighter-rouge">.travis.yml</code>, <code class="language-plaintext highlighter-rouge">appveyor.yml</code> or similar) contains the overall sequencing of steps for testing.
+This setup is usually the same everywhere and is encoded in pdk-templates.
+There are slight variations to choose the puppet version and platform combinations from <code class="language-plaintext highlighter-rouge">provision.yaml</code>.</p>
+
+<p>Last but not least, transient state and roles of provisioned systems is stored in Bolt’s <code class="language-plaintext highlighter-rouge">inventory.yml</code>.
+The inventory is usually managed by Litmus as an implementation detail.
+In advanced scenarios users can create, add, edit, or replace the inventory in pursuit of their use cases.</p>
+
+<p><strong>Reasoning:</strong>
+The current set of configurations is the absolute minimum to get Litmus working.
+Most of the files are inherited from existing practices and tools.</p>
+
+<p><strong>Alternatives:</strong>
+While the current set of configuration files works for now, it’s main purpose is to carry Litmus over this phase and highlight the requirements for the next iteration.</p>
+<ul>
+  <li>Replace scattered configuration with a <a href="https://puppet.com/docs/bolt/latest/bolt_project_directories.html">Boltdir</a> that can contain all the module-specific info required
+    <ul>
+      <li>Replace .fixtures.yml with <code class="language-plaintext highlighter-rouge">Boltdir/Puppetfile</code> for unit and acceptance testing</li>
+      <li>Investigate/implement pdk/litmus specific <code class="language-plaintext highlighter-rouge">Boltdir</code> location/name to avoid colliding with production use of a Boltdir</li>
+      <li>Get test-hiera data/config from <code class="language-plaintext highlighter-rouge">Boltdir/data</code> by default</li>
+    </ul>
+  </li>
+  <li>The current setup of (re-)writing the inventory is problematic as it deprives advanced users of safe ways to enhance the inventory to suit their needs
+    <ul>
+      <li>Example: custom SSH key/options</li>
+      <li>Bolt has now plugins to receive inventory information from outside sources - would this be a good way to keep dynamic litmus data out of inventory.yml?</li>
+    </ul>
+  </li>
+  <li>Find ways to pass arguments to provisioners
+    <ul>
+      <li>Hypervisor Credentials and arguments</li>
+      <li>bolt options (e.g custom SSH key/options)</li>
+      <li>which parts of this are module/repo specific? which parts need to be per-user?</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="test-infrastructure">Test Infrastructure</h2>
+
+<p>For full system-level testing of acceptance criteria, tests require access to systems to test.
+Depending on the use-case and resources available, this test infrastructure can be accessed in a variety of ways.
+There are a few necessary conditions for all those test systems:</p>
+<ul>
+  <li>accessible through bolt - this allows tests to act on such a system</li>
+  <li>initially clean - without a well-defined initial state, tests become complex, unreliable, or both</li>
+  <li>dedicated - running tests on shared systems is inviting troubles, either by tests stepping on each other or the tests interfering with user activities or the other way around</li>
+  <li>representative of production systems - running the tests should provide insight about expected behaviour in the real world</li>
+</ul>
+
+<h3 id="what-can-be-used-as-test-infrastructure">What can be used as Test Infrastructure?</h3>
+
+<p>Throw-away VMs are the easiest way to fulfil those conditions.
+Provisioned from upstream images or organisations’ golden templates,
+they provide a complete operating system, accurate representation of production and full isolation.
+The downside of virtual machines are the high resource usage and provisioning times in the order of minutes.
+You can use local VMs on your development workstation, or private and public cloud providers.</p>
+
+<p>To reduce resource usage and provisioning times docker and containers come in handy.
+They deploy in seconds and achieve high packing densities with low overhead.
+Best practices for container images justifiably frowns on SSH access or complete operating system services,
+thus common public images are usually not representative of production on full VMs.
+To avoid this limitation, <a href="https://github.com/puppetlabs/litmusimage">puppetlabs/litmusimages</a> provides a set of pre-fabbed <a href="https://hub.docker.com/u/litmusimage">docker images</a> that allow SSH access and have an init process running.</p>
+
+<p>In some cases, using bare metal servers or already running systems is unavoidable.</p>
+
+<h3 id="how-to-provision-test-infrastructure">How to provision Test Infrastructure</h3>
+
+<p>There are as many ways to aqcuire access to test systems as there are kinds of test systems.
+By default, Litmus calls out to a provisioner task to provision or tear down systems on demand.
+In the <code class="language-plaintext highlighter-rouge">puppetlabs-provision</code> module, we ship a number of commonly needed provisioners for docker (with SSH), docker_exp (using bolt’s docker transport), vagrant (for local VMs) and the private cloud APIs <a href="https://github.com/puppetlabs/vmpooler">VMpooler</a> and the puppet-private <a href="https://github.com/puppetlabs/always-be-scheduling">ABS</a>.</p>
+
+<p>Since Litmus 0.18 the rake tasks also allow calling arbitrary tasks outside the <code class="language-plaintext highlighter-rouge">provision</code> module to provision test systems. <a href="https://youtu.be/8BMo9DcZ4-Q">Daniel’s terraform demo</a> shows one application of this.</p>
+
+<p>The provision task will allocate/provision/start VMs or containers of the requested platforms and add them to the inventory file.</p>
+
+<p>Through the use of the inventory file Litmus can also consume arbitrary other systems by users supplying their own data, independently of Litmus’ provision capabilities.</p>
+
+<h3 id="alternatives">Alternatives</h3>
+
+<p>There are a number of opportunities to improve today’s provision capabilities.</p>
+
+<ul>
+  <li>image customisation:
+To make images usable with litmus, some customisation and workarounds need to be applied.
+Be that installing SSH (litmusimage), removing tty handling (<code class="language-plaintext highlighter-rouge">fix_missing_tty_error_message</code>), configuring root access (<code class="language-plaintext highlighter-rouge">docker</code> provisioner), configure sudo access (<code class="language-plaintext highlighter-rouge">vagrant</code> provisioner) or installing pre-reqs to install the agent (<code class="language-plaintext highlighter-rouge">wget</code>/<code class="language-plaintext highlighter-rouge">curl</code>/etc).
+These workarounds are distributed across different components at the moment.
+Collecting all of them into the image baking process (litmusimage) would
+    <ul>
+      <li>make the provisioning code path easier and faster</li>
+      <li>allow users to discover litmus’ requirements for custom images by inspecting the litmusimage build process</li>
+      <li>reduce “magic” happenings when using custom images</li>
+    </ul>
+  </li>
+  <li>move inventory manipulation from provisioning tasks to litmus:
+Currently provisioning tasks are required to update the inventory file with new target information and remove targets from the inventory file on tear down.
+This causes a number of problems:
+    <ul>
+      <li>code duplication</li>
+      <li>prohibits running provisioners in parallel</li>
+      <li>unnecessarily pushes some operations (see <code class="language-plaintext highlighter-rouge">vars</code> handling) into provision tasks</li>
+      <li>requires provision tasks to run on the caller’s host
+Instead of writing directly to inventory file the provision tasks could return bolt transport configuration as part of the task result data.
+Litmus could then process that data as required in the work flow.
+Provisioners could now run in parallel and Litmus can coalesce the data at the end into a inventory file.
+This approach requires only minimal code in the task (return data as JSON).</li>
+    </ul>
+  </li>
+  <li>allow more granular data than the platform name:
+Some provisioners could benefit from additional parameters passed in.
+For example choosing a specific AWS zone, VPC, GCP project or tags to host the test systems.
+This change also interacts with changes to how configuration data is stored. See ‘Configuration’ section above.</li>
+</ul>
+
+<h2 id="utility-code">Utility Code</h2>
+
+<p>Litmus makes use of the <a href="https://github.com/puppetlabs/puppetlabs-facts"><code class="language-plaintext highlighter-rouge">puppetlabs-facts</code></a> and <a href="https://github.com/puppetlabs/puppetlabs-puppet_agent"><code class="language-plaintext highlighter-rouge">puppetlabs-puppet_agent</code></a> modules for some key operations.</p>
+
+<p><strong>Reasoning:</strong>
+These modules are maintained and used in other parts of the ecosystem already.
+Reusing them provides for a consistent behaviour across different products and additional value gained from the existing development and maintenance effort.</p>
+
+<p><strong>Alternatives:</strong>
+None required at the moment.</p>
+
+<h2 id="test-tracing">Test Tracing</h2>
+
+<p>For puppet-internal use we have instrumented Litmus and RSpec with <a href="https://honeycomb.io">Honeycomb</a>.
+This is a optional component that is deactivated by default.</p>
+
+<p><strong>Reasoning:</strong>
+As the IAC team is maintaining ~50 modules’ test suites across Travis CI, Appveyor and Github Actions, we were looking for a unified way to keep track of everything that is going on.
+While not originally designed for it, Honeycomb fit the bill easily.</p>
+
+<p><strong>Alternatives:</strong>
+None required at the moment.</p>
+
+<h2 id="testing-system">Testing System</h2>
+
+<p>This section covers all the things concerned with defining and executing the test cases.</p>
+
+<h3 id="test-runner">Test Runner</h3>
+
+<p>RSpec is a mature and widely used unit-testing framework in the Ruby Ecosystem.
+We are maintaining mature integrations for Puppet catalog-level unit testing and there is a rich ecosystem of adjacent tooling by the puppet community.</p>
+
+<p><strong>Rationale:</strong>
+Using an existing product keeps us from re-inventing the wheel.
+RSpec has a host of already built in features and an ecosystem of plugins as well as tutorials and documentation.
+We’ve been able to adapt RSpec to our needs by using existing extension points.
+RSpec allows for fine-grained and dynamic test-selection, and provides excellent feedback to the user.</p>
+
+<p><strong>Alternatives:</strong>
+None required at the moment.</p>
+
+<h3 id="test-case-definition">Test Case Definition</h3>
+
+<p>While RSpec’s fine-grained test setup capabilities are very necessary and useful for unit testing, the same capabilities have reduced applicability when looking at acceptance testing.
+These system-level tests usually have a lot more setup requirements and fewer, but more specialised tests.</p>
+
+<p><strong>Rationale:</strong>
+RSpec test case definition language was chosen by default as part of the RSpec test runner in the early stages of the evolution of Puppet test practices.</p>
+
+<p><strong>Alternatives:</strong>
+For a while <a href="https://github.com/petems/cucumber-puppet">cucumber-puppet</a> was developed by some as an alternative but never gained as much traction or support in the Puppet community.</p>
+
+<h3 id="test-setup">Test Setup</h3>
+
+<p>The test setup describes the necessary steps to reach the state to test.
+In litmus this is currently implemented by a mix of manifest strings embedded in ruby and litmus’ ruby DSL calls.</p>
+
+<p><strong>Rationale:</strong>
+This style of test setup is inherited from beaker-rspec and “The RSpec Way”.</p>
+
+<p><strong>Alternatives:</strong>
+Creating RSpec extensions for acceptance testing - like rspec-puppet does for unit testing - to represent common patterns would allow for crisper test setup definition.
+The additional abstraction could allow for more clarity and efficiency in setting up tests.</p>
+
+<h3 id="test-assertion">Test Assertion</h3>
+
+<p>After a test scenario is set up, assertions are executed to understand whether or not the original expectations are met.
+This can be as simple as checking a file’s content to as complex as interacting with an API to check its behaviour.</p>
+
+<p>In acceptance tests the first way to check a system’s target state is idempotency.
+This is implemented as first-class operation <code class="language-plaintext highlighter-rouge">idempotent_apply</code> in the Litmus DSL.</p>
+
+<p>To ascertain that a service is not only working, but also correctly configured more in-depth checks need to be implemented in ruby.
+<a href="https://serverspec.org/">serverspec</a> is preconfigured inside Litmus to allow for checking a number of common resources.</p>
+
+<p>Other checks can be implemented in plain ruby or RSpec as required.</p>
+
+<h4 id="rationale">Rationale</h4>
+
+<p>Tests derive value from being easier to understand than the code under test. Through this they provide a confidence that merely reading the business logic (or, in Litmus’ case the manifest) does not support.</p>
+
+<p>If puppet runs the same manifest a second time without errors or changes, this already implies that the desired system state has been reached.
+In many cases - for example when managing services - this is a more in-depth check that a test could do on its own.
+A service starting up and staying running implies that its configuration was valid and consistent.
+This is a check that would be very hard, nay prohibitively expensive, to implement in a test.
+Idempotency checking makes this (almost) free.</p>
+
+<p>Serverspec was created for acceptance testing infrastructure.
+It integrates nicely with RSpec.
+Serverspec provides <a href="https://serverspec.org/resource_types.html">resources and checks</a> that are currently not expressible in puppet code, like “port should be listening” or partial matching on file contents.</p>
+
+<h4 id="alternatives-1">Alternatives</h4>
+
+<ul>
+  <li><a href="https://www.inspec.io/">Chef’s InSpec</a> was forked from serverspec and developed by Chef.</li>
+  <li><a href="https://www.selenium.dev/">Selenium</a> automates browsers and arguably could be used to check the health of a service deployed for testing.</li>
+  <li>Any kind of monitoring or application-level testing framework that is already used for a specific service could be used to create insight into the health of said service.</li>
+</ul>
+
+<h2 id="packaging-and-delivery">Packaging and Delivery</h2>
+
+<ul>
+  <li>
+    <p>Litmus is currently released as a gem first.</p>
+
+    <p><strong>Rationale:</strong>
+In this phase of development this allows for rapid iteration.
+Deploying gems is well-understood in the development community.</p>
+  </li>
+  <li>
+    <p>Litmus is also shipped as part of the PDK.</p>
+
+    <p><strong>Rationale:</strong>
+As an experimental part of the PDK Litmus becomes available offline to those who otherwise would need to cross air-gaps.
+At the same time, this also ensures that all the required dependencies are available in a PDK installation.
+Specifically this also would notify us if Litmus adds a dependency that is not compatible with the PDK runtime.</p>
+  </li>
+  <li>
+    <p>The Utility Modules are currently by default deployed into a test run directly from github.</p>
+
+    <p><strong>Rationale:</strong>
+Expediency and speed.</p>
+
+    <p><strong>Alternatives:</strong>
+To avoid poisoning test environments with litmus’ implementation details and better support offline work,
+the utility modules should be packaged up as part of the litmus gem and sourced from a private modulepath when needed.
+Grouping all content in that way enhances confidence that it is a fully tested package.
+This would also require more integrated testing and more frequent litmus releases to make changes available.</p>
+  </li>
+  <li>
+    <p>bolt is currently consumed as a gem</p>
+
+    <p><strong>Rationale:</strong>
+Litmus is tightly bound to specific internal APIs and its dependencies.
+Depending on a gem provides flexibility in consuming bolt updates as Litmus is ready for it.
+Using the gem avoids any environmental dependencies and support issues arising from version mismatches.</p>
+
+    <p><strong>Alternatives:</strong>
+Require bolt to be installed from its package.</p>
+  </li>
+</ul>
+
+  </div>
+
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/litmus/"></data>
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading">Puppet Litmus Test Tool</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list">
+          <li class="p-name">Puppet Litmus Test Tool</li><li><a class="u-email" href="mailto:ia_content@puppet.com">ia_content@puppet.com</a></li></ul>
+      </div>
+
+      <div class="footer-col footer-col-2"><ul class="social-media-list"><li><a href="https://github.com/puppetlabs"><svg class="svg-icon"><use xlink:href="/litmus/assets/minima-social-icons.svg#github"></use></svg> <span class="username">puppetlabs</span></a></li></ul>
+</div>
+
+      <div class="footer-col footer-col-3">
+        <p>.</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
