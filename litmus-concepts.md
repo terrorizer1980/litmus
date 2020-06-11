@@ -54,7 +54,7 @@ The current UI/UX of Litmus is implemented as a set of rake tasks in [puppet_lit
 **Reasoning:**
 Rake is a ubiquitous choice of interacting with a set of connected tasks in the ruby world.
 The limited option parsing capabilities push the design towards simple interactions and storing important information in configuration files.
-It is very easy to get started with a project based on rake tasks, as there is a wealth of examples and titorials how to build rake tasks.
+It is very easy to get started with a project based on rake tasks, as there is a wealth of examples and tutorials on how to build rake tasks.
 
 **Alternatives:**
 As the Litmus workflow and configuration matures we might want to consider a dedicated CLI with more ergonomic option parsing possibilities.
@@ -79,10 +79,10 @@ There is currently no reason to consider alternatives to Bolt.
 ## Configuration
 
 Configuration for Litmus currently is spread over several files.
-The `provision.yml` contains various lists of platforms to target for tests.
+The `provision.yaml` contains various lists of platforms to target for tests.
 The CI job setup (usually in `.travis.yml`, `appveyor.yml` or similar) contains the overall sequencing of steps for testing.
 This setup is usually the same everywhere and is encoded in pdk-templates.
-There are sometimes slight variation to choose the puppet version and platform combinations from `provision.yml`.
+There are slight variations to choose the puppet version and platform combinations from `provision.yaml`.
 
 Last but not least, transient state and roles of provisioned systems is stored in Bolt's `inventory.yml`.
 The inventory is usually managed by Litmus as an implementation detail.
@@ -139,13 +139,13 @@ In some cases, using bare metal servers or already running systems is unavoidabl
 
 There are as many ways to aqcuire access to test systems as there are kinds of test systems.
 By default, Litmus calls out to a provisioner task to provision or tear down systems on demand.
-In the `puppetlabs-provision` module, we ship a number of commonly needed provisioners for docker (with SSH), docker_exp (using bolt's docker transport), vagrant (for local VMs) and the private cloud APIs [VMpooler](https://github.com/puppetlabs/vmpooler) and [ABS](https://github.com/puppetlabs/always-be-scheduling).
+In the `puppetlabs-provision` module, we ship a number of commonly needed provisioners for docker (with SSH), docker_exp (using bolt's docker transport), vagrant (for local VMs) and the private cloud APIs [VMpooler](https://github.com/puppetlabs/vmpooler) and the puppet-private [ABS](https://github.com/puppetlabs/always-be-scheduling).
 
 Since Litmus 0.18 the rake tasks also allow calling arbitrary tasks outside the `provision` module to provision test systems. [Daniel's terraform demo](https://youtu.be/8BMo9DcZ4-Q) shows one application of this.
 
 The provision task will allocate/provision/start VMs or containers of the requested platforms and add them to the inventory file.
 
-Through the use of the inventory file Litmus can also consume arbitrary other systems by users supplying their own inventory, independently of Litmus' provision capabilities.
+Through the use of the inventory file Litmus can also consume arbitrary other systems by users supplying their own data, independently of Litmus' provision capabilities.
 
 ### Alternatives
 
