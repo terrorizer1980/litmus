@@ -6,10 +6,10 @@ Litmus is a command line tool that allows you to run acceptance tests against Pu
 
 Litmus is installed as (experimental) part of the [Puppet Development Kit](https://puppet.com/try-puppet/puppet-development-kit/).
 
-* Start with [running acceptance tests with Litmus]({% link Running-acceptance-tests.md %}). This example that walks you through running an acceptance test on a module that has Litmus tests.
+* Start with [running acceptance tests with Litmus]({% link Running-acceptance-tests.md %}). This example that walks you through running an acceptance test on a module that already has Litmus tests.
 * Follow the [Converting modules to use Litmus]({% link Converting-modules-to-use-Litmus.md %}) to enable Litmus on your module.
-* See [Litmus core commands]({% link Litmus-core-commands.md %}) to see what else you can do with it.
-
+* [Litmus core commands]({% link Litmus-core-commands.md %}) has a list of what else you can do with it.
+* [Litmus Concepts]({% link litmus-concepts.md %}) explains the concepts, parts and their connection inside litmus.
 
 Other pages on this site:
 
