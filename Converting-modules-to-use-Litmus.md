@@ -43,9 +43,9 @@ Inside the `spec` folder of the module, create a `spec_helper_acceptance.rb` fil
 # frozen_string_literal: true
 
 require 'puppet_litmus'
-require 'spec_helper_acceptance_local' if File.file?(File.join(File.dirname(__FILE__), 'spec_helper_acceptance_local.rb'))
-
 PuppetLitmus.configure!
+
+require 'spec_helper_acceptance_local' if File.file?(File.join(File.dirname(__FILE__), 'spec_helper_acceptance_local.rb'))
 ```
 
 This file will later become managed by the PDK. For local changes, see the next step.
