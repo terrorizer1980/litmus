@@ -94,9 +94,9 @@ The PDK ships litmus as an experimental component.</p>
 <div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># frozen_string_literal: true</span>
 
 <span class="nb">require</span> <span class="s1">'puppet_litmus'</span>
-<span class="nb">require</span> <span class="s1">'spec_helper_acceptance_local'</span> <span class="k">if</span> <span class="no">File</span><span class="p">.</span><span class="nf">file?</span><span class="p">(</span><span class="no">File</span><span class="p">.</span><span class="nf">join</span><span class="p">(</span><span class="no">File</span><span class="p">.</span><span class="nf">dirname</span><span class="p">(</span><span class="kp">__FILE__</span><span class="p">),</span> <span class="s1">'spec_helper_acceptance_local.rb'</span><span class="p">))</span>
-
 <span class="no">PuppetLitmus</span><span class="p">.</span><span class="nf">configure!</span>
+
+<span class="nb">require</span> <span class="s1">'spec_helper_acceptance_local'</span> <span class="k">if</span> <span class="no">File</span><span class="p">.</span><span class="nf">file?</span><span class="p">(</span><span class="no">File</span><span class="p">.</span><span class="nf">join</span><span class="p">(</span><span class="no">File</span><span class="p">.</span><span class="nf">dirname</span><span class="p">(</span><span class="kp">__FILE__</span><span class="p">),</span> <span class="s1">'spec_helper_acceptance_local.rb'</span><span class="p">))</span>
 </code></pre></div></div>
 
 <p>This file will later become managed by the PDK. For local changes, see the next step.</p>
