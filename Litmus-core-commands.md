@@ -71,7 +71,7 @@ groups:
   targets: []
 ```
 
-For more examples of inventory files, see the [Bolt documentation](https://puppet.com/docs/bolt/1.x/inventory_file.html).
+For more examples of inventory files, see the [Bolt documentation](https://puppet.com/docs/bolt/latest/inventory_file_v2.html).
 
 Note that you can test some modules against localhost — the machine you are running your test from. Note that this is only recommended if you are familiar with the code base, as tests may have unexpected side effects on your local machine. To run a test against localhost, see [Run the tests: 'rake litmus:parallel'](#test)
 
