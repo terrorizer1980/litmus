@@ -2,6 +2,14 @@
 layout: page
 ---
 
+### Debug
+
+Litmus has the ability to display more information when it is running, this can help you diagnose some issues. 
+
+```
+export DEBUG=true
+```
+
 ### Useful Docker commands
 
 To list all docker images, including stopped ones, run:
