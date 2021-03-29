@@ -177,6 +177,12 @@ For example:
 pdk bundle exec rake "litmus:install_module"
 ```
 
+If you need multiple modules on the target system (e.g. fixtures pulled down through `pdk bundle exec rake spec_prep`, or a previous unit test run):
+
+```
+pdk bundle exec rake "litmus:install_modules_from_directory[spec/fixtures/modules]"
+```
+
 <a name="test"/>
 
 ## Running tests
