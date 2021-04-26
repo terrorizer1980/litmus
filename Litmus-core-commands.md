@@ -43,7 +43,7 @@ pdk bundle exec rake 'litmus:provision[vagrant, gusztavvargadr/windows-server]'
 
 > Note: Provisioning is extensible — if your chosen provisioner isn't available, you can add your own provisioner task to your test set up through a separate module in `.fixtures.yml`.
 
-The provision command creates a Bolt `inventory.yml` file for Litmus to use. You can manually add machines to this file.
+The provision command creates a Bolt `spec/fixtures/litmus_inventory.yml` file for Litmus to use. You can manually add machines to this file.
 
 For example:
 
@@ -149,7 +149,7 @@ pdk bundle exec rake 'litmus:provision_list[vagrant]'
 
 Install an agent on the provisioned targets using the [Puppet Agent module](https://github.com/puppetlabs/puppetlabs-puppet_agent). The tasks in this module allow you to install different versions of the Puppet agent, on  different OSes.
 
-Use the following command to install an agent on a single target or on all the targets in the inventory file. Note that agents are installed in parallel when running against multiple targets.
+Use the following command to install an agent on a single target or on all the targets in the `spec/fixtures/litmus_inventory.yaml` file. Note that agents are installed in parallel when running against multiple targets.
 
 Install an agent on a target using the following commands:
 
@@ -216,7 +216,7 @@ $ENV:TARGET_HOST = 'lk8g530gzpjxogh.delivery.puppetlabs.net'
 pdk bundle exec rspec ./spec/acceptance/test_spec.rb:21
 ```
 
-An example running all tests against all targets, as specified in the inventory.yml file:
+An example running all tests against all targets, as specified in the `spec/fixtures/litmus_inventory.yaml` file:
 
 ```
 pdk bundle exec rake litmus:acceptance:parallel
@@ -234,7 +234,7 @@ For more test examples, see [run_tests task](https://github.com/puppetlabs/provi
 
 ## Removing provisioned systems
 
-Use the commands below to clean up provisioned systems after running tests. Specify whether to to remove an individual target or all the targets in the inventory.yaml file.
+Use the commands below to clean up provisioned systems after running tests. Specify whether to to remove an individual target or all the targets in the `spec/fixtures/litmus_inventory.yaml` file.
 
 ```
 # Tear down a specific target vm
@@ -243,6 +243,6 @@ pdk bundle exec rake "litmus:tear_down[c985f9svvvu95nv.delivery.puppetlabs.net]"
 # Tear down a specific target running locally
 pdk bundle exec rake "litmus:tear_down[localhost:2222]"
 
-# Tear down all targets in inventory.yml
+# Tear down all targets in `spec/fixtures/litmus_inventory.yaml` file
 pdk bundle exec rake "litmus:tear_down"
 ```
