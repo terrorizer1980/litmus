@@ -16,7 +16,7 @@ The following list is the current set of components and implementation choices. 
 * Configuration:
   * `provision.yaml`
   * CI job setup
-  * inventory.yaml
+  * `spec/fixtures/litmus_inventory.yaml`
   * test dependencies: .fixtures.yml
 * Test Infrastructure:
   * puppetlabs-provision module
@@ -84,7 +84,7 @@ The CI job setup (usually in `.travis.yml`, `appveyor.yml` or similar) contains 
 This setup is usually the same everywhere and is encoded in pdk-templates.
 There are slight variations to choose the puppet version and platform combinations from `provision.yaml`.
 
-Last but not least, transient state and roles of provisioned systems is stored in Bolt's `inventory.yml`.
+Last but not least, transient state and roles of provisioned systems is stored in Bolt's `inventory.yaml`.
 The inventory is usually managed by Litmus as an implementation detail.
 In advanced scenarios users can create, add, edit, or replace the inventory in pursuit of their use cases.
 
@@ -101,7 +101,7 @@ While the current set of configuration files works for now, it's main purpose is
 
 * The current setup of (re-)writing the inventory is problematic as it deprives advanced users of safe ways to enhance the inventory to suit their needs
   * Example: custom SSH key/options
-  * Bolt has now plugins to receive inventory information from outside sources - would this be a good way to keep dynamic litmus data out of inventory.yml?
+  * Bolt has now plugins to receive inventory information from outside sources - would this be a good way to keep dynamic litmus data out of inventory.yaml?
 
 * Find ways to pass arguments to provisioners
   * Hypervisor Credentials and arguments
@@ -143,7 +143,7 @@ In the `puppetlabs-provision` module, we ship a number of commonly needed provis
 
 Since Litmus 0.18 the rake tasks also allow calling arbitrary tasks outside the `provision` module to provision test systems. [Daniel's terraform demo](https://youtu.be/8BMo9DcZ4-Q) shows one application of this.
 
-The provision task will allocate/provision/start VMs or containers of the requested platforms and add them to the inventory file.
+The provision task will allocate/provision/start VMs or containers of the requested platforms and add them to the `spec/fixtures/litmus_inventory.yaml` file.
 
 Through the use of the inventory file Litmus can also consume arbitrary other systems by users supplying their own data, independently of Litmus' provision capabilities.
 
@@ -161,15 +161,15 @@ There are a number of opportunities to improve today's provision capabilities.
   * reduce "magic" happenings when using custom images
 
 * move inventory manipulation from provisioning tasks to litmus:
-  Currently provisioning tasks are required to update the inventory file with new target information and remove targets from the inventory file on tear down.
+  Currently provisioning tasks are required to update the `spec/fixtures/litmus_inventory.yaml` file with new target information and remove targets from the `spec/fixtures/litmus_inventory.yaml` file on tear down.
   This causes a number of problems:
   * code duplication
   * prohibits running provisioners in parallel
   * unnecessarily pushes some operations (see `vars` handling) into provision tasks
   * requires provision tasks to run on the caller's host
-  Instead of writing directly to inventory file the provision tasks could return bolt transport configuration as part of the task result data.
+  Instead of writing directly to `spec/fixtures/litmus_inventory.yaml` file the provision tasks could return bolt transport configuration as part of the task result data.
   Litmus could then process that data as required in the work flow.
-  Provisioners could now run in parallel and Litmus can coalesce the data at the end into a inventory file.
+  Provisioners could now run in parallel and Litmus can coalesce the data at the end into a `spec/fixtures/litmus_inventory.yaml` file.
   This approach requires only minimal code in the task (return data as JSON).
 
 * allow more granular data than the platform name:
