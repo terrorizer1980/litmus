@@ -75,10 +75,10 @@ CONTAINER ID        IMAGE               COMMAND             CREATED             
 7b12b616cf65        centos:7            "/bin/bash"         4 minutes ago       Up 4 minutes        0.0.0.0:2222->22/tcp   centos_7-2222
 ```
 
-Note that the provisioned targets will be in the `inventory.yaml` file. Litmus creates this file in your working directory. If you run `cat inventory.yaml`, you should see the targets you just created. For example:
+Note that the provisioned targets will be in the `spec/fixtures/litmus_inventory.yaml` file. Litmus creates this file in your working directory. If you run `cat spec/fixtures/litmus_inventory.yaml`, you should see the targets you just created. For example:
 
 ```yaml
-# inventory.yaml
+# litmus_inventory.yaml
 ---
 version: 2
 groups:
@@ -113,13 +113,13 @@ pdk bundle exec rake litmus:install_agent
 Use Bolt to verify that you have installed the agent on the target. Run the following command:
 
 ```
-pdk bundle exec bolt command run 'puppet --version' --targets localhost:2222 --inventoryfile inventory.yaml
+pdk bundle exec bolt command run 'puppet --version' --targets localhost:2222 --inventoryfile spec/fixtures/litmus_inventory.yaml
 ```
 
-Note that `localhost:2222` is the name of the node in the inventory.yaml file. You should see output with the version of the Puppet agent that was installed:
+Note that `localhost:2222` is the name of the node in the spec/fixtures/litmus_inventory.yaml file. You should see output with the version of the Puppet agent that was installed:
 
 ```
-bolt command run 'puppet --version' --targets localhost:2222 --inventoryfile inventory.yaml
+bolt command run 'puppet --version' --targets localhost:2222 --inventoryfile spec/fixtures/litmus_inventory.yaml
 ```
 
 Running the command will produce output similar to this:
@@ -151,7 +151,7 @@ Installed
 Use Bolt to verify that you have installed the MoTD module. Run the following command:
 
 ```
-pdk bundle exec bolt command run 'puppet module list' --targets localhost:2222 -i inventory.yaml
+pdk bundle exec bolt command run 'puppet module list' --targets localhost:2222 -i spec/fixtures/litmus_inventory.yaml
 ```
 
 The output should look similar to:
@@ -193,7 +193,7 @@ To run acceptance tests with Litmus, run the following command from your working
 pdk bundle exec rake litmus:acceptance:parallel
 ```
 
-This command executes the acceptance tests in the [acceptance folder](https://github.com/puppetlabs/puppetlabs-motd/tree/master/spec/acceptance) of the module. If the tests have run successfully, you will see output similar to:
+This command executes the acceptance tests in the [acceptance folder](https://github.com/puppetlabs/puppetlabs-motd/tree/main/spec/acceptance) of the module. If the tests have run successfully, you will see output similar to:
 
 ```
 + [✔] Running against 1 targets.
@@ -233,4 +233,4 @@ The MoTD shows you how to use Litmus to acceptance test an existing module. As y
 * Look at the inventory file and take note of the ssh connection information
 * ssh into the CentOS box, for example, `ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no root@localhost -p 2222`, or use Bolt as shown in the example.
 
-> Note: We have moved all our PR testing to public pipelines to make contributing to Puppet supported modules a better experience. Check out our [PR testing matrix](https://github.com/puppetlabs/puppetlabs-motd/pull/180) on Appveyor (which tests Windows 2016 and Windows 2012) and Travis (which tests Puppet5/6 on Oracle, Scientific Linux, Debian, Ubuntu and CentOS).
+> Note: We have moved all our PR testing to public pipelines to make contributing to Puppet supported modules a better experience. Check out our [PR testing matrix](https://github.com/puppetlabs/puppetlabs-apache/pull/2141) Github Actions. All of our testing is now ran in the one place.
