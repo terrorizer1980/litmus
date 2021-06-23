@@ -1,4 +1,9 @@
-# litmus
+<div name="logo">
+  <img src="resources/litmus.png"
+  style="display: block; margin-left: auto; margin-right: auto;"
+  width="50%"
+  alt="litmus logo">
+</div>
 
 The docs microsite for [puppet_litmus](https://github.com/puppetlabs/puppet_litmus).
 Published at [https://puppetlabs.github.io/litmus](https://puppetlabs.github.io/litmus).

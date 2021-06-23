@@ -4,7 +4,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.6.1 -->
 <title>Puppet Litmus Test Tool | .</title>
-<meta name="generator" content="Jekyll v4.1.1" />
+<meta name="generator" content="Jekyll v4.2.0" />
 <meta property="og:title" content="Puppet Litmus Test Tool" />
 <meta property="og:locale" content="en_US" />
 <meta name="description" content="." />
@@ -68,7 +68,7 @@ It also means that it is easier to replace the parts that did not turn out to fu
     <ul>
       <li><code class="language-plaintext highlighter-rouge">provision.yaml</code></li>
       <li>CI job setup</li>
-      <li>inventory.yaml</li>
+      <li><code class="language-plaintext highlighter-rouge">spec/fixtures/litmus_inventory.yaml</code></li>
       <li>test dependencies: .fixtures.yml</li>
     </ul>
   </li>
@@ -160,7 +160,7 @@ The CI job setup (usually in <code class="language-plaintext highlighter-rouge">
 This setup is usually the same everywhere and is encoded in pdk-templates.
 There are slight variations to choose the puppet version and platform combinations from <code class="language-plaintext highlighter-rouge">provision.yaml</code>.</p>
 
-<p>Last but not least, transient state and roles of provisioned systems is stored in Bolt’s <code class="language-plaintext highlighter-rouge">inventory.yml</code>.
+<p>Last but not least, transient state and roles of provisioned systems is stored in Bolt’s <code class="language-plaintext highlighter-rouge">inventory.yaml</code>.
 The inventory is usually managed by Litmus as an implementation detail.
 In advanced scenarios users can create, add, edit, or replace the inventory in pursuit of their use cases.</p>
 
@@ -181,7 +181,7 @@ While the current set of configuration files works for now, it’s main purpose 
   <li>The current setup of (re-)writing the inventory is problematic as it deprives advanced users of safe ways to enhance the inventory to suit their needs
     <ul>
       <li>Example: custom SSH key/options</li>
-      <li>Bolt has now plugins to receive inventory information from outside sources - would this be a good way to keep dynamic litmus data out of inventory.yml?</li>
+      <li>Bolt has now plugins to receive inventory information from outside sources - would this be a good way to keep dynamic litmus data out of inventory.yaml?</li>
     </ul>
   </li>
   <li>Find ways to pass arguments to provisioners
@@ -229,7 +229,7 @@ In the <code class="language-plaintext highlighter-rouge">puppetlabs-provision</
 
 <p>Since Litmus 0.18 the rake tasks also allow calling arbitrary tasks outside the <code class="language-plaintext highlighter-rouge">provision</code> module to provision test systems. <a href="https://youtu.be/8BMo9DcZ4-Q">Daniel’s terraform demo</a> shows one application of this.</p>
 
-<p>The provision task will allocate/provision/start VMs or containers of the requested platforms and add them to the inventory file.</p>
+<p>The provision task will allocate/provision/start VMs or containers of the requested platforms and add them to the <code class="language-plaintext highlighter-rouge">spec/fixtures/litmus_inventory.yaml</code> file.</p>
 
 <p>Through the use of the inventory file Litmus can also consume arbitrary other systems by users supplying their own data, independently of Litmus’ provision capabilities.</p>
 
@@ -250,16 +250,16 @@ Collecting all of them into the image baking process (litmusimage) would
     </ul>
   </li>
   <li>move inventory manipulation from provisioning tasks to litmus:
-Currently provisioning tasks are required to update the inventory file with new target information and remove targets from the inventory file on tear down.
+Currently provisioning tasks are required to update the <code class="language-plaintext highlighter-rouge">spec/fixtures/litmus_inventory.yaml</code> file with new target information and remove targets from the <code class="language-plaintext highlighter-rouge">spec/fixtures/litmus_inventory.yaml</code> file on tear down.
 This causes a number of problems:
     <ul>
       <li>code duplication</li>
       <li>prohibits running provisioners in parallel</li>
       <li>unnecessarily pushes some operations (see <code class="language-plaintext highlighter-rouge">vars</code> handling) into provision tasks</li>
       <li>requires provision tasks to run on the caller’s host
-Instead of writing directly to inventory file the provision tasks could return bolt transport configuration as part of the task result data.
+Instead of writing directly to <code class="language-plaintext highlighter-rouge">spec/fixtures/litmus_inventory.yaml</code> file the provision tasks could return bolt transport configuration as part of the task result data.
 Litmus could then process that data as required in the work flow.
-Provisioners could now run in parallel and Litmus can coalesce the data at the end into a inventory file.
+Provisioners could now run in parallel and Litmus can coalesce the data at the end into a <code class="language-plaintext highlighter-rouge">spec/fixtures/litmus_inventory.yaml</code> file.
 This approach requires only minimal code in the task (return data as JSON).</li>
     </ul>
   </li>

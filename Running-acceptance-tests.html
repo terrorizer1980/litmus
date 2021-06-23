@@ -4,7 +4,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.6.1 -->
 <title>Puppet Litmus Test Tool | .</title>
-<meta name="generator" content="Jekyll v4.1.1" />
+<meta name="generator" content="Jekyll v4.2.0" />
 <meta property="og:title" content="Puppet Litmus Test Tool" />
 <meta property="og:locale" content="en_US" />
 <meta name="description" content="." />
@@ -132,9 +132,9 @@ localhost:2222, centos:7
 7b12b616cf65        centos:7            "/bin/bash"         4 minutes ago       Up 4 minutes        0.0.0.0:2222-&gt;22/tcp   centos_7-2222
 </code></pre></div></div>
 
-<p>Note that the provisioned targets will be in the <code class="language-plaintext highlighter-rouge">inventory.yaml</code> file. Litmus creates this file in your working directory. If you run <code class="language-plaintext highlighter-rouge">cat inventory.yaml</code>, you should see the targets you just created. For example:</p>
+<p>Note that the provisioned targets will be in the <code class="language-plaintext highlighter-rouge">spec/fixtures/litmus_inventory.yaml</code> file. Litmus creates this file in your working directory. If you run <code class="language-plaintext highlighter-rouge">cat spec/fixtures/litmus_inventory.yaml</code>, you should see the targets you just created. For example:</p>
 
-<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># inventory.yaml</span>
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># litmus_inventory.yaml</span>
 <span class="nn">---</span>
 <span class="na">version</span><span class="pi">:</span> <span class="m">2</span>
 <span class="na">groups</span><span class="pi">:</span>
@@ -167,12 +167,12 @@ localhost:2222, centos:7
 
 <p>Use Bolt to verify that you have installed the agent on the target. Run the following command:</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pdk bundle exec bolt command run 'puppet --version' --targets localhost:2222 --inventoryfile inventory.yaml
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pdk bundle exec bolt command run 'puppet --version' --targets localhost:2222 --inventoryfile spec/fixtures/litmus_inventory.yaml
 </code></pre></div></div>
 
-<p>Note that <code class="language-plaintext highlighter-rouge">localhost:2222</code> is the name of the node in the inventory.yaml file. You should see output with the version of the Puppet agent that was installed:</p>
+<p>Note that <code class="language-plaintext highlighter-rouge">localhost:2222</code> is the name of the node in the spec/fixtures/litmus_inventory.yaml file. You should see output with the version of the Puppet agent that was installed:</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>bolt command run 'puppet --version' --targets localhost:2222 --inventoryfile inventory.yaml
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>bolt command run 'puppet --version' --targets localhost:2222 --inventoryfile spec/fixtures/litmus_inventory.yaml
 </code></pre></div></div>
 
 <p>Running the command will produce output similar to this:</p>
@@ -200,7 +200,7 @@ Installed
 
 <p>Use Bolt to verify that you have installed the MoTD module. Run the following command:</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pdk bundle exec bolt command run 'puppet module list' --targets localhost:2222 -i inventory.yaml
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pdk bundle exec bolt command run 'puppet module list' --targets localhost:2222 -i spec/fixtures/litmus_inventory.yaml
 </code></pre></div></div>
 
 <p>The output should look similar to:</p>
@@ -240,7 +240,7 @@ Ran on 1 target in 1.77 sec
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pdk bundle exec rake litmus:acceptance:parallel
 </code></pre></div></div>
 
-<p>This command executes the acceptance tests in the <a href="https://github.com/puppetlabs/puppetlabs-motd/tree/master/spec/acceptance">acceptance folder</a> of the module. If the tests have run successfully, you will see output similar to:</p>
+<p>This command executes the acceptance tests in the <a href="https://github.com/puppetlabs/puppetlabs-motd/tree/main/spec/acceptance">acceptance folder</a> of the module. If the tests have run successfully, you will see output similar to:</p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+ [✔] Running against 1 targets.
 |__ [✔] localhost:2222, centos:7
@@ -280,7 +280,7 @@ Successful on 1 nodes: ["localhost:2222, centos:7"]
 </ul>
 
 <blockquote>
-  <p>Note: We have moved all our PR testing to public pipelines to make contributing to Puppet supported modules a better experience. Check out our <a href="https://github.com/puppetlabs/puppetlabs-motd/pull/180">PR testing matrix</a> on Appveyor (which tests Windows 2016 and Windows 2012) and Travis (which tests Puppet5/6 on Oracle, Scientific Linux, Debian, Ubuntu and CentOS).</p>
+  <p>Note: We have moved all our PR testing to public pipelines to make contributing to Puppet supported modules a better experience. Check out our <a href="https://github.com/puppetlabs/puppetlabs-apache/pull/2141">PR testing matrix</a> Github Actions. All of our testing is now ran in the one place.</p>
 </blockquote>
 
   </div>

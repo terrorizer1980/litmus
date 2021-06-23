@@ -4,7 +4,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.6.1 -->
 <title>Puppet Litmus Test Tool | .</title>
-<meta name="generator" content="Jekyll v4.1.1" />
+<meta name="generator" content="Jekyll v4.2.0" />
 <meta property="og:title" content="Puppet Litmus Test Tool" />
 <meta property="og:locale" content="en_US" />
 <meta name="description" content="." />
@@ -98,7 +98,7 @@ pdk bundle exec rake 'litmus:provision[vagrant, gusztavvargadr/windows-server]'
   <p>Note: Provisioning is extensible — if your chosen provisioner isn’t available, you can add your own provisioner task to your test set up through a separate module in <code class="language-plaintext highlighter-rouge">.fixtures.yml</code>.</p>
 </blockquote>
 
-<p>The provision command creates a Bolt <code class="language-plaintext highlighter-rouge">inventory.yml</code> file for Litmus to use. You can manually add machines to this file.</p>
+<p>The provision command creates a Bolt <code class="language-plaintext highlighter-rouge">spec/fixtures/litmus_inventory.yml</code> file for Litmus to use. You can manually add machines to this file.</p>
 
 <p>For example:</p>
 
@@ -125,7 +125,7 @@ pdk bundle exec rake 'litmus:provision[vagrant, gusztavvargadr/windows-server]'
   <span class="na">targets</span><span class="pi">:</span> <span class="pi">[]</span>
 </code></pre></div></div>
 
-<p>For more examples of inventory files, see the <a href="https://puppet.com/docs/bolt/1.x/inventory_file.html">Bolt documentation</a>.</p>
+<p>For more examples of inventory files, see the <a href="https://puppet.com/docs/bolt/latest/inventory_file_v2.html">Bolt documentation</a>.</p>
 
 <p>Note that you can test some modules against localhost — the machine you are running your test from. Note that this is only recommended if you are familiar with the code base, as tests may have unexpected side effects on your local machine. To run a test against localhost, see <a href="#test">Run the tests: ‘rake litmus:parallel’</a></p>
 
@@ -202,7 +202,7 @@ pdk bundle <span class="nb">exec </span>rake <span class="s1">'litmus:provision_
 
 <p>Install an agent on the provisioned targets using the <a href="https://github.com/puppetlabs/puppetlabs-puppet_agent">Puppet Agent module</a>. The tasks in this module allow you to install different versions of the Puppet agent, on  different OSes.</p>
 
-<p>Use the following command to install an agent on a single target or on all the targets in the inventory file. Note that agents are installed in parallel when running against multiple targets.</p>
+<p>Use the following command to install an agent on a single target or on all the targets in the <code class="language-plaintext highlighter-rouge">spec/fixtures/litmus_inventory.yaml</code> file. Note that agents are installed in parallel when running against multiple targets.</p>
 
 <p>Install an agent on a target using the following commands:</p>
 
@@ -226,6 +226,11 @@ pdk bundle exec rake 'litmus:install_agent[puppet5]'
 <p>For example:</p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pdk bundle exec rake "litmus:install_module"
+</code></pre></div></div>
+
+<p>If you need multiple modules on the target system (e.g. fixtures pulled down through <code class="language-plaintext highlighter-rouge">pdk bundle exec rake spec_prep</code>, or a previous unit test run):</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pdk bundle exec rake "litmus:install_modules_from_directory[spec/fixtures/modules]"
 </code></pre></div></div>
 
 <p><a name="test"></a></p>
@@ -261,7 +266,7 @@ $ENV:TARGET_HOST = 'lk8g530gzpjxogh.delivery.puppetlabs.net'
 pdk bundle exec rspec ./spec/acceptance/test_spec.rb:21
 </code></pre></div></div>
 
-<p>An example running all tests against all targets, as specified in the inventory.yml file:</p>
+<p>An example running all tests against all targets, as specified in the <code class="language-plaintext highlighter-rouge">spec/fixtures/litmus_inventory.yaml</code> file:</p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pdk bundle exec rake litmus:acceptance:parallel
 </code></pre></div></div>
@@ -277,7 +282,7 @@ pdk bundle exec rspec ./spec/acceptance/test_spec.rb:21
 
 <h2 id="removing-provisioned-systems">Removing provisioned systems</h2>
 
-<p>Use the commands below to clean up provisioned systems after running tests. Specify whether to to remove an individual target or all the targets in the inventory.yaml file.</p>
+<p>Use the commands below to clean up provisioned systems after running tests. Specify whether to to remove an individual target or all the targets in the <code class="language-plaintext highlighter-rouge">spec/fixtures/litmus_inventory.yaml</code> file.</p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># Tear down a specific target vm
 pdk bundle exec rake "litmus:tear_down[c985f9svvvu95nv.delivery.puppetlabs.net]"
@@ -285,7 +290,7 @@ pdk bundle exec rake "litmus:tear_down[c985f9svvvu95nv.delivery.puppetlabs.net]"
 # Tear down a specific target running locally
 pdk bundle exec rake "litmus:tear_down[localhost:2222]"
 
-# Tear down all targets in inventory.yml
+# Tear down all targets in `spec/fixtures/litmus_inventory.yaml` file
 pdk bundle exec rake "litmus:tear_down"
 </code></pre></div></div>
 

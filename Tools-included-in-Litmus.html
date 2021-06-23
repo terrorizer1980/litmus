@@ -4,7 +4,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.6.1 -->
 <title>Puppet Litmus Test Tool | .</title>
-<meta name="generator" content="Jekyll v4.1.1" />
+<meta name="generator" content="Jekyll v4.2.0" />
 <meta property="og:title" content="Puppet Litmus Test Tool" />
 <meta property="og:locale" content="en_US" />
 <meta name="description" content="." />
@@ -56,7 +56,7 @@
     <p>Litmus wraps functionality from other tools, providing a rake interface for you to develop modules.</p>
 
 <ul>
-  <li><a href="https://github.com/puppetlabs/bolt">Bolt</a> is an open source orchestration tool that automates the manual work it takes to maintain your infrastructure. Litmus is built on top of bolt, so it natively handles SSH, WinRM and Docker. The inventory file specifies the protocol to use for each target, along with connection specific information. Litmus uses Bolt to execute module tasks.</li>
+  <li><a href="https://github.com/puppetlabs/bolt">Bolt</a> is an open source orchestration tool that automates the manual work it takes to maintain your infrastructure. Litmus is built on top of bolt, so it natively handles SSH, WinRM and Docker. The inventory file specifies the protocol to use for each target, when using litmus this can be found in <code class="language-plaintext highlighter-rouge">spec/fixtures/litmus_inventory.yaml</code>, along with connection specific information. Litmus uses Bolt to execute module tasks.</li>
   <li><a href="https://serverspec.org/">Serverspec</a> lets you check your servers are configured correctly.</li>
   <li>Puppet Development Kit (PDK) provides a complete module structure, templates for classes, defined types, and tasks, and a testing infrastructure.</li>
   <li><a href="https://github.com/puppetlabs/litmus_image">Litmus Image</a> is a group of Docker build files. They are specifically designed to set up systemd/upstart on various nix images. This is a prerequisite for testing services with Puppet in Docker images.<code class="language-plaintext highlighter-rouge">litmus_image</code> generates an inventory file, that contains connection information for each system instance. This is used by subsequent commands or by rspec.</li>
