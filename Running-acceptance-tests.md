@@ -148,7 +148,9 @@ To install the MoTD module on the CentOS image, run the following command from i
 pdk bundle exec rake litmus:install_module
 ```
 
-You see output similar to:
+*Note: If you are interactively modifying code and testing, this step must be ran after your changes are made and before you run your tests.*
+
+You will see output similar to:
 
 ```
 ➜  puppetlabs-motd git:(main) pdk bundle exec rake litmus:install_module
@@ -243,6 +245,6 @@ The MoTD shows you how to use Litmus to acceptance test an existing module. As y
 * Provision more than one system, for example, `pdk bundle exec rake 'litmus:provision[docker, centos:6]'`. Note that you will need to re-run the `install_agent` and `install_module` command if you want to run tests.
 * Look at the inventory file and take note of the ssh connection information
 * ssh into the CentOS box when you know the password, for example, `ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no root@localhost -p 2222`, or use Bolt as shown in the example.
-* ssh into the CentOS box without a password, run `docker ps`, take note of the Container ID and then run `docker exec -it bf5c9c035360 '/bin/bash'` in this example bf5c9c035360 is the Container ID. 
+* ssh into the CentOS box without a password, run `docker ps`, take note of the Container Name and then run `docker exec -it litmusimage_centos_7-2222 '/bin/bash'` in this example litmusimage_centos_7-2222 is the Container Name. 
 
 > Note: We have moved all our PR testing to public pipelines to make contributing to Puppet supported modules a better experience. Check out our [PR testing matrix](https://github.com/puppetlabs/puppetlabs-apache/pull/2141) Github Actions. All of our testing is now ran in the one place.
