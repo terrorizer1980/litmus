@@ -102,9 +102,9 @@ groups:
   targets: []
 ```
 
-## 4. Install a Puppet 6 agent on your target
+## 4. Install Puppet agent on your target
 
-To install a Puppet 6 agent on the CentOS Docker image, run the following command:
+To install the latest version of Puppet agent on the CentOS Docker image, run the following command:
 
 ```
 pdk bundle exec rake litmus:install_agent
@@ -133,6 +133,13 @@ Successful on 1 target: localhost:2222
 Ran on 1 target in 1.72 sec
 ```
 
+If you want to install a specific version of puppet you can use the following command:
+```
+pdk bundle exec rake 'litmus:install_agent[puppet6]
+```
+Examples of other versions you can pass in are: puppet6-nightly, puppet7, puppet7-nightly.
+
+
 ## 5. Install the MoTD module on the CentOS image.
 
 To install the MoTD module on the CentOS image, run the following command from inside your working directory:
@@ -141,11 +148,17 @@ To install the MoTD module on the CentOS image, run the following command from i
 pdk bundle exec rake litmus:install_module
 ```
 
-You see output similar to:
+*Note: If you are interactively modifying code and testing, this step must be run after your changes are made and before you run your tests.*
+
+You will see output similar to:
 
 ```
-Built
-Installed
+➜  puppetlabs-motd git:(main) pdk bundle exec rake litmus:install_module
+pdk (INFO): Using Ruby 2.6.3
+pdk (INFO): Using Puppet 7.7.0
+Building '/Users/paula/workspace/puppetlabs-mysql' into '/Users/paula/workspace/puppetlabs-motd/pkg'
+Built '/Users/paula/workspace/puppetlabs-motd/pkg/puppetlabs-motd-11.0.3.tar.gz'
+Installed '/Users/paula/workspace/puppetlabs-motd/pkg/puppetlabs-motd-11.0.3.tar.gz' on
 ```
 
 Use Bolt to verify that you have installed the MoTD module. Run the following command:
@@ -193,7 +206,7 @@ To run acceptance tests with Litmus, run the following command from your working
 pdk bundle exec rake litmus:acceptance:parallel
 ```
 
-This command executes the acceptance tests in the [acceptance folder](https://github.com/puppetlabs/puppetlabs-motd/tree/main/spec/acceptance) of the module. If the tests have run successfully, you will see output similar to:
+This command executes the acceptance tests in the [acceptance folder](https://github.com/puppetlabs/puppetlabs-motd/tree/main/spec/acceptance) of the module. If the tests have run successfully, you will see output similar to (Note it will look like it has stalled but is actually running tests in the background, please be patient and the output will appear when the tests are complete:
 
 ```
 + [✔] Running against 1 targets.
@@ -231,6 +244,7 @@ The MoTD shows you how to use Litmus to acceptance test an existing module. As y
 
 * Provision more than one system, for example, `pdk bundle exec rake 'litmus:provision[docker, centos:6]'`. Note that you will need to re-run the `install_agent` and `install_module` command if you want to run tests.
 * Look at the inventory file and take note of the ssh connection information
-* ssh into the CentOS box, for example, `ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no root@localhost -p 2222`, or use Bolt as shown in the example.
+* ssh into the CentOS box when you know the password, for example, `ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no root@localhost -p 2222`, or use Bolt as shown in the example.
+* ssh into the CentOS box without a password, run `docker ps`, take note of the Container Name and then run `docker exec -it litmusimage_centos_7-2222 '/bin/bash'` in this example litmusimage_centos_7-2222 is the Container Name. 
 
 > Note: We have moved all our PR testing to public pipelines to make contributing to Puppet supported modules a better experience. Check out our [PR testing matrix](https://github.com/puppetlabs/puppetlabs-apache/pull/2141) Github Actions. All of our testing is now ran in the one place.
