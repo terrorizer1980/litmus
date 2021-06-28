@@ -148,7 +148,7 @@ To install the MoTD module on the CentOS image, run the following command from i
 pdk bundle exec rake litmus:install_module
 ```
 
-*Note: If you are interactively modifying code and testing, this step must be ran after your changes are made and before you run your tests.*
+*Note: If you are interactively modifying code and testing, this step must be run after your changes are made and before you run your tests.*
 
 You will see output similar to:
 
