@@ -158,9 +158,9 @@ localhost:2222, centos:7
   <span class="na">targets</span><span class="pi">:</span> <span class="pi">[]</span>
 </code></pre></div></div>
 
-<h2 id="4-install-a-puppet-6-agent-on-your-target">4. Install a Puppet 6 agent on your target</h2>
+<h2 id="4-install-puppet-agent-on-your-target">4. Install Puppet agent on your target</h2>
 
-<p>To install a Puppet 6 agent on the CentOS Docker image, run the following command:</p>
+<p>To install the latest version of Puppet agent on the CentOS Docker image, run the following command:</p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pdk bundle exec rake litmus:install_agent
 </code></pre></div></div>
@@ -185,6 +185,11 @@ Successful on 1 target: localhost:2222
 Ran on 1 target in 1.72 sec
 </code></pre></div></div>
 
+<p>If you want to install a specific version of puppet you can use the following command:</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pdk bundle exec rake 'litmus:install_agent[puppet6]
+</code></pre></div></div>
+<p>Examples of other versions you can pass in are: puppet6-nightly, puppet7, puppet7-nightly.</p>
+
 <h2 id="5-install-the-motd-module-on-the-centos-image">5. Install the MoTD module on the CentOS image.</h2>
 
 <p>To install the MoTD module on the CentOS image, run the following command from inside your working directory:</p>
@@ -192,10 +197,16 @@ Ran on 1 target in 1.72 sec
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pdk bundle exec rake litmus:install_module
 </code></pre></div></div>
 
-<p>You see output similar to:</p>
+<p><em>Note: If you are interactively modifying code and testing, this step must be run after your changes are made and before you run your tests.</em></p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Built
-Installed
+<p>You will see output similar to:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>➜  puppetlabs-motd git:(main) pdk bundle exec rake litmus:install_module
+pdk (INFO): Using Ruby 2.6.3
+pdk (INFO): Using Puppet 7.7.0
+Building '/Users/paula/workspace/puppetlabs-mysql' into '/Users/paula/workspace/puppetlabs-motd/pkg'
+Built '/Users/paula/workspace/puppetlabs-motd/pkg/puppetlabs-motd-11.0.3.tar.gz'
+Installed '/Users/paula/workspace/puppetlabs-motd/pkg/puppetlabs-motd-11.0.3.tar.gz' on
 </code></pre></div></div>
 
 <p>Use Bolt to verify that you have installed the MoTD module. Run the following command:</p>
@@ -240,7 +251,7 @@ Ran on 1 target in 1.77 sec
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pdk bundle exec rake litmus:acceptance:parallel
 </code></pre></div></div>
 
-<p>This command executes the acceptance tests in the <a href="https://github.com/puppetlabs/puppetlabs-motd/tree/main/spec/acceptance">acceptance folder</a> of the module. If the tests have run successfully, you will see output similar to:</p>
+<p>This command executes the acceptance tests in the <a href="https://github.com/puppetlabs/puppetlabs-motd/tree/main/spec/acceptance">acceptance folder</a> of the module. If the tests have run successfully, you will see output similar to (Note it will look like it has stalled but is actually running tests in the background, please be patient and the output will appear when the tests are complete:</p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>+ [✔] Running against 1 targets.
 |__ [✔] localhost:2222, centos:7
@@ -276,7 +287,8 @@ Successful on 1 nodes: ["localhost:2222, centos:7"]
 <ul>
   <li>Provision more than one system, for example, <code class="language-plaintext highlighter-rouge">pdk bundle exec rake 'litmus:provision[docker, centos:6]'</code>. Note that you will need to re-run the <code class="language-plaintext highlighter-rouge">install_agent</code> and <code class="language-plaintext highlighter-rouge">install_module</code> command if you want to run tests.</li>
   <li>Look at the inventory file and take note of the ssh connection information</li>
-  <li>ssh into the CentOS box, for example, <code class="language-plaintext highlighter-rouge">ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no root@localhost -p 2222</code>, or use Bolt as shown in the example.</li>
+  <li>ssh into the CentOS box when you know the password, for example, <code class="language-plaintext highlighter-rouge">ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no root@localhost -p 2222</code>, or use Bolt as shown in the example.</li>
+  <li>ssh into the CentOS box without a password, run <code class="language-plaintext highlighter-rouge">docker ps</code>, take note of the Container Name and then run <code class="language-plaintext highlighter-rouge">docker exec -it litmusimage_centos_7-2222 '/bin/bash'</code> in this example litmusimage_centos_7-2222 is the Container Name.</li>
 </ul>
 
 <blockquote>
